@@ -2,12 +2,12 @@
   "Users": [
     {
       "id": "miincwe8qxsdas",
-      "name": "Umid",
+      "name": "Йулдашев Азизбек",
       "phone": "+998905329686",
       "password": "$2b$10$Dr7mlfGutJTWnjxzetew4uLE3OBFcHFlZuB0swLzIZOTQv15Z2tXm",
       "role": "user",
       "city": "Фергана",
-      "points": 9996
+      "points": 8996
     },
     {
       "id": "edd73f3a-e418-4fcc-8655-3912af148fb5",
@@ -29,6 +29,78 @@
       "trustRating": 10,
       "declinedCount": 0,
       "lastTrustRecovery": "2025-11-28T18:27:02.739Z"
+    },
+    {
+      "id": "cede0717-8b59-49f7-b672-0b1b863ad233",
+      "name": "Fazliddin Kosimov",
+      "phone": "+9981234567",
+      "password": "$2b$10$6k7dZcaef7HHTG1MYf3VV.6XL8enl94s4u7eJY4trKN98WfHzoQ3m",
+      "role": "user",
+      "points": 0,
+      "city": "Ташкент",
+      "trustRating": 5,
+      "declinedCount": 0,
+      "lastTrustRecovery": "2025-11-28T20:30:15.592Z"
+    },
+    {
+      "id": "64cb1722-b263-484d-a441-1b2209237ec0",
+      "name": "Mirzayev Alisher",
+      "phone": "+9981234568",
+      "password": "$2b$10$X0yXUgEBbXHN9jJgKQSuXuenI6nXs1XJmSzyORU5l2OnCxXMkrMG2",
+      "role": "user",
+      "points": 0,
+      "city": "Ташкент",
+      "trustRating": 5,
+      "declinedCount": 0,
+      "lastTrustRecovery": "2025-11-28T20:31:02.109Z"
+    },
+    {
+      "id": "a354f03f-1942-4a15-a2db-35b76ccc54d4",
+      "name": "Miryusupov Timur",
+      "phone": "+9981234569",
+      "password": "$2b$10$IBz2Mstvy0OgBovlRoJu3OzM9Igc38mM5Tp9Bw2jwmUrBgyItup7O",
+      "role": "user",
+      "points": 0,
+      "city": "Ташкент",
+      "trustRating": 5,
+      "declinedCount": 0,
+      "lastTrustRecovery": "2025-11-28T20:31:22.144Z"
+    },
+    {
+      "id": "f79dd1f0-41dd-4999-ae7d-8c09f2f9c067",
+      "name": "Isroilov Shukhrat",
+      "phone": "+9981234570",
+      "password": "$2b$10$ulNrr4I4OQc4Y6PSdcgHuO80V2jbSFq/ONvEotgIxXAMSpeb/oZS6",
+      "role": "user",
+      "points": 0,
+      "city": "Фергана",
+      "trustRating": 5,
+      "declinedCount": 0,
+      "lastTrustRecovery": "2025-11-28T20:35:54.147Z"
+    },
+    {
+      "id": "d336caf0-6193-4b2a-befb-01a776b7c589",
+      "name": "Hakimov TImurmalik",
+      "phone": "+9981234571",
+      "password": "$2b$10$MiigoqAUIbsC8EMgmIC9CudiWP25gp1LpUoSIEqRXHyuKDHbvyT4m",
+      "role": "user",
+      "points": 0,
+      "city": "Фергана",
+      "trustRating": 5,
+      "declinedCount": 0,
+      "lastTrustRecovery": "2025-11-28T20:36:17.134Z"
+    },
+    {
+      "id": "d0a5ca7c-eabe-460a-80a0-07b63d30ca97",
+      "name": "Alisherov Shohdavr",
+      "phone": "+9981234572",
+      "password": "$2b$10$gqYq3jylWgCVYld6083VSuEnZCTSnWvZYsnyuB5EBRqBcAnEZr9vW",
+      "role": "user",
+      "points": 0,
+      "city": "Фергана",
+      "trustRating": 5,
+      "declinedCount": 0,
+      "lastTrustRecovery": "2025-11-28T20:36:35.295Z"
     }
   ],
   "Submissions": [
@@ -55,54 +127,47 @@
   "Products": [
     {
       "id": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
-      "title": "2",
-      "price": 2,
-      "organization": "2",
+      "title": "Coffee",
+      "price": 500,
+      "organization": "Sofia",
       "validDays": 30,
-      "icon": "/uploads/1764353528756-t6sv1y.png",
-      "createdAt": "2025-11-28T18:12:08.764Z"
+      "icon": "/uploads/1764359747180-f6ypot.png",
+      "createdAt": "2025-11-28T18:12:08.764Z",
+      "quantity": 8,
+      "updatedAt": "2025-11-28T19:55:47.183Z"
     },
     {
       "id": "aebde791-aff3-4789-accc-a0d57b2a22b8",
-      "title": "1",
-      "price": 1,
-      "organization": "1",
+      "title": "Sushi",
+      "price": 1000,
+      "organization": "Yapona Mama",
       "validDays": 30,
-      "quantity": 0,
-      "icon": "/uploads/1764353900201-bguob4.png",
-      "createdAt": "2025-11-28T18:18:20.218Z"
+      "quantity": 10,
+      "icon": "/uploads/1764359963332-6zz709.jpg",
+      "createdAt": "2025-11-28T18:18:20.218Z",
+      "updatedAt": "2025-11-28T19:59:23.335Z"
     }
   ],
   "PromoCodes": [
     {
-      "id": "8ef15737-931a-49a5-ac2b-7d52af87f288",
-      "code": "enNSACFcHfKo",
+      "id": "8a99f02c-294d-4fe0-82ea-3ee365bb8033",
+      "code": "OhxVItBZHPhx",
       "userId": "miincwe8qxsdas",
       "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
-      "productTitle": "2",
-      "organization": "2",
-      "createdAt": "2025-11-28T18:12:42.489Z",
-      "expiresAt": "2025-12-28T18:12:42.489Z"
+      "productTitle": "Coffee",
+      "organization": "Sofia",
+      "createdAt": "2025-11-28T20:00:34.883Z",
+      "expiresAt": "2025-12-28T20:00:34.883Z"
     },
     {
-      "id": "12475596-5ac7-437a-bab8-e029a31a5654",
-      "code": "UAmbO7eYhC5j",
+      "id": "9dd4cdff-9538-4808-9ce2-768171c75869",
+      "code": "we6P0ZEy3Ctt",
       "userId": "miincwe8qxsdas",
-      "productId": "aebde791-aff3-4789-accc-a0d57b2a22b8",
-      "productTitle": "1",
-      "organization": "1",
-      "createdAt": "2025-11-28T18:18:29.089Z",
-      "expiresAt": "2025-12-28T18:18:29.089Z"
-    },
-    {
-      "id": "c8be85e2-1b2d-4ec5-b680-7d9656b41e86",
-      "code": "rRuFRdc32G7w",
-      "userId": "miincwe8qxsdas",
-      "productId": "aebde791-aff3-4789-accc-a0d57b2a22b8",
-      "productTitle": "1",
-      "organization": "1",
-      "createdAt": "2025-11-28T18:18:42.494Z",
-      "expiresAt": "2025-12-28T18:18:42.494Z"
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "productTitle": "Coffee",
+      "organization": "Sofia",
+      "createdAt": "2025-11-28T20:04:21.772Z",
+      "expiresAt": "2025-12-28T20:04:21.772Z"
     }
   ]
 }

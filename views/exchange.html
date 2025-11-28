@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Обмен баллов — City Bloom</title>
+    <title>Магазин — City Bloom</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 
@@ -14,56 +14,59 @@
             <a class="logo" href="/">City Bloom</a>
         </header>
 
-        <main style="margin-top:12px">
-            <div class="card">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-                    <h2 style="margin:0">Магазин вознаграждений</h2>
-                    <div style="text-align:right;padding:12px;background:#f1f5f9;border-radius:8px">
-                        <div class="muted" style="font-size:0.9rem">Баллы</div>
-                        <div style="font-size:1.5rem;font-weight:700;color:#4CAF50" id="userBalance">-</div>
-                    </div>
+        <main>
+            <!-- Balance Header -->
+            <div class="card" style="margin-bottom:16px">
+                <div style="text-align:center">
+                    <div class="text-small muted">Ваш баланс</div>
+                    <div style="font-size:32px;font-weight:700;color:var(--accent);line-height:1;margin:8px 0"
+                        id="userBalance">0</div>
+                    <div class="text-small muted">Баллов</div>
                 </div>
+            </div>
 
-                <div style="margin:12px 0;display:flex;gap:8px;border-bottom:1px solid #e6e9ef;padding-bottom:12px">
-                    <button id="tabProducts" class="tab-button"
-                        style="background:#4CAF50;color:white;padding:8px 12px;font-size:0.9rem">Товары</button>
-                    <button id="tabPromos" class="tab-button" style="padding:8px 12px;font-size:0.9rem">Коды</button>
-                </div>
+            <!-- Category Pills -->
+            <div class="pills" style="margin-bottom:20px">
+                <button type="button" class="pill active" data-category="rewards">🎁 Товары</button>
+                <button type="button" class="pill" data-category="promos">🎟️ Мои промо</button>
+            </div>
 
-                <!-- Products Tab -->
-                <div id="productsTab">
-                    <div id="products" style="display:grid;gap:12px"></div>
-                </div>
+            <!-- Rewards Tab -->
+            <div id="rewardsTab">
+                <div id="products" style="display:grid;gap:12px"></div>
+            </div>
 
-                <!-- Promos Tab -->
-                <div id="promosTab" style="display:none">
-                    <div id="promosList" style="display:grid;gap:12px"></div>
-                </div>
+            <!-- Promos Tab -->
+            <div id="promosTab" style="display:none">
+                <div id="promosList"></div>
             </div>
         </main>
     </div>
 
-    <!-- promo modal -->
+    <!-- Promo Modal -->
     <div id="promoModal" class="modal-backdrop"
-        style="display:none;align-items:center;justify-content:center;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:2000">
-        <div class="modal" style="background:white;padding:20px;border-radius:12px;max-width:300px;width:90%">
-            <h3 id="promoTitle" style="margin-top:0">Ваш промокод</h3>
-            <div id="promoOrg" class="muted"></div>
-            <div style="margin-top:12px">
-                <label style="font-size:0.9rem;color:#666">Код для обмена:</label>
-                <div style="margin-top:6px;padding:12px;background:#f1f5f9;border-radius:6px;font-weight:700;font-size:1.2rem;word-break:break-all;text-align:center;cursor:pointer"
-                    id="promoCode" onclick="copyToClipboard(this.textContent)">XXXX-XXXX-XXXX</div>
-                <div style="text-align:center;font-size:0.85rem;color:#999;margin-top:4px">Нажмите на код, чтобы
-                    скопировать</div>
+        style="display:none;align-items:center;justify-content:center;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:2000;padding:20px">
+        <div class="card" style="max-width:360px;width:100%">
+            <h3 id="promoTitle" style="margin-top:0;margin-bottom:8px">Your Promo Code</h3>
+            <div id="promoOrg" class="muted text-medium" style="margin-bottom:16px"></div>
+
+            <div style="margin-bottom:16px">
+                <label class="text-small muted">Code:</label>
+                <div style="margin-top:8px;padding:16px;background:var(--input-bg);border-radius:12px;font-weight:700;font-size:18px;font-family:monospace;text-align:center;cursor:pointer;user-select:all"
+                    id="promoCode" onclick="copyPromoCode()">LOADING...</div>
+                <div style="text-align:center;font-size:12px;color:var(--text-gray);margin-top:8px">
+                    Tap to copy
+                </div>
             </div>
-            <div class="muted" id="promoExpiry" style="margin-top:12px;text-align:center"></div>
-            <div style="text-align:right;margin-top:16px"><button id="closePromo"
-                    style="padding:8px 16px">Закрыть</button></div>
+
+            <div class="muted text-small text-center" id="promoExpiry" style="margin-bottom:16px"></div>
+
+            <button type="button" id="closePromo" style="width:100%">Close</button>
         </div>
     </div>
 
     <!-- Bottom Navigation -->
-    <nav class="bottom-nav" id="bottomNav">
+    <nav class="bottom-nav">
         <a href="/" class="nav-item">
             <span class="icon">🏠</span>
             <span>Главная</span>
@@ -87,11 +90,16 @@
     </nav>
 
     <script>
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Код скопирован')
+        function copyPromoCode() {
+            const code = document.getElementById('promoCode').textContent
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.getElementById('promoCode')
+                const orig = btn.textContent
+                btn.textContent = '✓ Copied!'
+                setTimeout(() => btn.textContent = orig, 1500)
             }).catch(err => {
                 console.error('Failed to copy:', err)
+                alert('Could not copy code')
             })
         }
 

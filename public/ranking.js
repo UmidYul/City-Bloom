@@ -1,165 +1,188 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    const cityTab = document.getElementById('cityTab')
-    const globalTab = document.getElementById('globalTab')
-    const tabCity = document.getElementById('tabCity')
-    const tabGlobal = document.getElementById('tabGlobal')
-    const cityRanking = document.getElementById('cityRanking')
-    const globalRanking = document.getElementById('globalRanking')
-    const cityName = document.getElementById('cityName')
-    const userStats = document.getElementById('userStats')
-
+    let currentScope = 'city'
+    let currentPeriod = 'all'
+    let currentUser = null
     let currentCity = 'Unknown'
 
-    // Load user navigation
+    // Load current user
     try {
         const meRes = await fetch('/api/me')
         if (meRes.ok) {
-            const me = await meRes.json()
-            document.getElementById('navLinks').innerHTML = `<a href="/">Главная</a> • <a href="/exchange">Магазин</a> • <a href="/profile/${me.id}">Профиль</a> • <form style="display:inline" action="/logout" method="post"><button style="background:none;border:none;color:#06c;cursor:pointer;padding:0">Выйти</button></form>`
+            currentUser = await meRes.json()
+            currentCity = currentUser.city || 'Unknown'
         }
     } catch (err) {
         console.error('Failed to load user:', err)
     }
 
-    // Tab switching
-    tabCity.onclick = () => {
-        cityTab.style.display = ''
-        globalTab.style.display = 'none'
-        tabCity.style.background = '#4CAF50'
-        tabCity.style.color = 'white'
-        tabGlobal.style.background = ''
-        tabGlobal.style.color = ''
+    // Period pill buttons
+    const periodPills = document.querySelectorAll('.pill[data-period]')
+    periodPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+            periodPills.forEach(p => p.classList.remove('active'))
+            pill.classList.add('active')
+            currentPeriod = pill.dataset.period
+            loadRanking()
+        })
+    })
+
+    // Scope segment control
+    const scopeButtons = document.querySelectorAll('.segment-control button[data-scope]')
+    scopeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            scopeButtons.forEach(b => b.classList.remove('active'))
+            btn.classList.add('active')
+            currentScope = btn.dataset.scope
+            updateLocationLabel()
+            loadRanking()
+        })
+    })
+
+    // Update location label
+    function updateLocationLabel() {
+        const locationLabel = document.getElementById('locationLabel')
+        if (!locationLabel) return
+
+        if (currentScope === 'city') {
+            locationLabel.textContent = `🏙️ ${currentCity}`
+        } else {
+            locationLabel.textContent = '🌍 Узбекистан'
+        }
     }
 
-    tabGlobal.onclick = () => {
-        cityTab.style.display = 'none'
-        globalTab.style.display = ''
-        tabCity.style.background = ''
-        tabCity.style.color = ''
-        tabGlobal.style.background = '#4CAF50'
-        tabGlobal.style.color = 'white'
-    }
+    // Load ranking data
+    async function loadRanking() {
+        const top3Container = document.getElementById('top3')
+        const restList = document.getElementById('restList')
 
-    // Load user stats
-    async function loadUserStats() {
+        // Show loading
+        top3Container.innerHTML = '<div class="muted text-center">Loading...</div>'
+        restList.innerHTML = ''
+
         try {
-            const res = await fetch('/api/my-rank')
-            if (!res.ok) {
-                // User not authenticated, hide stats
-                userStats.style.display = 'none'
+            let url = currentScope === 'city'
+                ? `/api/ranking/city/${encodeURIComponent(currentCity)}`
+                : '/api/ranking/global'
+
+            const res = await fetch(url)
+            if (!res.ok) throw new Error('Failed to load ranking')
+
+            const ranking = await res.json()
+
+            if (!ranking || ranking.length === 0) {
+                top3Container.innerHTML = '<div class="muted text-center">No data yet</div>'
+                restList.innerHTML = '<div class="muted text-center" style="padding:20px">No users in this ranking</div>'
                 return
             }
-            const data = await res.json()
-            currentCity = data.city
-            cityName.textContent = `Рейтинг города: ${data.city}`
 
-            document.getElementById('userPoints').textContent = data.points.toLocaleString()
-            document.getElementById('userTrust').textContent = `${data.trustRating}/10`
-            document.getElementById('userCityRank').textContent = `${data.cityRank}/${data.cityUsersCount}`
-            document.getElementById('userGlobalRank').textContent = `${data.globalRank}/${data.globalUsersCount}`
+            // Render top 3
+            renderTop3(ranking.slice(0, 3), top3Container)
 
-            userStats.style.display = ''
+            // Render rest
+            renderRestList(ranking.slice(3), restList)
+
+            // Show user card if authenticated
+            if (currentUser) {
+                const userRankData = ranking.find(u => u.id === currentUser.id)
+                if (userRankData) {
+                    showYouCard(userRankData)
+                }
+            }
         } catch (err) {
-            console.error('Error loading user stats:', err)
-            userStats.style.display = 'none'
+            console.error('Error loading ranking:', err)
+            top3Container.innerHTML = '<div style="color:#b00020;text-center">Error loading data</div>'
         }
     }
 
-    // Load city ranking
-    async function loadCityRanking() {
-        cityRanking.innerHTML = 'Загрузка...'
-        try {
-            const res = await fetch(`/api/ranking/city/${encodeURIComponent(currentCity)}`)
-            if (!res.ok) throw new Error('Failed to load ranking')
-            const ranking = await res.json()
-            renderRanking(ranking, cityRanking)
-        } catch (err) {
-            cityRanking.innerHTML = '<p style="color:red">Ошибка загрузки рейтинга: ' + err.message + '</p>'
-        }
-    }
-
-    // Load global ranking
-    async function loadGlobalRanking() {
-        globalRanking.innerHTML = 'Загрузка...'
-        try {
-            const res = await fetch('/api/ranking/global')
-            if (!res.ok) throw new Error('Failed to load ranking')
-            const ranking = await res.json()
-            renderRanking(ranking, globalRanking)
-        } catch (err) {
-            globalRanking.innerHTML = '<p style="color:red">Ошибка загрузки рейтинга: ' + err.message + '</p>'
-        }
-    }
-
-    // Render ranking
-    function renderRanking(ranking, container) {
-        container.innerHTML = ''
-        if (!ranking || ranking.length === 0) {
-            container.innerHTML = '<div class="muted">Пока нет пользователей в этом рейтинге</div>'
+    function renderTop3(top3, container) {
+        if (!top3 || top3.length === 0) {
+            container.innerHTML = '<div class="muted">Пока нет пользователей</div>'
             return
         }
 
-        for (const user of ranking) {
-            const card = document.createElement('div')
-            card.style.cssText = `padding:14px;border:1px solid #e6e9ef;border-radius:8px;display:grid;grid-template-columns:50px 1fr auto;gap:12px;align-items:center`
+        // Reorder for podium: 2nd, 1st, 3rd (only if we have at least 2 users)
+        let podium
+        if (top3.length === 1) {
+            // Just show the single user in first place
+            podium = [top3[0]]
+        } else {
+            // Reorder for visual podium
+            podium = [top3[1], top3[0], top3[2]].filter(Boolean)
+        }
 
-            // Rank badge
-            const rankBadge = document.createElement('div')
-            let badgeColor = '#ccc'
-            let badgeText = '🥉'
+        container.innerHTML = ''
+        podium.forEach((user, idx) => {
+            // If only 1 user, always position 1. Otherwise use reordered positions
+            const position = podium.length === 1 ? 1 : (idx === 0 ? 2 : (idx === 1 ? 1 : 3))
+            const div = document.createElement('div')
+            div.style.cssText = 'flex:1;text-align:center'
 
-            if (user.rank === 1) {
-                badgeColor = '#FFD700'
-                badgeText = '🥇'
-            } else if (user.rank === 2) {
-                badgeColor = '#C0C0C0'
-                badgeText = '🥈'
-            }
+            const avatarSize = position === 1 ? 'avatar-lg' : 'avatar'
+            const badgeClass = position === 1 ? 'top-1' : (position === 2 ? 'top-2' : 'top-3')
 
-            rankBadge.style.cssText = `
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-size:1.5rem;
-                font-weight:700;
-                color:${badgeColor};
-                text-align:center;
+            div.innerHTML = `
+                <div style="position:relative;display:inline-block;margin-bottom:8px">
+                    <div class="avatar ${avatarSize}" style="margin:0 auto">👤</div>
+                    <div class="rank-badge ${badgeClass}" style="position:absolute;top:-6px;right:-6px">${position}</div>
+                </div>
+                <div style="font-weight:700;font-size:${position === 1 ? '16px' : '14px'};margin-bottom:4px">${user.name || 'Пользователь'}</div>
+                <div style="font-size:${position === 1 ? '20px' : '16px'};font-weight:700;color:var(--accent)">${user.points || 0}</div>
+                <div class="text-small muted">Баллов</div>
             `
-            rankBadge.textContent = user.rank <= 3 ? badgeText : `#${user.rank}`
+            container.appendChild(div)
+        })
+    }
 
-            // Info
-            const info = document.createElement('div')
-            info.innerHTML = `
-                <div style="font-weight:700">${user.name}</div>
-                <div class="muted" style="font-size:0.9rem">${user.city}</div>
-                <div style="margin-top:4px;font-size:0.85rem">
-                    <span style="color:#4CAF50">💚 ${user.points}</span>
-                    <span style="margin-left:12px;color:#2196F3">⭐ ${user.trustRating}/10</span>
+    function renderRestList(rest, container) {
+        const restListCard = document.getElementById('restListCard')
+        container.innerHTML = ''
+
+        if (!rest || rest.length === 0) {
+            // Hide the card if list is empty (top 3 already shown)
+            if (restListCard) restListCard.style.display = 'none'
+            return
+        }
+
+        // Show the card if there are users to display
+        if (restListCard) restListCard.style.display = ''
+
+        rest.forEach(user => {
+            const div = document.createElement('div')
+            div.className = 'leaderboard-item'
+
+            div.innerHTML = `
+                <div class="rank-badge">${user.rank}</div>
+                <div class="avatar avatar-sm">👤</div>
+                <div style="flex:1">
+                    <div style="font-weight:600">${user.name || 'Пользователь'}</div>
+                    <div class="text-small muted">${user.city || 'Неизвестно'}</div>
+                </div>
+                <div style="text-align:right">
+                    <div style="font-weight:700;color:var(--accent)">${user.points || 0}</div>
+                    <div class="text-small muted">балл.</div>
                 </div>
             `
+            container.appendChild(div)
+        })
+    }
 
-            // Score
-            const score = document.createElement('div')
-            score.style.cssText = `
-                text-align:right;
-                padding:8px 12px;
-                background:#f1f5f9;
-                border-radius:6px;
-            `
-            score.innerHTML = `
-                <div style="font-weight:700;font-size:1.2rem;color:#4CAF50">${Math.round(user.rankScore)}</div>
-                <div class="muted" style="font-size:0.8rem">Рейтинг</div>
-            `
+    function showYouCard(userData) {
+        const youCard = document.getElementById('youCard')
+        if (!youCard) return
 
-            card.appendChild(rankBadge)
-            card.appendChild(info)
-            card.appendChild(score)
-            container.appendChild(card)
-        }
+        // Always show the card at the top with user's rank
+        document.getElementById('yourRank').textContent = `#${userData.rank}`
+        document.getElementById('yourName').textContent = userData.name || 'Вы'
+        document.getElementById('yourPoints').textContent = userData.points || 0
+
+        // Calculate delta (mock for now, would need historical data)
+        const delta = '+0'
+        document.getElementById('yourDelta').textContent = delta
+
+        youCard.style.display = 'block'
     }
 
     // Initial load
-    await loadUserStats()
-    await loadCityRanking()
-    await loadGlobalRanking()
+    updateLocationLabel()
+    loadRanking()
 })

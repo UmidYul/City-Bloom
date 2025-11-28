@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="utf-8" />
@@ -14,22 +14,92 @@
             <a class="logo" href="/">City Bloom</a>
         </header>
 
-        <main style="margin-top:12px">
-            <section class="card">
-                <div id="userArea">Загрузка пользователя...</div>
-            </section>
+        <main>
+            <!-- Welcome Card with User Info -->
+            <div class="card"
+                style="margin-bottom:16px;background:linear-gradient(135deg, rgba(36,176,107,0.15), rgba(36,176,107,0.05))">
+                <div id="welcomeSection">
+                    <div style="text-align:center;padding:20px">
+                        <div class="skeleton" style="height:60px;width:60px;border-radius:50%;margin:0 auto 12px"></div>
+                        <div class="skeleton" style="height:20px;width:120px;margin:0 auto"></div>
+                    </div>
+                </div>
+            </div>
 
-            <section class="card" style="margin-top:12px">
-                <h3>Мои посадки</h3>
-                <div id="trees">Загрузка...</div>
-            </section>
+            <!-- Quick Stats Grid -->
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px">
+                <div class="card" style="text-align:center">
+                    <div style="font-size:32px;margin-bottom:8px">🌱</div>
+                    <div style="font-size:24px;font-weight:700;color:var(--accent)" id="pointsCount">-</div>
+                    <div class="text-small muted">Баллов</div>
+                </div>
+                <div class="card" style="text-align:center">
+                    <div style="font-size:32px;margin-bottom:8px">🌳</div>
+                    <div style="font-size:24px;font-weight:700;color:var(--accent)" id="treesCount">-</div>
+                    <div class="text-small muted">Посадок</div>
+                </div>
+                <div class="card" style="text-align:center">
+                    <div style="font-size:32px;margin-bottom:8px">🏆</div>
+                    <div style="font-size:24px;font-weight:700;color:var(--accent)" id="rankPosition">-</div>
+                    <div class="text-small muted">Место</div>
+                </div>
+                <div class="card" style="text-align:center">
+                    <div style="font-size:32px;margin-bottom:8px">⭐</div>
+                    <div style="font-size:24px;font-weight:700;color:var(--accent)" id="trustRating">-</div>
+                    <div class="text-small muted">Доверие</div>
+                </div>
+            </div>
 
-            <div class="footer">© City Bloom — Сажай. Ухаживай. Зарабатывай.</div>
+            <!-- Quick Actions -->
+            <div class="card" style="margin-bottom:16px">
+                <h3 style="margin-bottom:16px">⚡ Быстрые действия</h3>
+                <div style="display:grid;gap:10px">
+                    <a href="/register-tree" class="btn" style="text-decoration:none;text-align:center;display:block">
+                        🪴 Зарегистрировать посадку
+                    </a>
+                    <a href="/exchange" class="btn ghost" style="text-decoration:none;text-align:center;display:block">
+                        💝 Обменять баллы
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Trees -->
+            <div class="card" style="margin-bottom:16px">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                    <h3>🌳 Мои посадки</h3>
+                    <a href="/register-tree"
+                        style="color:var(--accent);text-decoration:none;font-size:14px;font-weight:600">+ Добавить</a>
+                </div>
+                <div id="recentTrees">
+                    <div class="skeleton" style="height:80px;margin-bottom:12px"></div>
+                    <div class="skeleton" style="height:80px"></div>
+                </div>
+            </div>
+
+            <!-- Leaderboard Preview -->
+            <div class="card" style="margin-bottom:16px">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                    <h3>🏆 Топ участников</h3>
+                    <a href="/ranking"
+                        style="color:var(--accent);text-decoration:none;font-size:14px;font-weight:600">Все →</a>
+                </div>
+                <div id="topUsers">
+                    <div class="skeleton" style="height:60px;margin-bottom:8px"></div>
+                    <div class="skeleton" style="height:60px;margin-bottom:8px"></div>
+                    <div class="skeleton" style="height:60px"></div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div style="text-align:center;padding:24px 0;color:var(--text-muted);font-size:14px">
+                <div style="margin-bottom:8px">🌍 City Bloom</div>
+                <div class="text-small">Сажай. Ухаживай. Зарабатывай.</div>
+            </div>
         </main>
     </div>
 
     <!-- Bottom Navigation -->
-    <nav class="bottom-nav" id="bottomNav">
+    <nav class="bottom-nav">
         <a href="/" class="nav-item active">
             <span class="icon">🏠</span>
             <span>Главная</span>
@@ -46,7 +116,7 @@
             <span class="icon">🏆</span>
             <span>Рейтинг</span>
         </a>
-        <a href="/profile" class="nav-item" id="profileNavLink">
+        <a href="#" class="nav-item" id="profileNavLink">
             <span class="icon">👤</span>
             <span>Профиль</span>
         </a>
@@ -56,7 +126,6 @@
 </body>
 
 </html>
-</main>
 
 <script src="/main.js"></script>
 </div>

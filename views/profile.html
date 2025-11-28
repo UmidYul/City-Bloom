@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
@@ -14,72 +14,100 @@
             <a class="logo" href="/">City Bloom</a>
         </header>
 
-        <main style="margin-top:12px">
-            <div class="hero card" style="margin-top:0;padding:12px">
-                <div class="avatar"
-                    style="width:64px;height:64px;display:flex;align-items:center;justify-content:center;font-size:2rem">
-                    👤</div>
-                <div>
-                    <h2 id="name" style="margin:0;font-size:1.2rem">Загрузка...</h2>
-                    <div id="role" class="muted" style="font-size:0.9rem"></div>
-                    <div id="city" class="muted" style="font-size:0.85rem;margin-top:4px"></div>
-                </div>
-                <div style="margin-left:auto;text-align:right">
-                    <div style="font-size:1.5rem;font-weight:700;color:#24b06b" id="points">...</div>
-                    <div class="muted" style="font-size:0.8rem">Баллы</div>
-                </div>
-            </div>
-
-            <div class="card" style="margin-top:12px">
-                <h4 style="margin-top:0;margin-bottom:8px">Доверие</h4>
-                <div style="font-size:1.3rem;font-weight:700;color:#2196F3" id="trustRating">10/10</div>
-                <div class="muted" style="font-size:0.85rem">Рейтинг доверия</div>
-            </div>
-
-            <div class="card" style="margin-top:12px">
-                <h4 style="margin-top:0;margin-bottom:8px">Рейтинг</h4>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.9rem">
-                    <div>
-                        <div class="muted">Город</div>
-                        <div style="font-weight:700" id="cityRank">-</div>
+        <main>
+            <!-- Profile Header Card -->
+            <div class="card" style="margin-bottom:16px">
+                <div style="display:flex;align-items:center;gap:14px">
+                    <div class="avatar">
+                        <span id="avatarIcon">👤</span>
                     </div>
-                    <div>
-                        <div class="muted">Страна</div>
-                        <div style="font-weight:700" id="globalRank">-</div>
+                    <div style="flex:1">
+                        <h1 id="name" style="margin-bottom:6px">Загрузка...</h1>
+                        <div id="roleBadge"></div>
+                        <div id="city" class="muted text-small" style="margin-top:4px"></div>
                     </div>
-                </div>
-                <a href="/ranking"
-                    style="display:inline-block;margin-top:8px;color:#24b06b;text-decoration:none;font-weight:600">Смотреть
-                    рейтинг →</a>
-            </div>
-
-            <div class="card" style="margin-top:12px">
-                <h4 style="margin-top:0;margin-bottom:8px">Посадки</h4>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.9rem">
-                    <div>
-                        <div class="muted">Одобрено</div>
-                        <div style="font-weight:700;color:#4CAF50" id="approvedCount">0</div>
-                    </div>
-                    <div>
-                        <div class="muted">Всего</div>
-                        <div style="font-weight:700" id="totalCount">0</div>
+                    <div style="text-align:right">
+                        <div id="points" style="font-size:32px;font-weight:700;color:var(--accent);line-height:1">...
+                        </div>
+                        <div class="muted text-small">Points</div>
                     </div>
                 </div>
             </div>
 
-            <div class="card" style="margin-top:12px">
-                <h4 style="margin-top:0;margin-bottom:8px">Контакты</h4>
-                <div id="tel" class="muted" style="word-break:break-all"></div>
+            <!-- Trust & Rank Card -->
+            <div class="card" style="margin-bottom:16px">
+                <h3 style="margin-bottom:14px">Trust & Rank</h3>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                    <!-- Trust Score -->
+                    <div>
+                        <div class="muted text-small" style="margin-bottom:6px">Trust Score</div>
+                        <div class="progress-bar" style="margin-bottom:6px">
+                            <div class="progress-bar-fill" id="trustBar" style="width:100%"></div>
+                        </div>
+                        <div id="trustRating" style="font-size:18px;font-weight:700">10/10</div>
+                    </div>
+                    <!-- Ranks -->
+                    <div>
+                        <div class="muted text-small" style="margin-bottom:6px">Ranking</div>
+                        <div style="font-size:14px;font-weight:600">
+                            <div style="margin-bottom:4px">
+                                <span style="color:var(--accent)">🏙️</span>
+                                <span id="cityRank">-</span>
+                            </div>
+                            <div>
+                                <span style="color:var(--accent)">🌍</span>
+                                <span id="globalRank">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between">
-                <a href="/register-tree" class="link"
-                    style="flex:1;padding:10px;background:#24b06b;color:white;border-radius:8px;text-align:center;text-decoration:none;font-weight:600">Новая
-                    посадка</a>
-                <form action="/logout" method="post" style="flex:1">
-                    <button type="submit"
-                        style="width:100%;padding:10px;background:#f0f0f0;border:1px solid #e6e9ef;border-radius:8px;font-weight:600;cursor:pointer">Выйти</button>
+            <!-- Last Activity Card -->
+            <div class="card" style="margin-bottom:16px">
+                <h3 style="margin-bottom:14px">Last Activity</h3>
+                <div id="activityList">
+                    <div class="leaderboard-item">
+                        <div style="flex:1">
+                            <div class="muted text-small">Посадки одобрено</div>
+                            <div style="font-weight:600;margin-top:4px" id="approvedCount">0</div>
+                        </div>
+                        <div style="text-align:right">
+                            <div class="muted text-small">Всего заявок</div>
+                            <div style="font-weight:600;margin-top:4px" id="totalCount">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievements Card -->
+            <div class="card" style="margin-bottom:16px">
+                <h3 style="margin-bottom:14px">Achievements</h3>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+                    <div class="achievement-badge locked">
+                        <span>🌱</span>
+                    </div>
+                    <div class="achievement-badge locked">
+                        <span>🌳</span>
+                    </div>
+                    <div class="achievement-badge locked">
+                        <span>🏆</span>
+                    </div>
+                    <div class="achievement-badge locked">
+                        <span>⭐</span>
+                    </div>
+                </div>
+                <div class="muted text-small" style="margin-top:8px;text-align:center">Coming soon</div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px" id="actionButtons">
+                <form action="/logout" method="post" style="display:contents" id="logoutForm">
+                    <button type="submit">Выйти</button>
                 </form>
+                <a href="/exchange" style="text-decoration:none">
+                    <button type="button" class="secondary" style="width:100%">Магазин</button>
+                </a>
             </div>
         </main>
     </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="utf-8" />
@@ -15,63 +15,87 @@
             <a class="logo" href="/">City Bloom</a>
         </header>
 
-        <main style="margin-top:12px;max-width:100%">
+        <main>
+            <!-- Hero Card -->
+            <div class="hero" style="margin-bottom:20px">
+                <div style="font-size:48px">🌱</div>
+                <div style="flex:1">
+                    <h1 style="margin-bottom:6px">Register your planting</h1>
+                    <p class="muted text-medium" style="margin:0">Сажай. Ухаживай. Зарабатывай.</p>
+                </div>
+            </div>
+
+            <!-- Form Card -->
             <div class="card">
-                <h2 style="margin-top:0">Сажай. Ухаживай. Зарабатывай.</h2>
-                <p class="muted" style="font-size:0.9rem;margin:4px 0">Расскажите о вашем растении</p>
-
-                <form id="plantForm" enctype="multipart/form-data" style="display:grid;gap:12px">
-                    <div>
+                <form id="plantForm" enctype="multipart/form-data">
+                    <div style="margin-bottom:16px">
                         <label for="title">Название (опционально)</label>
-                        <input id="title" name="title" placeholder="Например: Мой дубик" />
+                        <input type="text" id="title" name="title" placeholder="Например: Мой дубик" />
                     </div>
 
-                    <div>
-                        <label for="plantType">Тип растения</label>
-                        <select id="plantType" name="plantType" required>
-                            <option value="Tree">Дерево</option>
-                            <option value="Shrub">Кустарник</option>
-                            <option value="Flower">Цветок</option>
-                            <option value="Other">Другое</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="location">Место посадки</label>
-                        <input id="location" name="location" placeholder="Описание или адрес" />
-                    </div>
-
-                    <div>
-                        <label>Местоположение на карте</label>
-                        <div id="map" style="height:200px;border:1px solid #ddd;border-radius:8px;margin-bottom:8px">
+                    <div style="margin-bottom:16px">
+                        <label>Тип растения</label>
+                        <div class="pills">
+                            <button type="button" class="pill active" data-type="Tree">🌳 Дерево</button>
+                            <button type="button" class="pill" data-type="Shrub">🌿 Кустарник</button>
+                            <button type="button" class="pill" data-type="Flower">🌸 Цветок</button>
+                            <button type="button" class="pill" data-type="Other">🪴 Другое</button>
                         </div>
-                        <input type="hidden" id="lat" name="lat" />
-                        <input type="hidden" id="lng" name="lng" />
-                        <small style="color:#999;font-size:0.85rem">Нажмите на карту, чтобы указать место</small>
+                        <input type="hidden" id="plantType" name="plantType" value="Tree" />
                     </div>
 
-                    <div>
+                    <div style="margin-bottom:16px">
+                        <label for="location">Адрес / место</label>
+                        <div style="display:flex;gap:8px">
+                            <input type="text" id="location" name="location" placeholder="Описание или адрес"
+                                style="flex:1" />
+                            <button type="button" class="ghost" id="geoBtn"
+                                style="flex-shrink:0;width:50px;padding:0">📍</button>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:16px">
+                        <label>Координаты</label>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                            <input type="number" step="any" id="lat" name="lat" placeholder="Широта" />
+                            <input type="number" step="any" id="lng" name="lng" placeholder="Долгота" />
+                        </div>
+                        <div id="map" style="height:200px;border-radius:14px;margin-top:8px;overflow:hidden"></div>
+                    </div>
+
+                    <div style="margin-bottom:16px">
                         <label for="description">Описание / заметки</label>
-                        <textarea id="description" name="description" rows="3"
-                            style="width:100%;padding:8px;border:1px solid #ddd;border-radius:8px;font-size:0.95rem"></textarea>
+                        <textarea id="description" name="description" rows="4"
+                            placeholder="Расскажите о вашем растении..."></textarea>
                     </div>
 
-                    <div>
-                        <label for="beforeVideo">Видео — ДО</label>
-                        <input id="beforeVideo" name="beforeVideo" type="file" accept="video/*" />
+                    <div style="margin-bottom:16px">
+                        <label>Видео — ДО посадки</label>
+                        <div class="upload-zone" id="beforeZone">
+                            <div style="font-size:32px;margin-bottom:8px">📹</div>
+                            <div class="text-medium muted">Нажмите для выбора видео</div>
+                            <input type="file" id="beforeVideo" name="beforeVideo" accept="video/*"
+                                style="display:none" />
+                        </div>
+                        <div id="beforePreview" style="display:none;margin-top:12px"></div>
                     </div>
 
-                    <div>
-                        <label for="afterVideo">Видео — ПОСЛЕ</label>
-                        <input id="afterVideo" name="afterVideo" type="file" accept="video/*" />
+                    <div style="margin-bottom:20px">
+                        <label>Видео — ПОСЛЕ посадки</label>
+                        <div class="upload-zone" id="afterZone">
+                            <div style="font-size:32px;margin-bottom:8px">📹</div>
+                            <div class="text-medium muted">Нажмите для выбора видео</div>
+                            <input type="file" id="afterVideo" name="afterVideo" accept="video/*"
+                                style="display:none" />
+                        </div>
+                        <div id="afterPreview" style="display:none;margin-top:12px"></div>
                     </div>
 
-                    <div style="display:flex;gap:8px">
-                        <button type="submit"
-                            style="flex:1;padding:10px;background:#24b06b;color:white;border:none;border-radius:8px;font-weight:600;cursor:pointer">Отправить</button>
-                        <a href="/"
-                            style="flex:1;padding:10px;background:#f0f0f0;border:1px solid #e6e9ef;border-radius:8px;text-align:center;text-decoration:none;font-weight:600">Отмена</a>
-                    </div>
+                    <div id="errorMsg" style="color:#b00020;font-size:14px;margin-bottom:12px;display:none"></div>
+
+                    <button type="submit" id="submitBtn" style="width:100%" disabled>
+                        <span id="submitText">Plant it!</span>
+                    </button>
                 </form>
             </div>
         </main>

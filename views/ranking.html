@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Рейтинг — City Bloom</title>
+    <title>Лидерборд — City Bloom</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 
@@ -14,49 +14,59 @@
             <a class="logo" href="/">City Bloom</a>
         </header>
 
-        <main style="margin-top:12px">
-            <div class="card">
-                <h2 style="margin-top:0">Рейтинг</h2>
+        <main>
+            <h1 style="margin-bottom:16px">🏆 Рейтинг</h1>
 
-                <!-- User Stats -->
-                <div id="userStats"
-                    style="display:none;margin-bottom:16px;padding:12px;background:#f8fef8;border-radius:8px;border-left:4px solid #4CAF50">
-                    <h4 style="margin:0 0 8px 0">Ваша статистика</h4>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.9rem">
-                        <div>
-                            <div class="muted">Баллы</div>
-                            <div style="font-weight:700;color:#4CAF50" id="userPoints">-</div>
-                        </div>
-                        <div>
-                            <div class="muted">Доверие</div>
-                            <div style="font-weight:700;color:#2196F3" id="userTrust">-/10</div>
-                        </div>
-                        <div>
-                            <div class="muted">Город</div>
-                            <div style="font-weight:700" id="userCityRank">-</div>
-                        </div>
-                        <div>
-                            <div class="muted">Страна</div>
-                            <div style="font-weight:700" id="userGlobalRank">-</div>
-                        </div>
+            <!-- Location Label -->
+            <div id="locationLabel" class="text-center"
+                style="margin-bottom:12px;font-size:16px;font-weight:600;color:var(--accent)">
+                <!-- Will show city or country -->
+            </div>
+
+            <!-- Your Rank Card (at top, always visible) -->
+            <div id="youCard" class="card" style="margin-bottom:16px;border:1.5px solid var(--accent);display:none">
+                <div style="display:flex;align-items:center;gap:12px">
+                    <div class="rank-badge" id="yourRank">#-</div>
+                    <div class="avatar avatar-sm">👤</div>
+                    <div style="flex:1">
+                        <div style="font-weight:700" id="yourName">Вы</div>
+                        <div class="text-small muted" id="yourDelta">-</div>
+                    </div>
+                    <div style="text-align:right">
+                        <div style="font-size:20px;font-weight:700;color:var(--accent)" id="yourPoints">-</div>
+                        <div class="text-small muted">Баллов</div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Tabs -->
-                <div style="margin:12px 0;display:flex;gap:8px;border-bottom:1px solid #e6e9ef;padding-bottom:12px">
-                    <button id="tabCity" class="tab-button"
-                        style="background:#4CAF50;color:white;padding:8px 12px;font-size:0.9rem">Город</button>
-                    <button id="tabGlobal" class="tab-button" style="padding:8px 12px;font-size:0.9rem">Страна</button>
+            <!-- Period Pills -->
+            <div class="pills" style="margin-bottom:16px">
+                <button type="button" class="pill active" data-period="week">Неделя</button>
+                <button type="button" class="pill" data-period="month">Месяц</button>
+                <button type="button" class="pill" data-period="all">Все время</button>
+            </div>
+
+            <!-- City/Global Segment -->
+            <div style="display:flex;justify-content:center;margin-bottom:20px">
+                <div class="segment-control">
+                    <button type="button" class="active" data-scope="city">🏙️ Город</button>
+                    <button type="button" data-scope="global">🌍 Глобально</button>
                 </div>
+            </div>
 
-                <!-- City Ranking -->
-                <div id="cityTab">
-                    <div id="cityRanking" style="display:grid;gap:12px"></div>
+            <!-- Top 3 Card -->
+            <div class="card"
+                style="background:linear-gradient(135deg, rgba(36,176,107,0.15), rgba(36,176,107,0.05));margin-bottom:16px;padding:24px">
+                <div id="top3" style="display:flex;justify-content:space-around;align-items:flex-end;gap:12px">
+                    <!-- Will be populated by JS -->
+                    <div class="text-center muted">Loading...</div>
                 </div>
+            </div>
 
-                <!-- Global Ranking -->
-                <div id="globalTab" style="display:none">
-                    <div id="globalRanking" style="display:grid;gap:12px"></div>
+            <!-- Rest of List -->
+            <div class="card" id="restListCard">
+                <div id="restList">
+                    <!-- Will be populated by JS -->
                 </div>
             </div>
         </main>
