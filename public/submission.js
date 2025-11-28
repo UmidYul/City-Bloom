@@ -3,11 +3,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const id = parts[parts.length - 1]
     const titleEl = document.getElementById('submissionTitle')
     const metaEl = document.getElementById('submissionMeta')
-    const detailsEl = document.getElementById('submissionDetails')
+    const detailsEl = document.getElementById('submissionDescription')
     const beforeVideo = document.getElementById('beforeVideo')
     const afterVideo = document.getElementById('afterVideo')
     const adminActions = document.getElementById('adminActions')
-    const adminCard = document.getElementById('adminCard')
     const mapContainer = document.getElementById('submissionMap')
 
     const declineBackdrop = document.getElementById('declineModalBackdrop')
@@ -36,11 +35,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             throw new Error(j.error || 'Not found')
         }
         const s = await res.json()
+        console.log(s);
 
         // populate title/meta/details
         titleEl.textContent = s.title || '(без названия)'
         metaEl.innerHTML = `<div><strong>Тип:</strong> ${s.plantType || '-'}</div><div><strong>Статус:</strong> ${s.status || '-'}</div><div><strong>Создано:</strong> ${s.createdAt ? new Date(s.createdAt).toLocaleString() : '-'}</div><div><strong>Обновлено:</strong> ${s.updatedAt ? new Date(s.updatedAt).toLocaleString() : '-'}</div>`
-        detailsEl.innerHTML = `<p>${s.description || ''}</p>`
+        if (detailsEl) {
+            detailsEl.innerHTML = `<p>${s.description || 'Нет описания'}</p>`
+        }
 
         // media
         if (s.beforeVideo) beforeVideo.src = s.beforeVideo
@@ -54,8 +56,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (meRes.ok) {
                 const me = await meRes.json()
                 if (me.role === 'admin' && s.status === 'pending') {
-                    if (adminCard) adminCard.style.display = ''
-                    adminActions.innerHTML = ''
+                    if (adminActions) adminActions.style.display = ''
+                    if (adminActions) adminActions.innerHTML = ''
                     // points input (admin can choose how many points to award)
                     const pointsInput = document.createElement('input')
                     pointsInput.type = 'number'
@@ -91,26 +93,28 @@ document.addEventListener('DOMContentLoaded', async () => {
                     adminActions.appendChild(approveBtn)
                     adminActions.appendChild(declineBtn)
 
-                    // wire modal buttons
-                    declineCancel.addEventListener('click', () => closeDeclineModal())
-                    declineBackdrop.addEventListener('click', (e) => { if (e.target === declineBackdrop) closeDeclineModal() })
-                    declineSubmit.addEventListener('click', async () => {
-                        const comment = (declineComment.value || '').trim()
-                        if (!comment) return alert('Комментарий обязателен')
-                        declineSubmit.disabled = true
-                        try {
-                            const res = await fetch('/api/submissions/' + encodeURIComponent(id) + '/action', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'decline', comment }) })
-                            const j = await res.json()
-                            if (!res.ok) throw new Error(j.error || 'Action failed')
-                            closeDeclineModal()
-                            location.reload()
-                        } catch (err) {
-                            alert('Ошибка: ' + err.message)
-                        } finally { declineSubmit.disabled = false }
-                    })
+                    // wire modal buttons (if modal elements exist)
+                    if (declineCancel && declineBackdrop && declineSubmit && declineComment) {
+                        declineCancel.addEventListener('click', () => closeDeclineModal())
+                        declineBackdrop.addEventListener('click', (e) => { if (e.target === declineBackdrop) closeDeclineModal() })
+                        declineSubmit.addEventListener('click', async () => {
+                            const comment = (declineComment.value || '').trim()
+                            if (!comment) return alert('Комментарий обязателен')
+                            declineSubmit.disabled = true
+                            try {
+                                const res = await fetch('/api/submissions/' + encodeURIComponent(id) + '/action', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'decline', comment }) })
+                                const j = await res.json()
+                                if (!res.ok) throw new Error(j.error || 'Action failed')
+                                closeDeclineModal()
+                                location.reload()
+                            } catch (err) {
+                                alert('Ошибка: ' + err.message)
+                            } finally { declineSubmit.disabled = false }
+                        })
+                    }
                 } else {
-                    // ensure admin card stays hidden for non-admins or non-pending
-                    if (adminCard) adminCard.style.display = 'none'
+                    // ensure admin actions stay hidden for non-admins or non-pending
+                    if (adminActions) adminActions.style.display = 'none'
                 }
             }
         } catch (err) {
@@ -130,7 +134,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // admin comment
-        if (s.adminComment) {
+        if (s.adminComment && detailsEl) {
             const comm = document.createElement('div')
             comm.innerHTML = `<h4>Комментарий администратора</h4><div>${s.adminComment}</div>`
             detailsEl.appendChild(comm)

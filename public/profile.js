@@ -110,6 +110,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error(err)
         setText('name', 'Ошибка при загрузке профиля')
     }
+
+    // Logout button handler
+    const logoutBtn = document.getElementById('logoutBtn')
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+            if (!confirm('Вы уверены что хотите выйти?')) return
+
+            try {
+                const res = await fetch('/logout', { method: 'POST' })
+                if (res.ok) {
+                    window.location.href = '/login'
+                } else {
+                    alert('Ошибка выхода')
+                }
+            } catch (err) {
+                console.error('Logout error:', err)
+                alert('Ошибка выхода')
+            }
+        })
+    }
 })
 
 function setText(id, value) {

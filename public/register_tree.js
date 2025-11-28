@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('lng').value = lng.toFixed(6)
                     if (map) {
                         map.setView([lat, lng], 15)
-                        setMarker(lat, lng)
+                        if (marker) marker.setLatLng([lat, lng])
+                        else marker = L.marker([lat, lng]).addTo(map)
                     }
                     geoBtn.textContent = '✓'
                     setTimeout(() => geoBtn.textContent = '📍', 1500)
@@ -43,8 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Init Leaflet map
     const mapContainer = document.getElementById('map')
     if (mapContainer && typeof L !== 'undefined') {
-        // default center: Tashkent, Uzbekistan
-        map = L.map('map').setView([41.2995, 69.2401], 12)
+        // default center: Andijan, Uzbekistan
+        map = L.map('map').setView([40.7821, 72.3442], 12)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map)
 
         function setMarker(lat, lng) {
@@ -55,9 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         map.on('click', e => setMarker(e.latlng.lat, e.latlng.lng))
-    }
-
-    // Video upload zones
+    }    // Video upload zones
     setupUploadZone('beforeZone', 'beforeVideo', 'beforePreview')
     setupUploadZone('afterZone', 'afterVideo', 'afterPreview')
 

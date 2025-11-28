@@ -177,6 +177,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const card = document.createElement('div')
             card.className = 'card'
             card.style.borderLeft = `4px solid ${isExpired ? 'var(--text-gray)' : 'var(--accent)'}`
+            card.style.marginBottom = '16px'
             if (isExpired) card.style.opacity = '0.6'
 
             card.innerHTML = `

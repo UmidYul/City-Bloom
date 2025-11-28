@@ -57,8 +57,10 @@
                     <div style="margin-bottom:16px">
                         <label>Координаты</label>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-                            <input type="number" step="any" id="lat" name="lat" placeholder="Широта" />
-                            <input type="number" step="any" id="lng" name="lng" placeholder="Долгота" />
+                            <input type="text" id="lat" name="lat" placeholder="Широта" readonly
+                                style="background:var(--input-bg);cursor:default" />
+                            <input type="text" id="lng" name="lng" placeholder="Долгота" readonly
+                                style="background:var(--input-bg);cursor:default" />
                         </div>
                         <div id="map" style="height:200px;border-radius:14px;margin-top:8px;overflow:hidden"></div>
                     </div>

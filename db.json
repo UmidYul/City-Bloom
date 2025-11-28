@@ -2,12 +2,12 @@
   "Users": [
     {
       "id": "miincwe8qxsdas",
-      "name": "Йулдашев Азизбек",
+      "name": "Kosimov Fazliddin",
       "phone": "+998905329686",
       "password": "$2b$10$Dr7mlfGutJTWnjxzetew4uLE3OBFcHFlZuB0swLzIZOTQv15Z2tXm",
       "role": "user",
       "city": "Фергана",
-      "points": 8996
+      "points": 7996
     },
     {
       "id": "edd73f3a-e418-4fcc-8655-3912af148fb5",
@@ -32,7 +32,7 @@
     },
     {
       "id": "cede0717-8b59-49f7-b672-0b1b863ad233",
-      "name": "Fazliddin Kosimov",
+      "name": "Mirzabekov Sardor",
       "phone": "+9981234567",
       "password": "$2b$10$6k7dZcaef7HHTG1MYf3VV.6XL8enl94s4u7eJY4trKN98WfHzoQ3m",
       "role": "user",
@@ -107,13 +107,13 @@
     {
       "id": "e9f14327-2c62-48f5-a4b8-a40894c61671",
       "userId": "miincwe8qxsdas",
-      "title": "11",
+      "title": "My Tree",
       "plantType": "Tree",
       "location": {
         "lat": 40.74782918357355,
         "lng": 72.35099373383278
       },
-      "description": "ПАВПАЫПЫПА",
+      "description": "Planted a tree in the park near my house. Looking forward to seeing it grow!",
       "beforeVideo": "/uploads/1764331688019-5y8q02.mp4",
       "afterVideo": "/uploads/1764331688031-8x4fo6.mp4",
       "status": "approved",
@@ -142,10 +142,40 @@
       "price": 1000,
       "organization": "Yapona Mama",
       "validDays": 30,
-      "quantity": 10,
+      "quantity": 9,
       "icon": "/uploads/1764359963332-6zz709.jpg",
       "createdAt": "2025-11-28T18:18:20.218Z",
       "updatedAt": "2025-11-28T19:59:23.335Z"
+    },
+    {
+      "id": "6f4c089d-82ec-4cf2-a7dc-4d6d8bfdc60a",
+      "title": "Discount -25%",
+      "price": 2500,
+      "organization": "Yandex Market",
+      "validDays": 10,
+      "quantity": 5,
+      "icon": "/uploads/1764365347767-epvunk.png",
+      "createdAt": "2025-11-28T21:29:07.770Z"
+    },
+    {
+      "id": "92538730-0c7a-495a-bfaf-5a0757904675",
+      "title": "Discount -30%",
+      "price": 4000,
+      "organization": "Uzum Market",
+      "validDays": 3,
+      "quantity": 5,
+      "icon": "/uploads/1764365401105-0cvg0o.png",
+      "createdAt": "2025-11-28T21:30:01.110Z"
+    },
+    {
+      "id": "cfe137f5-b432-412a-b6d2-ae231f8e9368",
+      "title": "Korzinka Point x2",
+      "price": 10000,
+      "organization": "Korzinka",
+      "validDays": 30,
+      "quantity": 1,
+      "icon": "/uploads/1764365603713-igsnca.webp",
+      "createdAt": "2025-11-28T21:33:23.719Z"
     }
   ],
   "PromoCodes": [
@@ -168,6 +198,16 @@
       "organization": "Sofia",
       "createdAt": "2025-11-28T20:04:21.772Z",
       "expiresAt": "2025-12-28T20:04:21.772Z"
+    },
+    {
+      "id": "b3aca4c3-9dd3-421e-aea1-d14d8ea934dc",
+      "code": "9ao5XJzO2qSo",
+      "userId": "miincwe8qxsdas",
+      "productId": "aebde791-aff3-4789-accc-a0d57b2a22b8",
+      "productTitle": "Sushi",
+      "organization": "Yapona Mama",
+      "createdAt": "2025-11-28T20:50:40.015Z",
+      "expiresAt": "2025-12-28T20:50:40.015Z"
     }
   ]
 }
