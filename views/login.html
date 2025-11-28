@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход — City Bloom</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <div class="app">
+        <header class="site-header">
+            <a class="logo" href="/">City Bloom</a>
+            <nav class="nav-inline" id="navLinks"></nav>
+        </header>
+
+        <main style="max-width:420px;margin:28px auto">
+            <div class="card">
+                <h2 class="center">Вход</h2>
+                <form action="/login" method="post" style="display:grid;gap:12px">
+                    <label>Телефон</label>
+                    <input type="tel" name="phone" placeholder="например +998900000000">
+                    <label>Пароль</label>
+                    <input type="password" name="password" placeholder="Пароль">
+                    <div style="display:flex;gap:8px;justify-content:space-between;align-items:center">
+                        <button type="submit">Войти</button>
+                        <a class="link" href="/registration">Регистрация</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <div class="footer">© City Bloom</div>
+    </div>
+</body>
+
+</html>

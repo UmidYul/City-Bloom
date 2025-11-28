@@ -1,0 +1,41 @@
+{
+  "Users": [
+    {
+      "id": "miincwe8qxsdas",
+      "name": "Umid",
+      "phone": "+998905329686",
+      "password": "$2b$10$Dr7mlfGutJTWnjxzetew4uLE3OBFcHFlZuB0swLzIZOTQv15Z2tXm",
+      "role": "user",
+      "points": 10000
+    },
+    {
+      "id": "edd73f3a-e418-4fcc-8655-3912af148fb5",
+      "name": "Administrator",
+      "phone": "admin",
+      "password": "$2b$10$zT/fe.WEvStvKgRGuWrqHeyEpW/85WKD0trOfbAaOZmGPQFSt9U9C",
+      "role": "admin",
+      "points": 0
+    }
+  ],
+  "Submissions": [
+    {
+      "id": "e9f14327-2c62-48f5-a4b8-a40894c61671",
+      "userId": "miincwe8qxsdas",
+      "title": "11",
+      "plantType": "Tree",
+      "location": {
+        "lat": 40.74782918357355,
+        "lng": 72.35099373383278
+      },
+      "description": "ПАВПАЫПЫПА",
+      "beforeVideo": "/uploads/1764331688019-5y8q02.mp4",
+      "afterVideo": "/uploads/1764331688031-8x4fo6.mp4",
+      "status": "approved",
+      "createdAt": "2025-11-28T12:08:08.049Z",
+      "adminComment": null,
+      "adminId": "edd73f3a-e418-4fcc-8655-3912af148fb5",
+      "updatedAt": "2025-11-28T12:08:55.220Z",
+      "pointsAwarded": 10000
+    }
+  ]
+}

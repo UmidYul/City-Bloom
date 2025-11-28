@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Детали заявки — City Bloom</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+        /* Small local styles for map/video layout that complement styles.css */
+        .submission-grid {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 18px;
+            align-items: start;
+        }
+
+        .map-large {
+            height: 320px;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f6f6f6;
+        }
+
+        .media-block video {
+            width: 100%;
+            border-radius: 6px;
+            background: #000;
+        }
+
+        /* Modal placeholder (keeps simple styling if styles.css doesn't include modal) */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal {
+            background: #fff;
+            padding: 16px;
+            border-radius: 8px;
+            width: 420px;
+            max-width: 94%;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <header class="site-header">
+            <a class="logo" href="/">City Bloom</a>
+            <nav class="nav-inline" id="navLinks"></nav>
+        </header>
+
+        <main class="container" style="margin-top:18px">
+            <div class="card">
+                <h1 id="submissionTitle">Загрузка…</h1>
+                <div id="submissionMeta" class="meta">&nbsp;</div>
+
+                <div class="submission-grid" style="margin-top:12px">
+                    <div>
+                        <div id="submissionMap" class="map-large"></div>
+
+                        <div style="margin-top:12px">
+                            <h4>До</h4>
+                            <div class="media-block">
+                                <video id="beforeVideo" controls playsinline>Your browser does not support the video
+                                    tag.</video>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:12px">
+                            <h4>После</h4>
+                            <div class="media-block">
+                                <video id="afterVideo" controls playsinline>Your browser does not support the video
+                                    tag.</video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <aside>
+                        <div class="card">
+                            <h3>Детали</h3>
+                            <div id="submissionDetails">Загрузка...</div>
+                        </div>
+
+                        <div id="adminCard" class="card" style="margin-top:12px; display:none">
+                            <h3>Действия администратора</h3>
+                            <div id="adminActions" style="display:flex; gap:8px; align-items:center">
+                                <!-- Buttons will be inserted by /submission.js when appropriate -->
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">© City Bloom</footer>
+    </div>
+
+    <!-- Decline comment modal placeholder -->
+    <div id="declineModalBackdrop" class="modal-backdrop" role="dialog" aria-hidden="true">
+        <div class="modal" role="document">
+            <h3>Отклонить с комментарием</h3>
+            <p>Пожалуйста, укажите короткий комментарий, объясняющий причину отклонения (обязательно):</p>
+            <textarea id="declineComment" rows="4" style="width:100%;"></textarea>
+            <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:12px">
+                <button id="declineCancel">Отмена</button>
+                <button id="declineSubmit">Отправить</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/submission.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель администратора — City Bloom</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <div class="app">
+        <header class="site-header">
+            <a class="logo" href="/">City Bloom</a>
+            <nav class="nav-inline" id="navLinks"></nav>
+        </header>
+
+        <main style="margin-top:18px">
+            <div class="card">
+                <h1>Панель администратора — Заявки</h1>
+                <div style="margin:12px 0">
+                    <button id="btnPending">Не оценённые</button>
+                    <button id="btnEvaluated">Оценённые</button>
+                </div>
+
+                <div id="pendingArea">
+                    <h3>Не оценённые</h3>
+                    <div id="pendingTable">Загрузка...</div>
+                </div>
+
+                <div id="evaluatedArea" style="display:none;margin-top:12px">
+                    <h3>Оценённые</h3>
+                    <div id="evaluatedTable">Загрузка...</div>
+                </div>
+            </div>
+        </main>
+
+        <div class="footer">© City Bloom</div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/admin.js"></script>
+</body>
+
+</html>

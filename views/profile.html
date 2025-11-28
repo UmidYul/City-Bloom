@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль — City Bloom</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 16px
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: #e6f2ea;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .card {
+            border: 1px solid #eee;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px
+        }
+
+        .submission {
+            border: 1px solid #f0f0f0;
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 6px
+        }
+    </style>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <div class="app">
+        <header class="site-header">
+            <a class="logo" href="/">City Bloom</a>
+            <nav class="nav-inline" id="navLinks"></nav>
+        </header>
+
+        <div class="hero card" style="margin-top:18px">
+            <div class="avatar" style="width:88px;height:88px;display:flex;align-items:center;justify-content:center">�
+            </div>
+            <div>
+                <h2 id="name">Загрузка...</h2>
+                <div id="role" class="muted"></div>
+            </div>
+            <div style="margin-left:auto;text-align:right">
+                <div class="badge" id="points">...</div>
+                <div class="muted">Эко-баллы</div>
+            </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:16px">
+            <div class="card">
+                <strong>Контакты</strong>
+                <div id="tel" class="muted"></div>
+            </div>
+
+            <div class="card">
+                <strong>Мои заявки</strong>
+                <div id="subs" class="muted">Загрузка...</div>
+                <div id="counts" style="margin-top:12px">
+                    <div><strong>Посажено деревьев:</strong> <span id="approvedCount">0</span></div>
+                    <div><strong>Всего заявок:</strong> <span id="totalCount">0</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top:18px;display:flex;gap:8px">
+            <a class="link" href="/register-tree">Зарегистрировать растение</a>
+            <form id="logoutForm" action="/logout" method="post" style="display:inline">
+                <button class="secondary" type="submit">Выйти</button>
+            </form>
+        </div>
+
+        <div class="footer">© City Bloom</div>
+    </div>
+
+    <script src="/profile.js"></script>
+</body>
+
+</html>

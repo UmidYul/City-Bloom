@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Обмен баллов — City Bloom</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <div class="app">
+        <header class="site-header">
+            <a class="logo" href="/">City Bloom</a>
+            <nav class="nav-inline" id="navLinks"></nav>
+        </header>
+
+        <main style="margin-top:18px">
+            <div class="card">
+                <h1>Магазин вознаграждений</h1>
+                <p class="muted">Обменивайте Эко-баллы на товары и промокоды.</p>
+
+                <div id="adminPanel" style="margin-top:12px; display:none">
+                    <h3>Управление товарами (админ)</h3>
+                    <form id="productForm" enctype="multipart/form-data" style="display:grid;gap:8px;max-width:720px">
+                        <input name="title" placeholder="Название товара" />
+                        <input name="price" type="number" placeholder="Цена в баллах" />
+                        <input name="organization" placeholder="Организация (например, кафе)" />
+                        <input name="validDays" type="number" placeholder="Срок действия промокода (дней)" />
+                        <label>Иконка (png/jpg)</label>
+                        <input name="icon" type="file" accept="image/*" />
+                        <div style="display:flex;gap:8px"><button id="addProduct">Добавить товар</button><span
+                                id="adminMsg" class="muted"></span></div>
+                    </form>
+                </div>
+
+                <div style="margin-top:18px">
+                    <h3>Доступные товары</h3>
+                    <div id="products" class="grid"></div>
+                </div>
+
+            </div>
+        </main>
+
+        <footer class="footer">© City Bloom</footer>
+    </div>
+
+    <!-- promo modal -->
+    <div id="promoModal" class="modal-backdrop" style="display:none;align-items:center;justify-content:center">
+        <div class="modal">
+            <h3 id="promoTitle">Промокод</h3>
+            <div id="promoOrg" class="muted"></div>
+            <div style="margin-top:8px;font-weight:700;font-size:1.2rem" id="promoCode">XXXX-XXXX-XXXX</div>
+            <div class="muted" id="promoExpiry" style="margin-top:6px"></div>
+            <div style="text-align:right;margin-top:12px"><button id="closePromo">Закрыть</button></div>
+        </div>
+    </div>
+
+    <script src="/exchange.js"></script>
+</body>
+
+</html>
