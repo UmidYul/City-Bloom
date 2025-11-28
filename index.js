@@ -230,6 +230,8 @@ app.get('/api/users/:id', async (req, res) => {
     await db.read()
     const user = db.data.Users.find(u => u.id === req.params.id)
     if (!user) return res.status(404).json({ error: 'Not found' })
+    console.log(user);
+
     const out = { id: user.id, name: user.name, phone: user.phone, role: user.role, city: user.city || 'Unknown', trustRating: user.trustRating || 10, points: user.points || 0 }
     res.json(out)
 })

@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const parts = location.pathname.split('/')
         const id = parts[parts.length - 1]
+
         if (!id) return
 
         const res = await fetch('/api/users/' + encodeURIComponent(id))
