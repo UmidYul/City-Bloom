@@ -225,6 +225,80 @@ app.get('/api/me', requireAuth, async (req, res) => {
     res.json(out)
 })
 
+// mobile-friendly profile payload
+app.get('/user/profile', requireAuth, async (req, res) => {
+    await db.read()
+    const user = db.data.Users.find(u => u.id === req.user.id)
+    if (!user) return res.status(404).json({ error: 'User not found' })
+
+    // recover trust before calculating
+    recoverTrustRating(user)
+
+    const submissions = (db.data.Submissions || []).filter(s => s.userId === user.id)
+    const approved = submissions.filter(s => s.status === 'approved')
+
+    // derive simple stats
+    const treesPlanted = approved.length
+    const careActions = submissions.length
+    const impactArea = Math.max(240, treesPlanted * 20)
+
+    // assign a few lightweight badges
+    const badges = [
+        {
+            id: 'guardian',
+            title: 'Forest Guardian',
+            description: 'Посадите 5 деревьев, чтобы заслужить этот знак',
+            icon: '🌳',
+            earned: treesPlanted >= 5,
+            achievedAt: treesPlanted >= 5 ? new Date().toISOString() : null
+        },
+        {
+            id: 'care',
+            title: 'Care Keeper',
+            description: 'Совершайте действия по уходу за зеленью',
+            icon: '🪴',
+            earned: careActions >= 10,
+            achievedAt: careActions >= 10 ? new Date().toISOString() : null
+        },
+        {
+            id: 'impact',
+            title: 'Impact Starter',
+            description: 'Создайте видимый вклад в площадь города',
+            icon: '✨',
+            earned: impactArea >= 300,
+            achievedAt: impactArea >= 300 ? new Date().toISOString() : null
+        }
+    ]
+
+    // map submissions to an activity feed
+    const recentActivities = submissions
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .slice(0, 10)
+        .map(sub => ({
+            id: sub.id,
+            title: sub.title || 'Tree planted',
+            type: sub.status || 'pending',
+            timestamp: sub.createdAt,
+            xp: sub.status === 'approved' ? 50 : 15,
+            icon: sub.status === 'approved' ? '✅' : '🕓'
+        }))
+
+    res.json({
+        id: user.id,
+        name: user.name || 'Eco hero',
+        role: user.role || 'user',
+        avatar_url: user.avatarUrl || '',
+        eco_points: user.points || 0,
+        stats: {
+            trees_planted: treesPlanted,
+            care_actions: careActions,
+            impact_area: impactArea
+        },
+        badges,
+        recent_activities: recentActivities
+    })
+})
+
 // get user public profile
 app.get('/api/users/:id', async (req, res) => {
     await db.read()
