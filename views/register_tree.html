@@ -6,70 +6,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Добавить посадку — City Bloom</title>
     <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 
 <body>
     <div class="app">
         <header class="site-header">
             <a class="logo" href="/">City Bloom</a>
-            <nav class="nav-inline" id="navLinks"></nav>
         </header>
-        </head>
 
-        <body>
-            <main style="max-width:720px;margin:20px auto">
-                <div class="hero">
+        <main style="margin-top:12px;max-width:100%">
+            <div class="card">
+                <h2 style="margin-top:0">Сажай. Ухаживай. Зарабатывай.</h2>
+                <p class="muted" style="font-size:0.9rem;margin:4px 0">Расскажите о вашем растении</p>
+
+                <form id="plantForm" enctype="multipart/form-data" style="display:grid;gap:12px">
                     <div>
-                        <h1>Сажай. Ухаживай. Зарабатывай.</h1>
-                        <p class="muted">Расскажите о вашем растении</p>
-                    </div>
-                    <div style="margin-left:auto"><span class="badge">Баллы назначает администратор</span></div>
-                </div>
-
-                <div class="card" style="margin-top:12px">
-                    <form id="plantForm" enctype="multipart/form-data" class="grid">
-                        <label for="title">Дайте название (необязательно)</label>
+                        <label for="title">Название (опционально)</label>
                         <input id="title" name="title" placeholder="Например: Мой дубик" />
+                    </div>
 
-                        <label for="plantType">Какое это растение?</label>
-                        <select id="plantType" name="plantType">
-                            <option>Tree</option>
-                            <option>Shrub</option>
-                            <option>Flower</option>
-                            <option>Other</option>
+                    <div>
+                        <label for="plantType">Тип растения</label>
+                        <select id="plantType" name="plantType" required>
+                            <option value="Tree">Дерево</option>
+                            <option value="Shrub">Кустарник</option>
+                            <option value="Flower">Цветок</option>
+                            <option value="Other">Другое</option>
                         </select>
+                    </div>
 
-                        <label for="location">Где вы его посадили?</label>
-                        <input id="location" name="location" placeholder="Описание места или адрес" />
+                    <div>
+                        <label for="location">Место посадки</label>
+                        <input id="location" name="location" placeholder="Описание или адрес" />
+                    </div>
 
-                        <div style="margin-top:8px">
-                            <div id="map" style="height:240px;border:1px solid #ddd;border-radius:8px"></div>
-                            <input type="hidden" id="lat" name="lat" />
-                            <input type="hidden" id="lng" name="lng" />
-                            <small>Click on the map to set the planting location (or use geolocation).</small>
+                    <div>
+                        <label>Местоположение на карте</label>
+                        <div id="map" style="height:200px;border:1px solid #ddd;border-radius:8px;margin-bottom:8px">
                         </div>
+                        <input type="hidden" id="lat" name="lat" />
+                        <input type="hidden" id="lng" name="lng" />
+                        <small style="color:#999;font-size:0.85rem">Нажмите на карту, чтобы указать место</small>
+                    </div>
 
+                    <div>
                         <label for="description">Описание / заметки</label>
-                        <textarea id="description" name="description" rows="4"></textarea>
+                        <textarea id="description" name="description" rows="3"
+                            style="width:100%;padding:8px;border:1px solid #ddd;border-radius:8px;font-size:0.95rem"></textarea>
+                    </div>
 
+                    <div>
                         <label for="beforeVideo">Видео — ДО</label>
                         <input id="beforeVideo" name="beforeVideo" type="file" accept="video/*" />
+                    </div>
 
+                    <div>
                         <label for="afterVideo">Видео — ПОСЛЕ</label>
                         <input id="afterVideo" name="afterVideo" type="file" accept="video/*" />
+                    </div>
 
-                        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-                            <button type="submit">Отправить</button>
-                            <a class="link" href="/">Отмена</a>
-                        </div>
-                    </form>
-                </div>
-            </main>
-
-            <div class="footer">© City Bloom</div>
-
-            <script src="/register_tree.js"></script>
+                    <div style="display:flex;gap:8px">
+                        <button type="submit"
+                            style="flex:1;padding:10px;background:#24b06b;color:white;border:none;border-radius:8px;font-weight:600;cursor:pointer">Отправить</button>
+                        <a href="/"
+                            style="flex:1;padding:10px;background:#f0f0f0;border:1px solid #e6e9ef;border-radius:8px;text-align:center;text-decoration:none;font-weight:600">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </main>
     </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="/" class="nav-item">
+            <span class="icon">🏠</span>
+            <span>Главная</span>
+        </a>
+        <a href="/register-tree" class="nav-item active">
+            <span class="icon">🪴</span>
+            <span>Посадка</span>
+        </a>
+        <a href="/exchange" class="nav-item">
+            <span class="icon">💝</span>
+            <span>Магазин</span>
+        </a>
+        <a href="/ranking" class="nav-item">
+            <span class="icon">🏆</span>
+            <span>Рейтинг</span>
+        </a>
+        <a href="#" class="nav-item" id="profileNavLink">
+            <span class="icon">👤</span>
+            <span>Профиль</span>
+        </a>
+    </nav>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const meRes = await fetch('/api/me')
+                if (meRes.ok) {
+                    const me = await meRes.json()
+                    document.getElementById('profileNavLink').href = `/profile/${me.id}`
+                }
+            } catch (err) {
+                console.error('Failed to load user:', err)
+            }
+        })
+    </script>
+    <script src="/nav.js"></script>
+    <script src="/register_tree.js"></script>
 </body>
 
 </html>

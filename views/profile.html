@@ -5,42 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профиль — City Bloom</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 16px
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 12px
-        }
-
-        .avatar {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            background: #e6f2ea;
-            display: flex;
-            align-items: center;
-            justify-content: center
-        }
-
-        .card {
-            border: 1px solid #eee;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 12px
-        }
-
-        .submission {
-            border: 1px solid #f0f0f0;
-            padding: 8px;
-            margin-bottom: 8px;
-            border-radius: 6px
-        }
-    </style>
     <link rel="stylesheet" href="/styles.css">
 </head>
 
@@ -48,48 +12,103 @@
     <div class="app">
         <header class="site-header">
             <a class="logo" href="/">City Bloom</a>
-            <nav class="nav-inline" id="navLinks"></nav>
         </header>
 
-        <div class="hero card" style="margin-top:18px">
-            <div class="avatar" style="width:88px;height:88px;display:flex;align-items:center;justify-content:center">�
-            </div>
-            <div>
-                <h2 id="name">Загрузка...</h2>
-                <div id="role" class="muted"></div>
-            </div>
-            <div style="margin-left:auto;text-align:right">
-                <div class="badge" id="points">...</div>
-                <div class="muted">Эко-баллы</div>
-            </div>
-        </div>
-
-        <div style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:16px">
-            <div class="card">
-                <strong>Контакты</strong>
-                <div id="tel" class="muted"></div>
-            </div>
-
-            <div class="card">
-                <strong>Мои заявки</strong>
-                <div id="subs" class="muted">Загрузка...</div>
-                <div id="counts" style="margin-top:12px">
-                    <div><strong>Посажено деревьев:</strong> <span id="approvedCount">0</span></div>
-                    <div><strong>Всего заявок:</strong> <span id="totalCount">0</span></div>
+        <main style="margin-top:12px">
+            <div class="hero card" style="margin-top:0;padding:12px">
+                <div class="avatar"
+                    style="width:64px;height:64px;display:flex;align-items:center;justify-content:center;font-size:2rem">
+                    👤</div>
+                <div>
+                    <h2 id="name" style="margin:0;font-size:1.2rem">Загрузка...</h2>
+                    <div id="role" class="muted" style="font-size:0.9rem"></div>
+                    <div id="city" class="muted" style="font-size:0.85rem;margin-top:4px"></div>
+                </div>
+                <div style="margin-left:auto;text-align:right">
+                    <div style="font-size:1.5rem;font-weight:700;color:#24b06b" id="points">...</div>
+                    <div class="muted" style="font-size:0.8rem">Баллы</div>
                 </div>
             </div>
-        </div>
 
-        <div style="margin-top:18px;display:flex;gap:8px">
-            <a class="link" href="/register-tree">Зарегистрировать растение</a>
-            <form id="logoutForm" action="/logout" method="post" style="display:inline">
-                <button class="secondary" type="submit">Выйти</button>
-            </form>
-        </div>
+            <div class="card" style="margin-top:12px">
+                <h4 style="margin-top:0;margin-bottom:8px">Доверие</h4>
+                <div style="font-size:1.3rem;font-weight:700;color:#2196F3" id="trustRating">10/10</div>
+                <div class="muted" style="font-size:0.85rem">Рейтинг доверия</div>
+            </div>
 
-        <div class="footer">© City Bloom</div>
+            <div class="card" style="margin-top:12px">
+                <h4 style="margin-top:0;margin-bottom:8px">Рейтинг</h4>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.9rem">
+                    <div>
+                        <div class="muted">Город</div>
+                        <div style="font-weight:700" id="cityRank">-</div>
+                    </div>
+                    <div>
+                        <div class="muted">Страна</div>
+                        <div style="font-weight:700" id="globalRank">-</div>
+                    </div>
+                </div>
+                <a href="/ranking"
+                    style="display:inline-block;margin-top:8px;color:#24b06b;text-decoration:none;font-weight:600">Смотреть
+                    рейтинг →</a>
+            </div>
+
+            <div class="card" style="margin-top:12px">
+                <h4 style="margin-top:0;margin-bottom:8px">Посадки</h4>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.9rem">
+                    <div>
+                        <div class="muted">Одобрено</div>
+                        <div style="font-weight:700;color:#4CAF50" id="approvedCount">0</div>
+                    </div>
+                    <div>
+                        <div class="muted">Всего</div>
+                        <div style="font-weight:700" id="totalCount">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top:12px">
+                <h4 style="margin-top:0;margin-bottom:8px">Контакты</h4>
+                <div id="tel" class="muted" style="word-break:break-all"></div>
+            </div>
+
+            <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between">
+                <a href="/register-tree" class="link"
+                    style="flex:1;padding:10px;background:#24b06b;color:white;border-radius:8px;text-align:center;text-decoration:none;font-weight:600">Новая
+                    посадка</a>
+                <form action="/logout" method="post" style="flex:1">
+                    <button type="submit"
+                        style="width:100%;padding:10px;background:#f0f0f0;border:1px solid #e6e9ef;border-radius:8px;font-weight:600;cursor:pointer">Выйти</button>
+                </form>
+            </div>
+        </main>
     </div>
 
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="/" class="nav-item">
+            <span class="icon">🏠</span>
+            <span>Главная</span>
+        </a>
+        <a href="/register-tree" class="nav-item">
+            <span class="icon">🪴</span>
+            <span>Посадка</span>
+        </a>
+        <a href="/exchange" class="nav-item">
+            <span class="icon">💝</span>
+            <span>Магазин</span>
+        </a>
+        <a href="/ranking" class="nav-item">
+            <span class="icon">🏆</span>
+            <span>Рейтинг</span>
+        </a>
+        <a href="#" class="nav-item active" id="profileNavLink">
+            <span class="icon">👤</span>
+            <span>Профиль</span>
+        </a>
+    </nav>
+
+    <script src="/nav.js"></script>
     <script src="/profile.js"></script>
 </body>
 

@@ -9,31 +9,64 @@
 </head>
 
 <body>
-    <div class="app">
-        <header class="site-header">
+    <div class="app" style="max-width:100%;padding:16px">
+        <header class="site-header" style="border-bottom:none;padding:16px 0">
             <a class="logo" href="/">City Bloom</a>
-            <nav class="nav-inline" id="navLinks"></nav>
         </header>
 
-        <main style="max-width:520px;margin:28px auto">
+        <main style="margin-top:40px;max-width:100%">
             <div class="card">
-                <h2 class="center">Создать аккаунт</h2>
+                <h2 style="text-align:center;margin-top:0">Регистрация</h2>
                 <form action="/registration" method="post" style="display:grid;gap:12px">
-                    <label>Имя</label>
-                    <input type="text" name="name" placeholder="Ф.И.О.">
-                    <label>Телефон</label>
-                    <input type="tel" name="phone" placeholder="например +998900000000">
-                    <label>Пароль</label>
-                    <input type="password" name="password" placeholder="Придумайте пароль">
-                    <div style="display:flex;gap:8px;justify-content:space-between;align-items:center">
-                        <button type="submit">Зарегистрироваться</button>
-                        <a class="link" href="/login">Уже есть аккаунт?</a>
+                    <div>
+                        <label>Имя</label>
+                        <input type="text" name="name" placeholder="Ф.И.О." required>
+                    </div>
+
+                    <div>
+                        <label>Город</label>
+                        <select name="city" required
+                            style="padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.95rem">
+                            <option value="">-- Выберите город --</option>
+                            <option value="Ташкент">Ташкент</option>
+                            <option value="Самарканд">Самарканд</option>
+                            <option value="Бухара">Бухара</option>
+                            <option value="Хива">Хива</option>
+                            <option value="Андижан">Андижан</option>
+                            <option value="Наманган">Наманган</option>
+                            <option value="Фергона">Фергана</option>
+                            <option value="Чирчик">Чирчик</option>
+                            <option value="Гулистан">Гулистан</option>
+                            <option value="Коканд">Коканд</option>
+                            <option value="Ургенч">Ургенч</option>
+                            <option value="Каракулпакия">Каракалпакия</option>
+                            <option value="Джизак">Джизак</option>
+                            <option value="Сырдарья">Сырдарья</option>
+                            <option value="Нукус">Нукус</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Телефон</label>
+                        <input type="tel" name="phone" placeholder="+998900000000" required>
+                    </div>
+
+                    <div>
+                        <label>Пароль</label>
+                        <input type="password" name="password" placeholder="Придумайте пароль" required>
+                    </div>
+
+                    <button type="submit"
+                        style="padding:12px;background:#24b06b;color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:1rem">Зарегистрироваться</button>
+                    <div style="text-align:center;margin-top:8px">
+                        <span style="color:#999">Уже есть аккаунт? </span>
+                        <a href="/login" style="color:#24b06b;text-decoration:none;font-weight:600">Войти</a>
                     </div>
                 </form>
             </div>
         </main>
 
-        <div class="footer">© City Bloom</div>
+        <div class="footer" style="margin-top:60px">© City Bloom</div>
     </div>
 </body>
 

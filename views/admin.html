@@ -18,20 +18,62 @@
 
         <main style="margin-top:18px">
             <div class="card">
-                <h1>Панель администратора — Заявки</h1>
-                <div style="margin:12px 0">
-                    <button id="btnPending">Не оценённые</button>
-                    <button id="btnEvaluated">Оценённые</button>
+                <h1>Панель администратора</h1>
+
+                <div style="margin:12px 0;display:flex;gap:8px;border-bottom:1px solid #e6e9ef;padding-bottom:12px">
+                    <button id="tabSubmissions" class="tab-button"
+                        style="background:#4CAF50;color:white">Заявки</button>
+                    <button id="tabProducts" class="tab-button">Товары</button>
                 </div>
 
-                <div id="pendingArea">
-                    <h3>Не оценённые</h3>
-                    <div id="pendingTable">Загрузка...</div>
+                <!-- Submissions Tab -->
+                <div id="submissionsTab">
+                    <div style="margin:12px 0">
+                        <button id="btnPending">Не оценённые</button>
+                        <button id="btnEvaluated">Оценённые</button>
+                    </div>
+
+                    <div id="pendingArea">
+                        <h3>Не оценённые</h3>
+                        <div id="pendingTable">Загрузка...</div>
+                    </div>
+
+                    <div id="evaluatedArea" style="display:none;margin-top:12px">
+                        <h3>Оценённые</h3>
+                        <div id="evaluatedTable">Загрузка...</div>
+                    </div>
                 </div>
 
-                <div id="evaluatedArea" style="display:none;margin-top:12px">
-                    <h3>Оценённые</h3>
-                    <div id="evaluatedTable">Загрузка...</div>
+                <!-- Products Tab -->
+                <div id="productsTab" style="display:none">
+                    <h2>Управление товарами</h2>
+
+                    <div style="margin:18px 0;padding:16px;background:#f8f9fa;border-radius:8px">
+                        <h3>Добавить новый товар</h3>
+                        <form id="productForm" enctype="multipart/form-data"
+                            style="display:grid;gap:12px;max-width:600px">
+                            <input id="productTitle" name="title" type="text" placeholder="Название товара" required />
+                            <input id="productPrice" name="price" type="number" placeholder="Цена в баллах" min="1"
+                                required />
+                            <input id="productOrganization" name="organization" type="text"
+                                placeholder="Организация (кафе, магазин и т.д.)" />
+                            <input id="productValidDays" name="validDays" type="number"
+                                placeholder="Срок действия промокода (дней)" value="30" min="1" />
+                            <input id="productQuantity" name="quantity" type="number"
+                                placeholder="Количество промокодов" value="0" min="0" required />
+                            <div>
+                                <label>Фото товара:</label>
+                                <input id="productIcon" name="icon" type="file" accept="image/*" />
+                            </div>
+                            <div style="display:flex;gap:8px">
+                                <button id="addProductBtn" type="button">Добавить товар</button>
+                                <span id="productMsg" class="muted"></span>
+                            </div>
+                        </form>
+                    </div>
+
+                    <h3>Список товаров</h3>
+                    <div id="productsList" style="display:grid;gap:12px"></div>
                 </div>
             </div>
         </main>
@@ -41,6 +83,7 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="/admin.js"></script>
+    <script src="/admin-products.js"></script>
 </body>
 
 </html>

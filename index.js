@@ -42,20 +42,28 @@ const upload = multer({ storage, limits: { fileSize: 200 * 1024 * 1024 } }) // 2
 
 async function initDb() {
     await db.read()
-    db.data ||= { Users: [], Submissions: [] }
+    db.data ||= { Users: [], Submissions: [], Products: [], PromoCodes: [] }
 
-    // ensure all users have points field
+    // ensure all users have required fields
     if (Array.isArray(db.data.Users)) {
         for (const u of db.data.Users) {
             if (typeof u.points !== 'number') u.points = 0
+            if (typeof u.trustRating !== 'number') u.trustRating = 5 // Стартовый рейтинг для новичков, макс 10
+            if (typeof u.declinedCount !== 'number') u.declinedCount = 0
+            if (!u.city) u.city = 'Unknown'
+            if (!u.lastTrustRecovery) u.lastTrustRecovery = new Date().toISOString()
         }
     }
+
+    // ensure Products and PromoCodes arrays exist
+    if (!Array.isArray(db.data.Products)) db.data.Products = []
+    if (!Array.isArray(db.data.PromoCodes)) db.data.PromoCodes = []
 
     // ensure there's at least one admin for testing
     const hasAdmin = db.data.Users.some(u => u.role === 'admin')
     if (!hasAdmin) {
         const passwordHash = await bcrypt.hash('admin', 10)
-        db.data.Users.push({ id: uuidv4(), name: 'Administrator', phone: 'admin', password: passwordHash, role: 'admin' })
+        db.data.Users.push({ id: uuidv4(), name: 'Administrator', phone: 'admin', password: passwordHash, role: 'admin', points: 0, trustRating: 10, city: 'Admin', declinedCount: 0, lastTrustRecovery: new Date().toISOString() })
         await db.write()
         console.log('Created default admin: phone=admin password=admin')
     }
@@ -66,7 +74,12 @@ initDb().catch(err => console.error('DB init error', err))
 // serve pages
 app.get('/', (req, res) => res.sendFile(join(__dirname, 'views', 'main.html')))
 app.get('/profile/:id', (req, res) => res.sendFile(join(__dirname, 'views', 'profile.html')))
-app.get('/admin', (req, res) => res.sendFile(join(__dirname, 'views', 'admin.html')))
+app.get('/ranking', (req, res) => res.sendFile(join(__dirname, 'views', 'ranking.html')))
+app.get('/admin', (req, res) => {
+    const data = verifyTokenFromReq(req)
+    if (!data || data.role !== 'admin') return res.status(403).sendFile(join(__dirname, 'views', 'login.html'))
+    res.sendFile(join(__dirname, 'views', 'admin.html'))
+})
 app.get('/login', (req, res) => res.sendFile(join(__dirname, 'views', 'login.html')))
 app.get('/registration', (req, res) => res.sendFile(join(__dirname, 'views', 'reg.html')))
 app.get('/register-tree', (req, res) => res.sendFile(join(__dirname, 'views', 'register_tree.html')))
@@ -102,15 +115,52 @@ function requireAdmin(req, res, next) {
     next()
 }
 
+// Trust rating recovery function - recovers 1 point every 7 days
+function recoverTrustRating(user) {
+    if (!user) return
+    if ((user.trustRating || 10) >= 10) return // Max is 10
+
+    const lastRecovery = new Date(user.lastTrustRecovery || new Date())
+    const now = new Date()
+    const daysPassed = Math.floor((now - lastRecovery) / (1000 * 60 * 60 * 24))
+
+    if (daysPassed >= 7) {
+        const recoveredPoints = Math.floor(daysPassed / 7)
+        user.trustRating = Math.min(10, (user.trustRating || 0) + recoveredPoints)
+        user.lastTrustRecovery = new Date().toISOString()
+        return true
+    }
+    return false
+}
+
+// Calculate user rank score: (points * 0.6 + trustRating * 4 * 0.4)
+// This gives more weight to trustRating while accounting for points
+function calculateRankScore(user) {
+    const pointsScore = (user.points || 0) * 0.6
+    const trustScore = ((user.trustRating || 10) / 10) * 100 * 0.4
+    return pointsScore + trustScore
+}
+
 // API
 app.post('/registration', async (req, res) => {
     await db.read()
-    const { name, phone, password } = req.body
+    const { name, phone, password, city } = req.body
     if (!phone || !password) return res.status(400).json({ error: 'phone and password required' })
     const exists = db.data.Users.find(u => u.phone === phone)
     if (exists) return res.status(400).json({ error: 'User exists' })
     const hash = await bcrypt.hash(password, 10)
-    const user = { id: uuidv4(), name: name || '', phone, password: hash, role: 'user', points: 0 }
+    const user = {
+        id: uuidv4(),
+        name: name || '',
+        phone,
+        password: hash,
+        role: 'user',
+        points: 0,
+        city: city || 'Unknown',
+        trustRating: 5,
+        declinedCount: 0,
+        lastTrustRecovery: new Date().toISOString()
+    }
     db.data.Users.push(user)
     await db.write()
     const token = signToken({ id: user.id, role: user.role })
@@ -158,7 +208,20 @@ app.get('/api/me', requireAuth, async (req, res) => {
     await db.read()
     const user = db.data.Users.find(u => u.id === req.user.id)
     if (!user) return res.status(404).json({ error: 'User not found' })
-    const out = { id: user.id, name: user.name, phone: user.phone, role: user.role, points: user.points || 0 }
+
+    // Try to recover trust rating
+    recoverTrustRating(user)
+
+    const out = {
+        id: user.id,
+        name: user.name,
+        phone: user.phone,
+        role: user.role,
+        points: user.points || 0,
+        trustRating: user.trustRating || 10,
+        city: user.city || 'Unknown',
+        declinedCount: user.declinedCount || 0
+    }
     res.json(out)
 })
 
@@ -167,8 +230,37 @@ app.get('/api/users/:id', async (req, res) => {
     await db.read()
     const user = db.data.Users.find(u => u.id === req.params.id)
     if (!user) return res.status(404).json({ error: 'Not found' })
-    const out = { id: user.id, name: user.name, phone: user.phone, role: user.role }
+    const out = { id: user.id, name: user.name, phone: user.phone, role: user.role, city: user.city || 'Unknown', trustRating: user.trustRating || 10, points: user.points || 0 }
     res.json(out)
+})
+
+// Get rank info for a specific user (public endpoint)
+app.get('/api/users/:id/rank', async (req, res) => {
+    await db.read()
+    const user = db.data.Users.find(u => u.id === req.params.id)
+    if (!user) return res.status(404).json({ error: 'User not found' })
+
+    // Recover trust rating
+    recoverTrustRating(user)
+
+    // Get city rank
+    let cityUsers = db.data.Users.filter(u => (u.city || 'Unknown') === (user.city || 'Unknown') && u.role === 'user')
+    cityUsers = cityUsers.map(u => ({ ...u, rankScore: calculateRankScore(u) }))
+    cityUsers.sort((a, b) => b.rankScore - a.rankScore)
+    const cityRank = cityUsers.findIndex(u => u.id === user.id) + 1
+
+    // Get global rank
+    let globalUsers = db.data.Users.filter(u => u.role === 'user')
+    globalUsers = globalUsers.map(u => ({ ...u, rankScore: calculateRankScore(u) }))
+    globalUsers.sort((a, b) => b.rankScore - a.rankScore)
+    const globalRank = globalUsers.findIndex(u => u.id === user.id) + 1
+
+    res.json({
+        cityRank,
+        globalRank,
+        cityUsersCount: cityUsers.length,
+        globalUsersCount: globalUsers.length
+    })
 })
 
 // submit plant registration
@@ -194,38 +286,61 @@ app.get('/api/submissions', requireAdmin, async (req, res) => {
     res.json(db.data.Submissions)
 })
 
-// products - public listing
+// products - public listing (only with quantity > 0)
 app.get('/api/products', async (req, res) => {
+    await db.read()
+    const products = (db.data.Products || []).filter(p => (p.quantity || 0) > 0)
+    res.json(products)
+})
+
+// products - admin listing (with all products including 0 quantity)
+app.get('/api/products/admin/list', requireAdmin, async (req, res) => {
     await db.read()
     res.json(db.data.Products || [])
 })
 
 // admin: create product (with icon upload)
 app.post('/api/products', requireAdmin, upload.single('icon'), async (req, res) => {
-    await db.read()
-    const { title, price, organization, validDays } = req.body
-    if (!title || !price) return res.status(400).json({ error: 'title and price required' })
-    const icon = req.file ? '/uploads/' + req.file.filename : null
-    const p = { id: uuidv4(), title, price: parseInt(price, 10) || 0, organization: organization || '', validDays: parseInt(validDays, 10) || 30, icon, createdAt: new Date().toISOString() }
-    db.data.Products.push(p)
-    await db.write()
-    res.json({ ok: true, product: p })
+    try {
+        console.log('POST /api/products - User:', req.user)
+        console.log('Body:', req.body)
+        console.log('File:', req.file)
+
+        await db.read()
+        const { title, price, organization, validDays, quantity } = req.body
+        if (!title || !price) return res.status(400).json({ error: 'title and price required' })
+        const icon = req.file ? '/uploads/' + req.file.filename : null
+        const p = { id: uuidv4(), title, price: parseInt(price, 10) || 0, organization: organization || '', validDays: parseInt(validDays, 10) || 30, quantity: parseInt(quantity, 10) || 0, icon, createdAt: new Date().toISOString() }
+        db.data.Products.push(p)
+        await db.write()
+        console.log('Product created:', p)
+        res.json({ ok: true, product: p })
+    } catch (err) {
+        console.error('Error creating product:', err)
+        res.status(500).json({ error: 'Server error: ' + err.message })
+    }
 })
 
 // admin: update product (optional icon upload)
 app.put('/api/products/:id', requireAdmin, upload.single('icon'), async (req, res) => {
-    await db.read()
-    const p = db.data.Products.find(x => x.id === req.params.id)
-    if (!p) return res.status(404).json({ error: 'Not found' })
-    const { title, price, organization, validDays } = req.body
-    if (title) p.title = title
-    if (typeof price !== 'undefined') p.price = parseInt(price, 10) || 0
-    if (organization) p.organization = organization
-    if (typeof validDays !== 'undefined') p.validDays = parseInt(validDays, 10) || p.validDays
-    if (req.file) p.icon = '/uploads/' + req.file.filename
-    p.updatedAt = new Date().toISOString()
-    await db.write()
-    res.json({ ok: true, product: p })
+    try {
+        await db.read()
+        const p = db.data.Products.find(x => x.id === req.params.id)
+        if (!p) return res.status(404).json({ error: 'Not found' })
+        const { title, price, organization, validDays, quantity } = req.body
+        if (title) p.title = title
+        if (typeof price !== 'undefined') p.price = parseInt(price, 10) || 0
+        if (organization) p.organization = organization
+        if (typeof validDays !== 'undefined') p.validDays = parseInt(validDays, 10) || p.validDays
+        if (typeof quantity !== 'undefined') p.quantity = parseInt(quantity, 10) || 0
+        if (req.file) p.icon = '/uploads/' + req.file.filename
+        p.updatedAt = new Date().toISOString()
+        await db.write()
+        res.json({ ok: true, product: p })
+    } catch (err) {
+        console.error('Error updating product:', err)
+        res.status(500).json({ error: 'Server error: ' + err.message })
+    }
 })
 
 // admin: delete product
@@ -250,12 +365,16 @@ app.post('/api/redeem/:id', requireAuth, async (req, res) => {
     await db.read()
     const prod = db.data.Products.find(p => p.id === req.params.id)
     if (!prod) return res.status(404).json({ error: 'Product not found' })
+    if ((prod.quantity || 0) <= 0) return res.status(400).json({ error: 'Product is out of stock' })
+
     const user = db.data.Users.find(u => u.id === req.user.id)
     if (!user) return res.status(404).json({ error: 'User not found' })
     const price = prod.price || 0
     if ((user.points || 0) < price) return res.status(400).json({ error: 'Not enough points' })
-    // deduct points
+
+    // deduct points and quantity
     user.points = (user.points || 0) - price
+    prod.quantity = (prod.quantity || 0) - 1
 
     // create promo
     const code = generatePromoCode(12)
@@ -302,18 +421,24 @@ app.post('/api/submissions/:id/action', requireAdmin, async (req, res) => {
     sub.adminId = req.user.id
     sub.updatedAt = new Date().toISOString()
 
-    // award points when transitioning to approved (only once)
-    if (action === 'approve' && prevStatus !== 'approved') {
-        // determine points to award (default 1000)
-        let pts = 1000
-        if (typeof points !== 'undefined') {
-            const p = parseInt(points, 10)
-            if (!isNaN(p) && p >= 0) pts = p
-        }
-        const user = db.data.Users.find(u => u.id === sub.userId)
-        if (user) {
+    const user = db.data.Users.find(u => u.id === sub.userId)
+    if (user) {
+        // award points when transitioning to approved (only once)
+        if (action === 'approve' && prevStatus !== 'approved') {
+            // determine points to award (default 1000)
+            let pts = 1000
+            if (typeof points !== 'undefined') {
+                const p = parseInt(points, 10)
+                if (!isNaN(p) && p >= 0) pts = p
+            }
             user.points = (user.points || 0) + pts
             sub.pointsAwarded = pts
+        } else if (action === 'decline' && prevStatus !== 'declined') {
+            // When transitioning to declined, reduce trust rating
+            user.declinedCount = (user.declinedCount || 0) + 1
+            // Reduce trust rating by 1 for each decline, min 0
+            user.trustRating = Math.max(0, (user.trustRating || 10) - 1)
+            user.lastTrustRecovery = new Date().toISOString()
         }
     }
 
@@ -326,6 +451,109 @@ app.get('/api/mySubmissions', requireAuth, async (req, res) => {
     await db.read()
     const subs = db.data.Submissions.filter(s => s.userId === req.user.id)
     res.json(subs)
+})
+
+// Get ranking by city
+app.get('/api/ranking/city/:city', async (req, res) => {
+    await db.read()
+    const city = req.params.city
+
+    let users = db.data.Users.filter(u => (u.city || 'Unknown') === city && u.role === 'user')
+
+    // Recover trust ratings and calculate scores
+    users = users.map(u => {
+        recoverTrustRating(u)
+        return {
+            id: u.id,
+            name: u.name,
+            city: u.city || 'Unknown',
+            points: u.points || 0,
+            trustRating: u.trustRating || 10,
+            rankScore: calculateRankScore(u)
+        }
+    })
+
+    // Sort by rank score
+    users.sort((a, b) => b.rankScore - a.rankScore)
+
+    // Add rank position
+    const ranked = users.map((u, idx) => ({ ...u, rank: idx + 1 }))
+
+    res.json(ranked)
+})
+
+// Get global ranking
+app.get('/api/ranking/global', async (req, res) => {
+    await db.read()
+
+    let users = db.data.Users.filter(u => u.role === 'user')
+
+    // Recover trust ratings and calculate scores
+    users = users.map(u => {
+        recoverTrustRating(u)
+        return {
+            id: u.id,
+            name: u.name,
+            city: u.city || 'Unknown',
+            points: u.points || 0,
+            trustRating: u.trustRating || 10,
+            rankScore: calculateRankScore(u)
+        }
+    })
+
+    // Sort by rank score
+    users.sort((a, b) => b.rankScore - a.rankScore)
+
+    // Add rank position
+    const ranked = users.map((u, idx) => ({ ...u, rank: idx + 1 }))
+
+    res.json(ranked)
+})
+
+// Get user rank info (needs auth)
+app.get('/api/my-rank', requireAuth, async (req, res) => {
+    await db.read()
+    const user = db.data.Users.find(u => u.id === req.user.id)
+    if (!user) return res.status(404).json({ error: 'User not found' })
+
+    // Recover trust rating
+    recoverTrustRating(user)
+
+    // Get city rank
+    let cityUsers = db.data.Users.filter(u => (u.city || 'Unknown') === (user.city || 'Unknown') && u.role === 'user')
+    cityUsers = cityUsers.map(u => ({ ...u, rankScore: calculateRankScore(u) }))
+    cityUsers.sort((a, b) => b.rankScore - a.rankScore)
+    const cityRank = cityUsers.findIndex(u => u.id === user.id) + 1
+
+    // Get global rank
+    let globalUsers = db.data.Users.filter(u => u.role === 'user')
+    globalUsers = globalUsers.map(u => ({ ...u, rankScore: calculateRankScore(u) }))
+    globalUsers.sort((a, b) => b.rankScore - a.rankScore)
+    const globalRank = globalUsers.findIndex(u => u.id === user.id) + 1
+
+    res.json({
+        city: user.city || 'Unknown',
+        points: user.points || 0,
+        trustRating: user.trustRating || 10,
+        declinedCount: user.declinedCount || 0,
+        cityRank,
+        globalRank,
+        cityUsersCount: cityUsers.length,
+        globalUsersCount: globalUsers.length,
+        rankScore: calculateRankScore(user)
+    })
+})
+
+// Multer error handler
+app.use((err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        console.error('Multer error:', err)
+        return res.status(400).json({ error: 'File upload error: ' + err.message })
+    } else if (err) {
+        console.error('Unexpected error:', err)
+        return res.status(500).json({ error: 'Server error: ' + err.message })
+    }
+    next()
 })
 
 app.listen(port, () => console.log('http://localhost:' + port))

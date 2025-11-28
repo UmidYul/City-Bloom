@@ -1,3 +1,16 @@
+// Load admin navigation
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const meRes = await fetch('/api/me')
+        if (meRes.ok) {
+            const me = await meRes.json()
+            document.getElementById('navLinks').innerHTML = `<a href="/">Главная</a> • <a href="/profile/${me.id}">Профиль</a> • <form style="display:inline" action="/logout" method="post"><button style="background:none;border:none;color:#06c;cursor:pointer;padding:0">Выйти</button></form>`
+        }
+    } catch (err) {
+        console.error('Failed to load user:', err)
+    }
+})
+
 async function loadSubmissions() {
     const pendingArea = document.getElementById('pendingTable')
     const evaluatedArea = document.getElementById('evaluatedTable')
@@ -99,6 +112,31 @@ function initAdmin() {
     const btnEvaluated = document.getElementById('btnEvaluated')
     const pendingArea = document.getElementById('pendingArea')
     const evaluatedArea = document.getElementById('evaluatedArea')
+    const tabSubmissions = document.getElementById('tabSubmissions')
+    const tabProducts = document.getElementById('tabProducts')
+    const submissionsTab = document.getElementById('submissionsTab')
+    const productsTab = document.getElementById('productsTab')
+
+    // Tab switching
+    if (tabSubmissions && tabProducts) {
+        tabSubmissions.onclick = () => {
+            submissionsTab.style.display = ''
+            productsTab.style.display = 'none'
+            tabSubmissions.style.background = '#4CAF50'
+            tabSubmissions.style.color = 'white'
+            tabProducts.style.background = ''
+            tabProducts.style.color = ''
+        }
+        tabProducts.onclick = () => {
+            submissionsTab.style.display = 'none'
+            productsTab.style.display = ''
+            tabSubmissions.style.background = ''
+            tabSubmissions.style.color = ''
+            tabProducts.style.background = '#4CAF50'
+            tabProducts.style.color = 'white'
+        }
+    }
+
     if (btnPending && btnEvaluated) {
         btnPending.onclick = () => {
             document.getElementById('pendingArea').style.display = ''

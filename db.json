@@ -6,7 +6,8 @@
       "phone": "+998905329686",
       "password": "$2b$10$Dr7mlfGutJTWnjxzetew4uLE3OBFcHFlZuB0swLzIZOTQv15Z2tXm",
       "role": "user",
-      "points": 10000
+      "city": "Фергана",
+      "points": 9996
     },
     {
       "id": "edd73f3a-e418-4fcc-8655-3912af148fb5",
@@ -14,7 +15,20 @@
       "phone": "admin",
       "password": "$2b$10$zT/fe.WEvStvKgRGuWrqHeyEpW/85WKD0trOfbAaOZmGPQFSt9U9C",
       "role": "admin",
+      "city": "Ташкент",
       "points": 0
+    },
+    {
+      "id": "447f18c8-813a-4803-b923-a652b5357cc7",
+      "name": "Умид Йулдашев",
+      "phone": "+998905329687",
+      "password": "$2b$10$Fd5zTOZJFv6Sg3sbQCyC/uomngFaQFfrLOwWgT77f9/iWU9LFtwTe",
+      "role": "user",
+      "points": 0,
+      "city": "Ташкент",
+      "trustRating": 10,
+      "declinedCount": 0,
+      "lastTrustRecovery": "2025-11-28T18:27:02.739Z"
     }
   ],
   "Submissions": [
@@ -36,6 +50,59 @@
       "adminId": "edd73f3a-e418-4fcc-8655-3912af148fb5",
       "updatedAt": "2025-11-28T12:08:55.220Z",
       "pointsAwarded": 10000
+    }
+  ],
+  "Products": [
+    {
+      "id": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "title": "2",
+      "price": 2,
+      "organization": "2",
+      "validDays": 30,
+      "icon": "/uploads/1764353528756-t6sv1y.png",
+      "createdAt": "2025-11-28T18:12:08.764Z"
+    },
+    {
+      "id": "aebde791-aff3-4789-accc-a0d57b2a22b8",
+      "title": "1",
+      "price": 1,
+      "organization": "1",
+      "validDays": 30,
+      "quantity": 0,
+      "icon": "/uploads/1764353900201-bguob4.png",
+      "createdAt": "2025-11-28T18:18:20.218Z"
+    }
+  ],
+  "PromoCodes": [
+    {
+      "id": "8ef15737-931a-49a5-ac2b-7d52af87f288",
+      "code": "enNSACFcHfKo",
+      "userId": "miincwe8qxsdas",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "productTitle": "2",
+      "organization": "2",
+      "createdAt": "2025-11-28T18:12:42.489Z",
+      "expiresAt": "2025-12-28T18:12:42.489Z"
+    },
+    {
+      "id": "12475596-5ac7-437a-bab8-e029a31a5654",
+      "code": "UAmbO7eYhC5j",
+      "userId": "miincwe8qxsdas",
+      "productId": "aebde791-aff3-4789-accc-a0d57b2a22b8",
+      "productTitle": "1",
+      "organization": "1",
+      "createdAt": "2025-11-28T18:18:29.089Z",
+      "expiresAt": "2025-12-28T18:18:29.089Z"
+    },
+    {
+      "id": "c8be85e2-1b2d-4ec5-b680-7d9656b41e86",
+      "code": "rRuFRdc32G7w",
+      "userId": "miincwe8qxsdas",
+      "productId": "aebde791-aff3-4789-accc-a0d57b2a22b8",
+      "productTitle": "1",
+      "organization": "1",
+      "createdAt": "2025-11-28T18:18:42.494Z",
+      "expiresAt": "2025-12-28T18:18:42.494Z"
     }
   ]
 }

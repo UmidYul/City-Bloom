@@ -12,15 +12,10 @@
     <div class="app">
         <header class="site-header">
             <a class="logo" href="/">City Bloom</a>
-            <nav class="nav-inline" id="navLinks">Загрузка...</nav>
         </header>
 
-        <main style="margin-top:18px">
-            <header>
-                <h1>Добро пожаловать</h1>
-            </header>
-
-            <section class="card" style="margin-top:12px">
+        <main style="margin-top:12px">
+            <section class="card">
                 <div id="userArea">Загрузка пользователя...</div>
             </section>
 
@@ -31,9 +26,40 @@
 
             <div class="footer">© City Bloom — Сажай. Ухаживай. Зарабатывай.</div>
         </main>
-
-        <script src="/main.js"></script>
     </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" id="bottomNav">
+        <a href="/" class="nav-item active">
+            <span class="icon">🏠</span>
+            <span>Главная</span>
+        </a>
+        <a href="/register-tree" class="nav-item">
+            <span class="icon">🪴</span>
+            <span>Посадка</span>
+        </a>
+        <a href="/exchange" class="nav-item">
+            <span class="icon">💝</span>
+            <span>Магазин</span>
+        </a>
+        <a href="/ranking" class="nav-item">
+            <span class="icon">🏆</span>
+            <span>Рейтинг</span>
+        </a>
+        <a href="/profile" class="nav-item" id="profileNavLink">
+            <span class="icon">👤</span>
+            <span>Профиль</span>
+        </a>
+    </nav>
+
+    <script src="/main.js"></script>
+</body>
+
+</html>
+</main>
+
+<script src="/main.js"></script>
+</div>
 
 </body>
 

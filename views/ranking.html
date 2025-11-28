@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Рейтинг — City Bloom</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <div class="app">
+        <header class="site-header">
+            <a class="logo" href="/">City Bloom</a>
+        </header>
+
+        <main style="margin-top:12px">
+            <div class="card">
+                <h2 style="margin-top:0">Рейтинг</h2>
+
+                <!-- User Stats -->
+                <div id="userStats"
+                    style="display:none;margin-bottom:16px;padding:12px;background:#f8fef8;border-radius:8px;border-left:4px solid #4CAF50">
+                    <h4 style="margin:0 0 8px 0">Ваша статистика</h4>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.9rem">
+                        <div>
+                            <div class="muted">Баллы</div>
+                            <div style="font-weight:700;color:#4CAF50" id="userPoints">-</div>
+                        </div>
+                        <div>
+                            <div class="muted">Доверие</div>
+                            <div style="font-weight:700;color:#2196F3" id="userTrust">-/10</div>
+                        </div>
+                        <div>
+                            <div class="muted">Город</div>
+                            <div style="font-weight:700" id="userCityRank">-</div>
+                        </div>
+                        <div>
+                            <div class="muted">Страна</div>
+                            <div style="font-weight:700" id="userGlobalRank">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div style="margin:12px 0;display:flex;gap:8px;border-bottom:1px solid #e6e9ef;padding-bottom:12px">
+                    <button id="tabCity" class="tab-button"
+                        style="background:#4CAF50;color:white;padding:8px 12px;font-size:0.9rem">Город</button>
+                    <button id="tabGlobal" class="tab-button" style="padding:8px 12px;font-size:0.9rem">Страна</button>
+                </div>
+
+                <!-- City Ranking -->
+                <div id="cityTab">
+                    <div id="cityRanking" style="display:grid;gap:12px"></div>
+                </div>
+
+                <!-- Global Ranking -->
+                <div id="globalTab" style="display:none">
+                    <div id="globalRanking" style="display:grid;gap:12px"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="/" class="nav-item">
+            <span class="icon">🏠</span>
+            <span>Главная</span>
+        </a>
+        <a href="/register-tree" class="nav-item">
+            <span class="icon">🪴</span>
+            <span>Посадка</span>
+        </a>
+        <a href="/exchange" class="nav-item">
+            <span class="icon">💝</span>
+            <span>Магазин</span>
+        </a>
+        <a href="/ranking" class="nav-item active">
+            <span class="icon">🏆</span>
+            <span>Рейтинг</span>
+        </a>
+        <a href="#" class="nav-item" id="profileNavLink">
+            <span class="icon">👤</span>
+            <span>Профиль</span>
+        </a>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const meRes = await fetch('/api/me')
+                if (meRes.ok) {
+                    const me = await meRes.json()
+                    document.getElementById('profileNavLink').href = `/profile/${me.id}`
+                }
+            } catch (err) {
+                console.error('Failed to load user:', err)
+            }
+        })
+    </script>
+
+    <script src="/nav.js"></script>
+    <script src="/ranking.js"></script>
+</body>
+
+</html>

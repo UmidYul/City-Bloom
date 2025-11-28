@@ -16,7 +16,9 @@
 
 html,
 body {
-    height: 100%
+    height: 100%;
+    margin: 0;
+    padding: 0
 }
 
 body {
@@ -26,26 +28,35 @@ body {
     color: #111827;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    padding-bottom: 80px
 }
 
 .app {
-    max-width: var(--container);
-    margin: 24px auto;
-    padding: 0 20px
+    max-width: 100%;
+    margin: 0;
+    padding: 16px;
+    padding-bottom: 0
 }
 
+/* Mobile Header (minimal) */
 .site-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 0
+    padding: 12px 0;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--surface-border)
 }
 
 .logo {
     font-weight: 700;
     color: var(--accent);
     text-decoration: none;
-    font-size: 1.2rem
+    font-size: 1.1rem
+}
+
+.nav-inline {
+    display: none
 }
 
 .nav-inline a {
@@ -57,6 +68,48 @@ body {
 
 .nav-inline form {
     display: inline
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid var(--surface-border);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 80px;
+    z-index: 1000;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1)
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.75rem;
+    flex: 1;
+    height: 100%;
+    gap: 4px;
+    transition: color 0.2s
+}
+
+.nav-item.active {
+    color: var(--accent)
+}
+
+.nav-item.active .icon {
+    font-size: 1.5rem
+}
+
+.nav-item .icon {
+    font-size: 1.3rem
 }
 
 .card {
