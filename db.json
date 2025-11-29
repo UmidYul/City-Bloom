@@ -7,12 +7,12 @@
       "password": "$2b$10$Dr7mlfGutJTWnjxzetew4uLE3OBFcHFlZuB0swLzIZOTQv15Z2tXm",
       "role": "user",
       "city": "Фергана",
-      "points": 7996
+      "points": 1996
     },
     {
       "id": "edd73f3a-e418-4fcc-8655-3912af148fb5",
       "name": "Administrator",
-      "phone": "admin",
+      "phone": "+1234",
       "password": "$2b$10$zT/fe.WEvStvKgRGuWrqHeyEpW/85WKD0trOfbAaOZmGPQFSt9U9C",
       "role": "admin",
       "city": "Ташкент",
@@ -133,7 +133,7 @@
       "validDays": 30,
       "icon": "/uploads/1764359747180-f6ypot.png",
       "createdAt": "2025-11-28T18:12:08.764Z",
-      "quantity": 8,
+      "quantity": 4,
       "updatedAt": "2025-11-28T19:55:47.183Z"
     },
     {
@@ -163,7 +163,7 @@
       "price": 4000,
       "organization": "Uzum Market",
       "validDays": 3,
-      "quantity": 5,
+      "quantity": 4,
       "icon": "/uploads/1764365401105-0cvg0o.png",
       "createdAt": "2025-11-28T21:30:01.110Z"
     },
@@ -208,6 +208,56 @@
       "organization": "Yapona Mama",
       "createdAt": "2025-11-28T20:50:40.015Z",
       "expiresAt": "2025-12-28T20:50:40.015Z"
+    },
+    {
+      "id": "a26ec5d2-63ce-45af-9a32-40959bb99394",
+      "code": "6RztQG3SqV3Y",
+      "userId": "miincwe8qxsdas",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "productTitle": "Coffee",
+      "organization": "Sofia",
+      "createdAt": "2025-11-29T05:19:33.946Z",
+      "expiresAt": "2025-12-29T05:19:33.946Z"
+    },
+    {
+      "id": "51f96c5d-28ad-402e-9658-2ada33d13aaf",
+      "code": "5OccbQSPgWzi",
+      "userId": "miincwe8qxsdas",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "productTitle": "Coffee",
+      "organization": "Sofia",
+      "createdAt": "2025-11-29T05:55:59.670Z",
+      "expiresAt": "2025-12-29T05:55:59.670Z"
+    },
+    {
+      "id": "d6dec407-0575-413e-baf1-de75a835ddb2",
+      "code": "7jTd3TwT4SAm",
+      "userId": "miincwe8qxsdas",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "productTitle": "Coffee",
+      "organization": "Sofia",
+      "createdAt": "2025-11-29T06:02:45.997Z",
+      "expiresAt": "2025-12-29T06:02:45.997Z"
+    },
+    {
+      "id": "ee6d2dcf-51d1-475e-9580-99c380f3d0df",
+      "code": "fJkGp0ByprTu",
+      "userId": "miincwe8qxsdas",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "productTitle": "Coffee",
+      "organization": "Sofia",
+      "createdAt": "2025-11-29T06:07:37.123Z",
+      "expiresAt": "2025-12-29T06:07:37.123Z"
+    },
+    {
+      "id": "20da7424-0c97-44b5-8217-2fed1bac1fc1",
+      "code": "2SITSYszzaIp",
+      "userId": "miincwe8qxsdas",
+      "productId": "92538730-0c7a-495a-bfaf-5a0757904675",
+      "productTitle": "Discount -30%",
+      "organization": "Uzum Market",
+      "createdAt": "2025-11-29T06:07:53.809Z",
+      "expiresAt": "2025-12-02T06:07:53.809Z"
     }
   ]
 }

@@ -22,7 +22,10 @@ const Defaultdata = { Users: [], Submissions: [], Products: [], PromoCodes: [] }
 const db = new Low(adapter, Defaultdata)
 
 const JWT_SECRET = 'UMIDSECRETKEY'
-
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+});
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cookieParser())
@@ -558,4 +561,4 @@ app.use((err, req, res, next) => {
     next()
 })
 
-app.listen(port, () => console.log('http://localhost:' + port))
+app.listen(port, '0.0.0.0',() => console.log('http://localhost:' + port))
