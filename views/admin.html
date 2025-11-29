@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
@@ -16,69 +16,149 @@
             <nav class="nav-inline" id="navLinks"></nav>
         </header>
 
-        <main style="margin-top:18px">
-            <div class="card">
-                <h1>Панель администратора</h1>
-
-                <div style="margin:12px 0;display:flex;gap:8px;border-bottom:1px solid #e6e9ef;padding-bottom:12px">
-                    <button id="tabSubmissions" class="tab-button"
-                        style="background:#4CAF50;color:white">Заявки</button>
-                    <button id="tabProducts" class="tab-button">Товары</button>
+        <main>
+            <!-- Admin Header -->
+            <div class="card"
+                style="margin-bottom:16px;background:linear-gradient(135deg, rgba(36,176,107,0.15), rgba(36,176,107,0.05))">
+                <div style="display:flex;align-items:center;gap:14px">
+                    <div style="font-size:48px">⚙️</div>
+                    <div style="flex:1">
+                        <h1 style="margin-bottom:4px">Панель администратора</h1>
+                        <div class="muted text-small">Управление платформой City Bloom</div>
+                    </div>
                 </div>
+            </div>
 
-                <!-- Submissions Tab -->
-                <div id="submissionsTab">
-                    <div style="margin:12px 0">
-                        <button id="btnPending">Не оценённые</button>
-                        <button id="btnEvaluated">Оценённые</button>
+            <!-- Quick Stats Dashboard -->
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px">
+                <div class="card" style="text-align:center">
+                    <div style="font-size:32px;margin-bottom:8px">📋</div>
+                    <div style="font-size:24px;font-weight:700;color:var(--accent)" id="pendingSubmissionsCount">-</div>
+                    <div class="text-small muted">Новых заявок</div>
+                </div>
+                <div class="card" style="text-align:center">
+                    <div style="font-size:32px;margin-bottom:8px">✅</div>
+                    <div style="font-size:24px;font-weight:700;color:var(--accent)" id="approvedSubmissionsCount">-
+                    </div>
+                    <div class="text-small muted">Одобрено</div>
+                </div>
+                <div class="card" style="text-align:center">
+                    <div style="font-size:32px;margin-bottom:8px">👥</div>
+                    <div style="font-size:24px;font-weight:700;color:var(--accent)" id="totalUsersCount">-</div>
+                    <div class="text-small muted">Пользователей</div>
+                </div>
+                <div class="card" style="text-align:center">
+                    <div style="font-size:32px;margin-bottom:8px">🎁</div>
+                    <div style="font-size:24px;font-weight:700;color:var(--accent)" id="totalProductsCount">-</div>
+                    <div class="text-small muted">Товаров</div>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="card" style="margin-bottom:16px">
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+                    <button id="tabSubmissions" class="tab-btn active">📋 Заявки</button>
+                    <button id="tabProducts" class="tab-btn">🎁 Товары</button>
+                    <button id="tabUsers" class="tab-btn">👥 Пользователи</button>
+                </div>
+            </div>
+
+            <!-- Submissions Tab -->
+            <div id="submissionsTab">
+                <div class="card" style="margin-bottom:16px">
+                    <div style="display:flex;gap:8px;margin-bottom:16px">
+                        <button id="btnPending" class="secondary" style="flex:1">🕐 Не оценённые</button>
+                        <button id="btnEvaluated" class="ghost" style="flex:1">✓ Оценённые</button>
                     </div>
 
                     <div id="pendingArea">
-                        <h3>Не оценённые</h3>
-                        <div id="pendingTable">Загрузка...</div>
+                        <h3 style="margin-bottom:14px">🕐 Ожидают проверки</h3>
+                        <div id="pendingTable">
+                            <div class="skeleton" style="height:80px;margin-bottom:12px"></div>
+                            <div class="skeleton" style="height:80px"></div>
+                        </div>
                     </div>
 
-                    <div id="evaluatedArea" style="display:none;margin-top:12px">
-                        <h3>Оценённые</h3>
-                        <div id="evaluatedTable">Загрузка...</div>
+                    <div id="evaluatedArea" style="display:none">
+                        <h3 style="margin-bottom:14px">✓ Проверенные заявки</h3>
+                        <div id="evaluatedTable">
+                            <div class="skeleton" style="height:80px;margin-bottom:12px"></div>
+                            <div class="skeleton" style="height:80px"></div>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Products Tab -->
-                <div id="productsTab" style="display:none">
-                    <h2>Управление товарами</h2>
+            <!-- Products Tab -->
+            <div id="productsTab" style="display:none">
+                <div class="card" style="margin-bottom:16px">
+                    <h2 style="margin-bottom:14px">🎁 Управление товарами</h2>
 
-                    <div style="margin:18px 0;padding:16px;background:#f8f9fa;border-radius:8px">
-                        <h3>Добавить новый товар</h3>
-                        <form id="productForm" enctype="multipart/form-data"
-                            style="display:grid;gap:12px;max-width:600px">
+                    <div style="padding:16px;background:var(--input-bg);border-radius:var(--radius);margin-bottom:18px">
+                        <h3 style="margin-bottom:14px">➕ Добавить новый товар</h3>
+                        <form id="productForm" enctype="multipart/form-data" style="display:grid;gap:12px">
                             <input id="productTitle" name="title" type="text" placeholder="Название товара" required />
                             <input id="productPrice" name="price" type="number" placeholder="Цена в баллах" min="1"
                                 required />
                             <input id="productOrganization" name="organization" type="text"
                                 placeholder="Организация (кафе, магазин и т.д.)" />
+                            <select id="productCategory" name="category"
+                                style="padding:14px;border-radius:var(--radius-input);border:1px solid var(--border-light);background:var(--card);font-size:15px">
+                                <option value="other">📦 Другое</option>
+                                <option value="food">🍔 Еда и напитки</option>
+                                <option value="entertainment">🎬 Развлечения</option>
+                                <option value="shopping">🛍️ Покупки</option>
+                                <option value="services">💼 Услуги</option>
+                            </select>
                             <input id="productValidDays" name="validDays" type="number"
                                 placeholder="Срок действия промокода (дней)" value="30" min="1" />
                             <input id="productQuantity" name="quantity" type="number"
                                 placeholder="Количество промокодов" value="0" min="0" required />
                             <div>
-                                <label>Фото товара:</label>
+                                <label style="display:block;margin-bottom:8px;font-weight:500">📷 Фото товара:</label>
                                 <input id="productIcon" name="icon" type="file" accept="image/*" />
                             </div>
-                            <div style="display:flex;gap:8px">
-                                <button id="addProductBtn" type="button">Добавить товар</button>
-                                <span id="productMsg" class="muted"></span>
-                            </div>
+                            <button id="addProductBtn" type="button">➕ Добавить товар</button>
+                            <div id="productMsg" class="muted text-small"></div>
                         </form>
                     </div>
 
-                    <h3>Список товаров</h3>
+                    <h3 style="margin-bottom:14px">📦 Список товаров</h3>
                     <div id="productsList" style="display:grid;gap:12px"></div>
                 </div>
             </div>
-        </main>
 
-        <div class="footer">© City Bloom</div>
+            <!-- Users Tab (NEW) -->
+            <div id="usersTab" style="display:none">
+                <div class="card" style="margin-bottom:16px">
+                    <h2 style="margin-bottom:14px">👥 Управление пользователями</h2>
+
+                    <!-- Search and Filter -->
+                    <div style="margin-bottom:16px">
+                        <input type="text" id="userSearch" placeholder="🔍 Поиск по имени или email..."
+                            style="margin-bottom:12px" />
+                        <div style="display:flex;gap:8px">
+                            <button id="filterAll" class="secondary" style="flex:1;font-size:13px">Все</button>
+                            <button id="filterAdmin" class="ghost" style="flex:1;font-size:13px">Админы</button>
+                            <button id="filterActive" class="ghost" style="flex:1;font-size:13px">Активные</button>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-bottom:14px">Список пользователей</h3>
+                    <div id="usersList">
+                        <div class="skeleton" style="height:80px;margin-bottom:12px"></div>
+                        <div class="skeleton" style="height:80px;margin-bottom:12px"></div>
+                        <div class="skeleton" style="height:80px"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div style="text-align:center;padding:24px 0;color:var(--text-muted);font-size:14px">
+                <div style="margin-bottom:8px">🌍 City Bloom Admin Panel</div>
+                <div class="text-small">Управление экосистемой</div>
+            </div>
+        </main>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

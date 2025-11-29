@@ -12,6 +12,7 @@
     <div class="app">
         <header class="site-header">
             <a class="logo" href="/">City Bloom</a>
+            <div id="notifications-container"></div>
         </header>
 
         <main>
@@ -58,15 +59,30 @@
             <div class="card"
                 style="background:linear-gradient(135deg, rgba(36,176,107,0.15), rgba(36,176,107,0.05));margin-bottom:16px;padding:24px">
                 <div id="top3" style="display:flex;justify-content:space-around;align-items:flex-end;gap:12px">
-                    <!-- Will be populated by JS -->
-                    <div class="text-center muted">Loading...</div>
+                    <!-- Skeleton loaders -->
+                    <div class="text-center">
+                        <div class="skeleton skeleton-circle" style="width:60px;height:60px;margin:0 auto 8px"></div>
+                        <div class="skeleton" style="width:80px;height:16px;margin:0 auto"></div>
+                    </div>
+                    <div class="text-center">
+                        <div class="skeleton skeleton-circle" style="width:60px;height:60px;margin:0 auto 8px"></div>
+                        <div class="skeleton" style="width:80px;height:16px;margin:0 auto"></div>
+                    </div>
+                    <div class="text-center">
+                        <div class="skeleton skeleton-circle" style="width:60px;height:60px;margin:0 auto 8px"></div>
+                        <div class="skeleton" style="width:80px;height:16px;margin:0 auto"></div>
+                    </div>
                 </div>
             </div>
 
             <!-- Rest of List -->
             <div class="card" id="restListCard">
                 <div id="restList">
-                    <!-- Will be populated by JS -->
+                    <!-- Skeleton loaders -->
+                    <div class="skeleton" style="height:70px;margin-bottom:12px"></div>
+                    <div class="skeleton" style="height:70px;margin-bottom:12px"></div>
+                    <div class="skeleton" style="height:70px;margin-bottom:12px"></div>
+                    <div class="skeleton" style="height:70px"></div>
                 </div>
             </div>
         </main>
@@ -78,9 +94,9 @@
             <span class="icon">🏠</span>
             <span>Главная</span>
         </a>
-        <a href="/register-tree" class="nav-item">
-            <span class="icon">🪴</span>
-            <span>Посадка</span>
+        <a href="/map" class="nav-item">
+            <span class="icon">🗺️</span>
+            <span>Карта</span>
         </a>
         <a href="/exchange" class="nav-item">
             <span class="icon">💝</span>
@@ -111,6 +127,7 @@
     </script>
 
     <script src="/nav.js"></script>
+    <script src="/notifications.js"></script>
     <script src="/ranking.js"></script>
 </body>
 

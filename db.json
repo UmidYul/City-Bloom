@@ -7,7 +7,10 @@
       "password": "$2b$10$Dr7mlfGutJTWnjxzetew4uLE3OBFcHFlZuB0swLzIZOTQv15Z2tXm",
       "role": "user",
       "city": "Фергана",
-      "points": 1996
+      "points": 58025,
+      "trustRating": 5,
+      "declinedCount": 0,
+      "lastTrustRecovery": "2025-11-29T16:14:56.169Z"
     },
     {
       "id": "edd73f3a-e418-4fcc-8655-3912af148fb5",
@@ -16,7 +19,10 @@
       "password": "$2b$10$zT/fe.WEvStvKgRGuWrqHeyEpW/85WKD0trOfbAaOZmGPQFSt9U9C",
       "role": "admin",
       "city": "Ташкент",
-      "points": 0
+      "points": 1000,
+      "trustRating": 5,
+      "declinedCount": 0,
+      "lastTrustRecovery": "2025-11-29T16:14:56.169Z"
     },
     {
       "id": "447f18c8-813a-4803-b923-a652b5357cc7",
@@ -24,7 +30,7 @@
       "phone": "+998905329687",
       "password": "$2b$10$Fd5zTOZJFv6Sg3sbQCyC/uomngFaQFfrLOwWgT77f9/iWU9LFtwTe",
       "role": "user",
-      "points": 0,
+      "points": 27098,
       "city": "Ташкент",
       "trustRating": 10,
       "declinedCount": 0,
@@ -36,7 +42,7 @@
       "phone": "+9981234567",
       "password": "$2b$10$6k7dZcaef7HHTG1MYf3VV.6XL8enl94s4u7eJY4trKN98WfHzoQ3m",
       "role": "user",
-      "points": 0,
+      "points": 2102,
       "city": "Ташкент",
       "trustRating": 5,
       "declinedCount": 0,
@@ -48,7 +54,7 @@
       "phone": "+9981234568",
       "password": "$2b$10$X0yXUgEBbXHN9jJgKQSuXuenI6nXs1XJmSzyORU5l2OnCxXMkrMG2",
       "role": "user",
-      "points": 0,
+      "points": 5000,
       "city": "Ташкент",
       "trustRating": 5,
       "declinedCount": 0,
@@ -60,7 +66,7 @@
       "phone": "+9981234569",
       "password": "$2b$10$IBz2Mstvy0OgBovlRoJu3OzM9Igc38mM5Tp9Bw2jwmUrBgyItup7O",
       "role": "user",
-      "points": 0,
+      "points": 7586,
       "city": "Ташкент",
       "trustRating": 5,
       "declinedCount": 0,
@@ -101,6 +107,20 @@
       "trustRating": 5,
       "declinedCount": 0,
       "lastTrustRecovery": "2025-11-28T20:36:35.295Z"
+    },
+    {
+      "id": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "name": "йыав",
+      "phone": "+9981234555",
+      "password": "$2b$10$k70P/ZIrBgWjDdvm75sbq.WJHFXQLp2QJ8/9nvF/x/ATFHDmUo4AK",
+      "role": "user",
+      "points": 300,
+      "city": "Бухара",
+      "trustRating": 5,
+      "declinedCount": 0,
+      "lastTrustRecovery": "2025-11-29T16:34:28.362Z",
+      "level": 2,
+      "experience": 140
     }
   ],
   "Submissions": [
@@ -122,6 +142,79 @@
       "adminId": "edd73f3a-e418-4fcc-8655-3912af148fb5",
       "updatedAt": "2025-11-28T12:08:55.220Z",
       "pointsAwarded": 10000
+    },
+    {
+      "id": "4b46fca1-973e-4bf3-a7a9-3b03848eda82",
+      "userId": "edd73f3a-e418-4fcc-8655-3912af148fb5",
+      "title": "1",
+      "plantType": "Tree",
+      "location": {
+        "lat": 40.782621,
+        "lng": 72.131424
+      },
+      "description": "1",
+      "beforeVideo": "/uploads/1764431080706-a05tpn.mp4",
+      "afterVideo": "/uploads/1764431080826-ddl3hm.mp4",
+      "status": "approved",
+      "createdAt": "2025-11-29T15:44:40.966Z",
+      "adminComment": null,
+      "adminId": "edd73f3a-e418-4fcc-8655-3912af148fb5",
+      "updatedAt": "2025-11-29T15:45:18.214Z",
+      "pointsAwarded": 1000
+    },
+    {
+      "id": "adee21fa-8ce0-4fce-9ae7-b7c5ef962fa6",
+      "userId": "cede0717-8b59-49f7-b672-0b1b863ad233",
+      "title": "1",
+      "plantType": "Tree",
+      "location": {
+        "lat": 40.772222,
+        "lng": 72.325401
+      },
+      "description": "1",
+      "beforeVideo": "/uploads/1764433210179-un25lc.mp4",
+      "afterVideo": "/uploads/1764433210365-d9hrwe.mp4",
+      "status": "approved",
+      "createdAt": "2025-11-29T16:20:10.478Z",
+      "adminComment": null,
+      "adminId": "edd73f3a-e418-4fcc-8655-3912af148fb5",
+      "updatedAt": "2025-11-29T16:20:50.592Z",
+      "pointsAwarded": 1000
+    },
+    {
+      "id": "e582eabe-2339-4550-adf6-7be257859fe0",
+      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "title": "1",
+      "plantType": "Tree",
+      "location": {
+        "lat": 40.777162,
+        "lng": 72.343254
+      },
+      "description": "1",
+      "beforeVideo": "/uploads/1764434211453-db7pb0.mp4",
+      "afterVideo": "/uploads/1764434211663-89qpv5.mp4",
+      "status": "approved",
+      "createdAt": "2025-11-29T16:36:51.785Z",
+      "adminComment": null,
+      "adminId": "edd73f3a-e418-4fcc-8655-3912af148fb5",
+      "updatedAt": "2025-11-29T16:37:38.174Z",
+      "pointsAwarded": 1000
+    },
+    {
+      "id": "80cacb7d-0fe7-4913-9de1-42f38acaabd4",
+      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "title": "нен",
+      "plantType": "Tree",
+      "location": {
+        "lat": 40.385465,
+        "lng": 71.788288
+      },
+      "description": "ке",
+      "beforeVideo": "/uploads/1764437339757-j6ddr2.mp4",
+      "afterVideo": "/uploads/1764437339971-j2og8f.mp4",
+      "status": "approved",
+      "createdAt": "2025-11-29T17:29:00.180Z",
+      "adminComment": null
     }
   ],
   "Products": [
@@ -133,7 +226,7 @@
       "validDays": 30,
       "icon": "/uploads/1764359747180-f6ypot.png",
       "createdAt": "2025-11-28T18:12:08.764Z",
-      "quantity": 4,
+      "quantity": 2,
       "updatedAt": "2025-11-28T19:55:47.183Z"
     },
     {
@@ -258,6 +351,236 @@
       "organization": "Uzum Market",
       "createdAt": "2025-11-29T06:07:53.809Z",
       "expiresAt": "2025-12-02T06:07:53.809Z"
+    },
+    {
+      "id": "24d1de31-4130-4d41-8d26-e39897bcfa23",
+      "code": "jdWHRCl0lbb7",
+      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "productTitle": "Coffee",
+      "organization": "Sofia",
+      "createdAt": "2025-11-29T16:48:32.783Z",
+      "expiresAt": "2025-12-29T16:48:32.783Z"
+    },
+    {
+      "id": "74176c9c-f36b-4df4-8910-94ed27345fa2",
+      "code": "E7Pq2o2oFc8i",
+      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "productTitle": "Coffee",
+      "organization": "Sofia",
+      "createdAt": "2025-11-29T16:49:09.610Z",
+      "expiresAt": "2025-12-29T16:49:09.610Z"
     }
-  ]
+  ],
+  "Achievements": [
+    {
+      "id": "first-plant",
+      "icon": "🌱",
+      "title": "Первая посадка",
+      "description": "Посадите первое растение",
+      "condition": {
+        "type": "plantings",
+        "value": 1
+      },
+      "points": 100
+    },
+    {
+      "id": "gardener",
+      "icon": "🪴",
+      "title": "Садовник",
+      "description": "Посадите 5 растений",
+      "condition": {
+        "type": "plantings",
+        "value": 5
+      },
+      "points": 250
+    },
+    {
+      "id": "eco-activist",
+      "icon": "🌳",
+      "title": "Эко-активист",
+      "description": "Посадите 10 растений",
+      "condition": {
+        "type": "plantings",
+        "value": 10
+      },
+      "points": 500
+    },
+    {
+      "id": "nature-defender",
+      "icon": "🌲",
+      "title": "Защитник природы",
+      "description": "Посадите 25 растений",
+      "condition": {
+        "type": "plantings",
+        "value": 25
+      },
+      "points": 1000
+    },
+    {
+      "id": "eco-hero",
+      "icon": "🏞️",
+      "title": "Эко-герой",
+      "description": "Посадите 50 растений",
+      "condition": {
+        "type": "plantings",
+        "value": 50
+      },
+      "points": 2500
+    },
+    {
+      "id": "legend",
+      "icon": "👑",
+      "title": "Легенда",
+      "description": "Посадите 100 растений",
+      "condition": {
+        "type": "plantings",
+        "value": 100
+      },
+      "points": 5000
+    },
+    {
+      "id": "trusted",
+      "icon": "⭐",
+      "title": "Доверенный",
+      "description": "Достигните максимального рейтинга доверия",
+      "condition": {
+        "type": "trust",
+        "value": 10
+      },
+      "points": 500
+    },
+    {
+      "id": "generous",
+      "icon": "💝",
+      "title": "Щедрый",
+      "description": "Обменяйте 5000 баллов на награды",
+      "condition": {
+        "type": "spent",
+        "value": 5000
+      },
+      "points": 1000
+    },
+    {
+      "id": "diversity",
+      "icon": "🌈",
+      "title": "Разнообразие",
+      "description": "Посадите все типы растений",
+      "condition": {
+        "type": "plant-types",
+        "value": 5
+      },
+      "points": 750
+    }
+  ],
+  "UserAchievements": [
+    {
+      "id": "5839d98a-ee08-4c08-b311-f00b43e6f372",
+      "userId": "cede0717-8b59-49f7-b672-0b1b863ad233",
+      "achievementId": "first-plant",
+      "earnedAt": "2025-11-29T16:20:50.596Z"
+    },
+    {
+      "id": "d396df8a-985a-4494-85c1-2613265c1b2f",
+      "userId": "miincwe8qxsdas",
+      "achievementId": "first-plant",
+      "earnedAt": "2025-11-29T16:23:32.485Z"
+    },
+    {
+      "id": "bd68d883-16dc-4632-af9a-9da710f3b46e",
+      "userId": "miincwe8qxsdas",
+      "achievementId": "generous",
+      "earnedAt": "2025-11-29T16:23:32.486Z"
+    },
+    {
+      "id": "564d8912-1f0b-4e95-bc52-8b4b1d9ad6f0",
+      "userId": "447f18c8-813a-4803-b923-a652b5357cc7",
+      "achievementId": "trusted",
+      "earnedAt": "2025-11-29T16:23:32.489Z"
+    },
+    {
+      "id": "a01be406-cd52-4a92-ab07-75cbdbb710be",
+      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "achievementId": "first-plant",
+      "earnedAt": "2025-11-29T16:37:38.182Z"
+    }
+  ],
+  "Favorites": [
+    {
+      "id": "4a03a5a0-f9af-47cb-954f-cb95e1806631",
+      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "createdAt": "2025-11-29T16:52:16.872Z"
+    }
+  ],
+  "ProductReviews": [
+    {
+      "id": "c5227e43-d254-418b-8391-cf95b6ef9790",
+      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "rating": 5,
+      "comment": "йыйувй",
+      "createdAt": "2025-11-29T16:58:06.254Z"
+    },
+    {
+      "id": "716218c6-5413-44f6-a759-10fc0297e5eb",
+      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "rating": 5,
+      "comment": "ывффв",
+      "createdAt": "2025-11-29T17:07:34.982Z"
+    },
+    {
+      "id": "94ae7a04-7a2b-435a-9870-5e3b956943c9",
+      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "rating": 4,
+      "comment": "цйуйвыфв",
+      "createdAt": "2025-11-29T17:07:45.621Z"
+    },
+    {
+      "id": "4f11b70d-a6ab-438b-8560-54c652659abc",
+      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "rating": 5,
+      "comment": "фвфы",
+      "createdAt": "2025-11-29T17:07:48.340Z"
+    },
+    {
+      "id": "9d738f5e-9b4b-4449-99ad-101635486f22",
+      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "rating": 5,
+      "comment": "1",
+      "createdAt": "2025-11-29T17:08:50.487Z"
+    },
+    {
+      "id": "93091ad5-2574-4d4f-9852-51d81eaaddf8",
+      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "rating": 1,
+      "comment": "фвфв",
+      "createdAt": "2025-11-29T17:08:56.087Z"
+    },
+    {
+      "id": "86483149-e71b-4b79-a3c7-c924d660cfd2",
+      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "promoCodeId": "24d1de31-4130-4d41-8d26-e39897bcfa23",
+      "rating": 5,
+      "comment": "ыфвф",
+      "createdAt": "2025-11-29T17:09:28.031Z"
+    },
+    {
+      "id": "c68435b1-6696-47d6-93ab-38133dab9e7d",
+      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "promoCodeId": "74176c9c-f36b-4df4-8910-94ed27345fa2",
+      "rating": 5,
+      "comment": "ыфвфыв",
+      "createdAt": "2025-11-29T17:09:48.453Z"
+    }
+  ],
+  "Notifications": []
 }

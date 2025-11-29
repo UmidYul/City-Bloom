@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Уведомления — City Bloom</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <div class="app">
+        <header class="site-header">
+            <a class="logo" href="/">City Bloom</a>
+            <div id="notifications-container"></div>
+        </header>
+
+        <main>
+            <div class="card" style="margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h2 style="margin: 0;">Уведомления</h2>
+                    <button id="markAllReadBtn" class="btn btn-secondary" style="padding: 8px 16px;">
+                        Отметить все прочитанными
+                    </button>
+                </div>
+
+                <!-- Filter Tabs -->
+                <div
+                    style="display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                    <button class="filter-tab active" data-filter="all">Все</button>
+                    <button class="filter-tab" data-filter="unread">Непрочитанные</button>
+                    <button class="filter-tab" data-filter="read">Прочитанные</button>
+                </div>
+
+                <!-- Notifications List -->
+                <div id="notificationsList">
+                    <div class="loading-spinner">Загрузка...</div>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" style="display: none; text-align: center; padding: 32px; color: #666;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">🔔</div>
+                    <p>Нет уведомлений</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Navigation -->
+        <nav class="bottom-nav">
+            <a href="/main" class="nav-item">
+                <span class="icon">🏠</span>
+                <span>Главная</span>
+            </a>
+            <a href="/map" class="nav-item">
+                <span class="icon">🗺️</span>
+                <span>Карта</span>
+            </a>
+            <a href="/exchange" class="nav-item">
+                <span class="icon">🛍️</span>
+                <span>Магазин</span>
+            </a>
+            <a href="/ranking" class="nav-item">
+                <span class="icon">🏆</span>
+                <span>Рейтинг</span>
+            </a>
+            <a href="#" class="nav-item" id="profileNavLink">
+                <span class="icon">👤</span>
+                <span>Профиль</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="/nav.js"></script>
+    <script src="/notifications-page.js"></script>
+</body>
+
+</html>

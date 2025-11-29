@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Достижения — City Bloom</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .achievement-card {
+            background: var(--input-bg);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .achievement-card.locked {
+            opacity: 0.5;
+            filter: grayscale(70%);
+        }
+
+        .achievement-card.earned {
+            background: linear-gradient(135deg, rgba(52, 211, 153, 0.1), rgba(16, 185, 129, 0.1));
+            border: 2px solid var(--accent);
+        }
+
+        .achievement-card.earned:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(52, 211, 153, 0.2);
+        }
+
+        .achievement-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .achievement-card.locked .achievement-icon {
+            filter: grayscale(100%);
+        }
+
+        .achievement-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .achievement-description {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .achievement-progress {
+            margin-top: 12px;
+        }
+
+        .achievement-progress-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .earned-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .points-badge {
+            display: inline-block;
+            background: rgba(52, 211, 153, 0.2);
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        @keyframes unlock {
+            0% {
+                transform: scale(0.8) rotate(-10deg);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.1) rotate(5deg);
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .achievement-card.just-earned {
+            animation: unlock 0.6s ease-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <header class="site-header">
+            <a class="logo" href="/">City Bloom</a>
+        </header>
+
+        <main>
+            <!-- Page Header -->
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+                <div style="display:flex;align-items:center;gap:12px">
+                    <a href="/" style="color:var(--text-dark);text-decoration:none;font-size:24px">←</a>
+                    <h1 style="margin:0">🏆 Достижения</h1>
+                </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="card" style="margin-bottom:16px">
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;text-align:center">
+                    <div>
+                        <div style="font-size:28px;margin-bottom:4px">🎯</div>
+                        <div style="font-size:24px;font-weight:700;color:var(--accent)" id="earnedCount">0</div>
+                        <div class="text-small muted">Получено</div>
+                    </div>
+                    <div>
+                        <div style="font-size:28px;margin-bottom:4px">📊</div>
+                        <div style="font-size:24px;font-weight:700;color:var(--accent)" id="progressPercent">0%</div>
+                        <div class="text-small muted">Прогресс</div>
+                    </div>
+                    <div>
+                        <div style="font-size:28px;margin-bottom:4px">💰</div>
+                        <div style="font-size:24px;font-weight:700;color:var(--accent)" id="bonusPoints">0</div>
+                        <div class="text-small muted">Бонусы</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievements Grid -->
+            <div id="achievementsGrid"
+                style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-bottom:20px">
+                <!-- Skeleton loaders -->
+                <div class="skeleton" style="height:220px;border-radius:12px"></div>
+                <div class="skeleton" style="height:220px;border-radius:12px"></div>
+                <div class="skeleton" style="height:220px;border-radius:12px"></div>
+                <div class="skeleton" style="height:220px;border-radius:12px"></div>
+                <div class="skeleton" style="height:220px;border-radius:12px"></div>
+                <div class="skeleton" style="height:220px;border-radius:12px"></div>
+            </div>
+
+            <!-- Footer -->
+            <div style="text-align:center;padding:24px 0;color:var(--text-muted);font-size:14px">
+                <div style="margin-bottom:8px">🌍 City Bloom</div>
+                <div class="text-small">Покажите миру свои достижения!</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="/" class="nav-item">
+            <span class="icon">🏠</span>
+            <span>Главная</span>
+        </a>
+        <a href="/register-tree" class="nav-item">
+            <span class="icon">🪴</span>
+            <span>Посадка</span>
+        </a>
+        <a href="/exchange" class="nav-item">
+            <span class="icon">💝</span>
+            <span>Магазин</span>
+        </a>
+        <a href="/ranking" class="nav-item">
+            <span class="icon">🏆</span>
+            <span>Рейтинг</span>
+        </a>
+        <a href="#" class="nav-item active" id="profileNavLink">
+            <span class="icon">👤</span>
+            <span>Профиль</span>
+        </a>
+    </nav>
+
+    <script src="/nav.js"></script>
+    <script src="/achievements.js"></script>
+</body>
+
+</html>

@@ -59,46 +59,67 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         for (const p of products) {
             const card = document.createElement('div')
-            card.style.cssText = 'padding:12px;border:1px solid #e6e9ef;border-radius:8px;display:grid;grid-template-columns:100px 1fr auto;gap:12px;align-items:start'
+            card.className = 'product-admin-card'
+            card.style.cssText = 'padding:14px;border:1px solid var(--divider);border-radius:var(--radius);background:var(--card)'
+
+            // Main container with flex layout
+            const container = document.createElement('div')
+            container.style.cssText = 'display:flex;gap:12px;flex-wrap:wrap'
 
             const iconDiv = document.createElement('div')
+            iconDiv.style.cssText = 'flex-shrink:0'
             if (p.icon) {
-                iconDiv.innerHTML = `<img src="${p.icon}" style="width:100px;height:100px;object-fit:cover;border-radius:6px"/>`
+                iconDiv.innerHTML = `<img src="${p.icon}" style="width:80px;height:80px;object-fit:cover;border-radius:8px"/>`
             } else {
-                iconDiv.innerHTML = '<div style="width:100px;height:100px;background:#f1f5f9;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#999">Нет фото</div>'
+                iconDiv.innerHTML = '<div style="width:80px;height:80px;background:var(--input-bg);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:12px;text-align:center">Нет фото</div>'
             }
 
             const infoDiv = document.createElement('div')
+            infoDiv.style.cssText = 'flex:1;min-width:150px'
             const quantityStatus = (p.quantity || 0) > 0 ? `✓ ${p.quantity} шт.` : '❌ Закончилось'
-            const quantityColor = (p.quantity || 0) > 0 ? '#4CAF50' : '#f44336'
+            const quantityColor = (p.quantity || 0) > 0 ? 'var(--accent)' : '#f44336'
+
+            const categoryNames = {
+                food: '🍔 Еда',
+                entertainment: '🎬 Развлечения',
+                shopping: '🛍️ Покупки',
+                services: '💼 Услуги',
+                other: '📦 Другое'
+            }
+            const categoryLabel = categoryNames[p.category] || categoryNames.other
+
             infoDiv.innerHTML = `
-                <div style="font-weight:700;font-size:1.1rem">${p.title}</div>
-                <div class="muted">${p.organization || 'Организация не указана'}</div>
-                <div style="margin-top:6px"><strong>${p.price}</strong> баллов</div>
-                <div class="muted">Срок действия: ${p.validDays || 30} дн.</div>
-                <div style="margin-top:8px;padding:6px 10px;background:${quantityColor}15;border-radius:4px;color:${quantityColor};font-weight:600;font-size:0.9rem">
-                    Количество: ${quantityStatus}
+                <div style="font-weight:700;font-size:16px;margin-bottom:4px">${p.title}</div>
+                <div class="muted text-small" style="margin-bottom:6px">${p.organization || 'Организация не указана'}</div>
+                <div style="font-weight:600;color:var(--accent);margin-bottom:4px">${p.price} баллов</div>
+                <div class="muted text-small">Категория: ${categoryLabel}</div>
+                <div class="muted text-small">Срок: ${p.validDays || 30} дн.</div>
+                <div style="margin-top:8px;display:inline-block;padding:4px 10px;background:${quantityColor}15;border-radius:6px;color:${quantityColor};font-weight:600;font-size:12px">
+                    ${quantityStatus}
                 </div>
             `
 
             const actionsDiv = document.createElement('div')
-            actionsDiv.style.cssText = 'display:flex;flex-direction:column;gap:6px'
+            actionsDiv.style.cssText = 'display:flex;gap:8px;width:100%;margin-top:12px;padding-top:12px;border-top:1px solid var(--divider)'
 
             const editBtn = document.createElement('button')
-            editBtn.textContent = 'Редактировать'
-            editBtn.style.cssText = 'background:#2196F3;color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer'
+            editBtn.textContent = '✏️ Редактировать'
+            editBtn.className = 'secondary'
+            editBtn.style.cssText = 'flex:1;font-size:13px;height:38px'
             editBtn.onclick = () => editProduct(p)
 
             const deleteBtn = document.createElement('button')
-            deleteBtn.textContent = 'Удалить'
-            deleteBtn.style.cssText = 'background:#f44336;color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer'
+            deleteBtn.textContent = '🗑️ Удалить'
+            deleteBtn.className = 'ghost'
+            deleteBtn.style.cssText = 'flex:1;font-size:13px;height:38px;background:#fee;color:#c00'
             deleteBtn.onclick = () => deleteProduct(p.id)
 
             actionsDiv.appendChild(editBtn)
             actionsDiv.appendChild(deleteBtn)
 
-            card.appendChild(iconDiv)
-            card.appendChild(infoDiv)
+            container.appendChild(iconDiv)
+            container.appendChild(infoDiv)
+            card.appendChild(container)
             card.appendChild(actionsDiv)
             productsList.appendChild(card)
         }
@@ -109,6 +130,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('productTitle').value = product.title
         document.getElementById('productPrice').value = product.price
         document.getElementById('productOrganization').value = product.organization || ''
+        document.getElementById('productCategory').value = product.category || 'other'
         document.getElementById('productValidDays').value = product.validDays || 30
         document.getElementById('productQuantity').value = product.quantity || 0
         document.getElementById('productIcon').value = ''
@@ -125,6 +147,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const title = document.getElementById('productTitle').value.trim()
         const price = parseInt(document.getElementById('productPrice').value, 10)
         const organization = document.getElementById('productOrganization').value.trim()
+        const category = document.getElementById('productCategory').value
         const validDays = parseInt(document.getElementById('productValidDays').value, 10)
         const quantity = parseInt(document.getElementById('productQuantity').value, 10)
         const iconInput = document.getElementById('productIcon')
@@ -145,6 +168,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             formData.append('title', title)
             formData.append('price', price)
             formData.append('quantity', quantity)
+            formData.append('category', category)
             if (organization) formData.append('organization', organization)
             if (!isNaN(validDays) && validDays > 0) formData.append('validDays', validDays)
             if (iconInput.files.length > 0) formData.append('icon', iconInput.files[0])

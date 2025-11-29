@@ -12,6 +12,7 @@
     <div class="app">
         <header class="site-header">
             <a class="logo" href="/">City Bloom</a>
+            <div id="notifications-container"></div>
         </header>
 
         <main>
@@ -52,15 +53,10 @@
 
             <!-- Quick Actions -->
             <div class="card" style="margin-bottom:16px">
-                <h3 style="margin-bottom:16px">⚡ Быстрые действия</h3>
-                <div style="display:grid;gap:10px">
-                    <a href="/register-tree" class="btn" style="text-decoration:none;text-align:center;display:block">
-                        🪴 Зарегистрировать посадку
-                    </a>
-                    <a href="/exchange" class="btn ghost" style="text-decoration:none;text-align:center;display:block">
-                        💝 Обменять баллы
-                    </a>
-                </div>
+                <a href="/register-tree" class="btn"
+                    style="text-decoration:none;text-align:center;display:block;font-size:18px;padding:16px;background:linear-gradient(135deg, var(--accent), var(--primary));border:none;box-shadow:0 4px 12px rgba(36,176,107,0.3)">
+                    🌳 Зарегистрировать посадку
+                </a>
             </div>
 
             <!-- Recent Trees -->
@@ -104,9 +100,9 @@
             <span class="icon">🏠</span>
             <span>Главная</span>
         </a>
-        <a href="/register-tree" class="nav-item">
-            <span class="icon">🪴</span>
-            <span>Посадка</span>
+        <a href="/map" class="nav-item">
+            <span class="icon">🗺️</span>
+            <span>Карта</span>
         </a>
         <a href="/exchange" class="nav-item">
             <span class="icon">💝</span>
@@ -122,14 +118,8 @@
         </a>
     </nav>
 
-    <script src="/main.js"></script>
 </body>
-
-</html>
-
+<script src="/notifications.js"></script>
 <script src="/main.js"></script>
-</div>
-
-</body>
 
 </html>
