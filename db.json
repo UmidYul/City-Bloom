@@ -7,7 +7,7 @@
       "password": "$2b$10$Dr7mlfGutJTWnjxzetew4uLE3OBFcHFlZuB0swLzIZOTQv15Z2tXm",
       "role": "user",
       "city": "Фергана",
-      "points": 49025,
+      "points": 48525,
       "trustRating": 5,
       "declinedCount": 0,
       "lastTrustRecovery": "2025-11-29T16:14:56.169Z",
@@ -54,7 +54,7 @@
       "phone": "+9981234567",
       "password": "$2b$10$6k7dZcaef7HHTG1MYf3VV.6XL8enl94s4u7eJY4trKN98WfHzoQ3m",
       "role": "user",
-      "points": 2102,
+      "points": 1602,
       "city": "Ташкент",
       "trustRating": 5,
       "declinedCount": 0,
@@ -281,7 +281,7 @@
       "validDays": 30,
       "icon": "/uploads/1764359747180-f6ypot.png",
       "createdAt": "2025-11-28T18:12:08.764Z",
-      "quantity": 2,
+      "quantity": 0,
       "updatedAt": "2025-11-28T19:55:47.183Z"
     },
     {
@@ -436,6 +436,28 @@
       "organization": "Korzinka",
       "createdAt": "2025-11-30T07:09:41.034Z",
       "expiresAt": "2025-12-30T07:09:41.034Z",
+      "canReview": true
+    },
+    {
+      "id": "5773f592-c09c-408c-816e-ebe5fd5f26c1",
+      "code": "LovIvkOon0Sd",
+      "userId": "cede0717-8b59-49f7-b672-0b1b863ad233",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "productTitle": "Coffee",
+      "organization": "Sofia",
+      "createdAt": "2025-11-30T08:55:58.386Z",
+      "expiresAt": "2025-12-30T08:55:58.386Z",
+      "canReview": true
+    },
+    {
+      "id": "ce8d04b6-5080-4450-8507-42a35dc35e78",
+      "code": "jQqgVnUZMjOY",
+      "userId": "miincwe8qxsdas",
+      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
+      "productTitle": "Coffee",
+      "organization": "Sofia",
+      "createdAt": "2025-11-30T13:22:44.866Z",
+      "expiresAt": "2025-12-30T13:22:44.866Z",
       "canReview": true
     }
   ],

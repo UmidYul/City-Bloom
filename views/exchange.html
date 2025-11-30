@@ -74,62 +74,65 @@
             <button type="button" id="closePromo" style="width:100%">Close</button>
         </div>
 
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-            <a href="/" class="nav-item">
-                <span class="icon">🏠</span>
-                <span>Главная</span>
-            </a>
-            <a href="/map" class="nav-item">
-                <span class="icon">🗺️</span>
-                <span>Карта</span>
-            </a>
-            <a href="/exchange" class="nav-item active">
-                <span class="icon">💝</span>
-                <span>Магазин</span>
-            </a>
-            <a href="/ranking" class="nav-item">
-                <span class="icon">🏆</span>
-                <span>Рейтинг</span>
-            </a>
-            <a href="#" class="nav-item" id="profileNavLink">
-                <span class="icon">👤</span>
-                <span>Профиль</span>
-            </a>
-        </nav>
+    </div>
 
-        <script>
-            function copyPromoCode() {
-                const code = document.getElementById('promoCode').textContent
-                navigator.clipboard.writeText(code).then(() => {
-                    const btn = document.getElementById('promoCode')
-                    const orig = btn.textContent
-                    btn.textContent = '✓ Copied!'
-                    setTimeout(() => btn.textContent = orig, 1500)
-                }).catch(err => {
-                    console.error('Failed to copy:', err)
-                    alert('Could not copy code')
-                })
-            }
+    <!-- Bottom Navigation (outside modal) -->
+    <nav class="bottom-nav">
+        <a href="/" class="nav-item">
+            <span class="icon">🏠</span>
+            <span>Главная</span>
+        </a>
+        <a href="/map" class="nav-item">
+            <span class="icon">🗺️</span>
+            <span>Карта</span>
+        </a>
+        <a href="/exchange" class="nav-item active">
+            <span class="icon">💝</span>
+            <span>Магазин</span>
+        </a>
+        <a href="/ranking" class="nav-item">
+            <span class="icon">🏆</span>
+            <span>Рейтинг</span>
+        </a>
+        <a href="#" class="nav-item" id="profileNavLink">
+            <span class="icon">👤</span>
+            <span>Профиль</span>
+        </a>
+    </nav>
 
-            // Load user profile link
-            document.addEventListener('DOMContentLoaded', async () => {
-                try {
-                    const meRes = await fetch('/api/me')
-                    if (meRes.ok) {
-                        const me = await meRes.json()
-                        document.getElementById('profileNavLink').href = `/profile/${me.id}`
-                    }
-                } catch (err) {
-                    console.error('Failed to load user:', err)
-                }
+    <script>
+        function copyPromoCode() {
+            const code = document.getElementById('promoCode').textContent
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.getElementById('promoCode')
+                const orig = btn.textContent
+                btn.textContent = '✓ Copied!'
+                setTimeout(() => btn.textContent = orig, 1500)
+            }).catch(err => {
+                console.error('Failed to copy:', err)
+                alert('Could not copy code')
             })
-        </script>
+        }
 
-        <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-        <script src="/nav.js"></script>
-        <script src="/notifications.js"></script>
-        <script src="/exchange.js"></script>
+        // Load user profile link
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const meRes = await fetch('/api/me')
+                if (meRes.ok) {
+                    const me = await meRes.json()
+                    document.getElementById('profileNavLink').href = `/profile/${me.id}`
+                }
+            } catch (err) {
+                console.error('Failed to load user:', err)
+            }
+        })
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="/nav.js"></script>
+    <script src="/notifications.js"></script>
+    <script src="/exchange.js"></script>
+
 </body>
 
 </html>

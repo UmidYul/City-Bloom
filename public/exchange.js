@@ -125,7 +125,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             const icon = document.createElement('div')
             icon.className = 'product-icon'
             if (p.icon) {
-                icon.innerHTML = `<img src="${p.icon}" alt="${p.title}" />`
+                const img = document.createElement('img')
+                img.src = p.icon
+                img.alt = p.title || 'Товар'
+                img.onerror = () => {
+                    icon.innerHTML = ''
+                    icon.textContent = getCategoryIcon(p.category)
+                }
+                icon.appendChild(img)
             } else {
                 icon.textContent = getCategoryIcon(p.category)
             }
