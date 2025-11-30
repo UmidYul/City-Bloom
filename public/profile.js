@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <button type="button" class="secondary" style="width:100%">📊 Моя статистика</button>
                     </a>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-                        <a href="/exchange" style="text-decoration:none">
-                            <button type="button" class="secondary" style="width:100%">🛍️ Магазин</button>
+                        <a href="/settings" style="text-decoration:none">
+                            <button type="button" class="secondary" style="width:100%">⚙️ Настройки</button>
                         </a>
                         <button type="button" id="logoutBtn" style="width:100%">🚪 Выйти</button>
                     </div>
@@ -285,4 +285,12 @@ function getLevelName(level) {
 function getLevelIcon(level) {
     if (level <= 10) return LEVEL_ICONS[level] || '🌱'
     return '💫'
+}
+
+// Logout function
+function logout() {
+    if (confirm('Вы уверены, что хотите выйти?')) {
+        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+        window.location.href = '/login'
+    }
 }

@@ -16,82 +16,30 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 
     <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body.map-page {
+            padding-bottom: 0;
+        }
+
+        body.map-page .site-header {
+            padding: 0 !important;
+            margin-bottom: 0 !important;
+            border-bottom: none !important;
+        }
+
         .map-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
+            max-width: none;
+            margin: 0;
+            padding: 0;
         }
 
-        .map-header {
-            margin-bottom: 24px;
-        }
-
-        .map-header h1 {
-            font-size: 32px;
-            margin-bottom: 8px;
-        }
-
-        .map-stats {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .stat-badge {
-            background: var(--card-bg);
-            padding: 12px 20px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-        }
-
-        .stat-badge strong {
-            color: var(--accent);
-            font-size: 18px;
-        }
-
-        .filters-section {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-        }
-
-        .filters-row {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .filter-group label {
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .filter-select {
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background: var(--input-bg);
-            color: var(--text-color);
-            font-size: 14px;
-            min-width: 150px;
-        }
-
-        .filter-select:focus {
-            outline: none;
-            border-color: var(--accent);
+        .map-shell {
+            position: relative;
+            width: 100%;
         }
 
         #map {
@@ -99,6 +47,56 @@
             height: 600px;
             border-radius: 16px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .filters-overlay {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 1000;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            max-width: min(92vw, 560px);
+        }
+
+        .filters-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .filter-select {
+            min-width: 130px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            padding: 20px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+        }
+
+        .loading-overlay.active {
+            display: block;
         }
 
         .leaflet-popup-content-wrapper {
@@ -119,7 +117,7 @@
 
         .popup-header {
             background: linear-gradient(135deg, #24b06b, #1d8f56);
-            color: white;
+            color: #fff;
             padding: 12px 16px;
             border-radius: 12px 12px 0 0;
             font-weight: 700;
@@ -163,52 +161,9 @@
             text-align: center;
         }
 
-        .reset-filters {
-            padding: 10px 16px;
-            background: var(--input-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-color);
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-
-        .reset-filters:hover {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
-
-        .loading-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--card-bg);
-            padding: 20px 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            display: none;
-        }
-
-        .loading-overlay.active {
-            display: block;
-        }
-
         @media (max-width: 768px) {
             #map {
                 height: 400px;
-            }
-
-            .map-stats {
-                flex-direction: column;
-            }
-
-            .filters-row {
-                flex-direction: column;
-                align-items: stretch;
             }
 
             .filter-select {
@@ -218,80 +173,41 @@
     </style>
 </head>
 
-<body>
+<body class="map-page">
     <div class="app">
         <header class="site-header">
             <a class="logo" href="/">City Bloom</a>
-            <div id="notifications-container"></div>
         </header>
     </div>
 
     <div id="nav"></div>
 
     <div class="map-container">
-        <div class="map-header">
-            <h1>🗺️ Карта посадок</h1>
-            <p class="muted">Все одобренные посадки на интерактивной карте</p>
-        </div>
-
-        <div class="map-stats">
-            <div class="stat-badge">
-                <span>🌳 Всего посадок:</span>
-                <strong id="totalPlantings">0</strong>
-            </div>
-            <div class="stat-badge">
-                <span>🏙️ Городов:</span>
-                <strong id="totalCities">0</strong>
-            </div>
-            <div class="stat-badge">
-                <span>👥 Участников:</span>
-                <strong id="totalUsers">0</strong>
-            </div>
-        </div>
-
-        <div class="filters-section">
-            <div class="filters-row">
-                <div class="filter-group">
-                    <label>Тип растения</label>
-                    <select id="plantTypeFilter" class="filter-select">
-                        <option value="all">Все типы</option>
-                        <option value="tree">Дерево</option>
-                        <option value="flower">Цветы</option>
-                        <option value="shrub">Кустарник</option>
-                    </select>
-                </div>
-
-                <div class="filter-group">
-                    <label>Период</label>
-                    <select id="dateFilter" class="filter-select">
-                        <option value="all">Все время</option>
-                        <option value="week">Последняя неделя</option>
-                        <option value="month">Последний месяц</option>
-                        <option value="year">Последний год</option>
-                    </select>
-                </div>
-
-                <div class="filter-group">
-                    <label>Город</label>
-                    <select id="cityFilter" class="filter-select">
-                        <option value="all">Все города</option>
-                    </select>
-                </div>
-
-                <button class="reset-filters" onclick="resetFilters()">
-                    🔄 Сбросить фильтры
-                </button>
-            </div>
-        </div>
-
-        <div style="position: relative;">
+        <div class="map-shell">
             <div id="map"></div>
             <div id="loadingOverlay" class="loading-overlay">
                 <div style="text-align: center;">
                     <div style="font-size: 24px; margin-bottom: 8px;">🌍</div>
-                    <div>Загрузка карты...</div>
+                    <div data-i18n="map.loadingMap">Загрузка карты...</div>
                 </div>
             </div>
+
+            <!-- Filters overlay on top of the map (notifications removed) -->
+            <div class="filters-overlay">
+                <div class="filters-row">
+                    <div class="filter-group" style="margin:0;">
+                        <label style="margin:0 0 4px 0;" data-i18n="map.plantType">Тип растения</label>
+                        <select id="plantTypeFilter" class="filter-select">
+                            <option value="all" data-i18n="map.allTypes">Все типы</option>
+                            <option value="tree" data-i18n="map.tree">Дерево</option>
+                            <option value="flower" data-i18n="map.flower">Цветы</option>
+                            <option value="shrub" data-i18n="map.shrub">Кустарник</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 
@@ -299,23 +215,23 @@
     <nav class="bottom-nav">
         <a href="/" class="nav-item">
             <span class="icon">🏠</span>
-            <span>Главная</span>
+            <span data-i18n="nav.home">Главная</span>
         </a>
         <a href="/map" class="nav-item active">
             <span class="icon">🗺️</span>
-            <span>Карта</span>
+            <span data-i18n="nav.map">Карта</span>
         </a>
         <a href="/exchange" class="nav-item">
             <span class="icon">💝</span>
-            <span>Магазин</span>
+            <span data-i18n="nav.shop">Магазин</span>
         </a>
         <a href="/ranking" class="nav-item">
             <span class="icon">🏆</span>
-            <span>Рейтинг</span>
+            <span data-i18n="nav.ranking">Рейтинг</span>
         </a>
         <a href="#" class="nav-item" id="profileNavLink">
             <span class="icon">👤</span>
-            <span>Профиль</span>
+            <span data-i18n="nav.profile">Профиль</span>
         </a>
     </nav>
 
@@ -325,8 +241,8 @@
     <!-- Leaflet MarkerCluster JS -->
     <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
+    <script src="/i18n.js"></script>
     <script src="/nav.js"></script>
-    <script src="/notifications.js"></script>
     <script src="/map.js"></script>
     </div>
 </body>

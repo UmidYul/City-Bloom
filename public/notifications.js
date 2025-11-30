@@ -40,9 +40,8 @@ class NotificationsComponent {
                 <span class="notifications-badge" id="notifications-badge" style="display: none;">0</span>
             </div>
             <div class="notifications-dropdown" id="notifications-dropdown">
-                <div class="notifications-header">
-                    <h3>Уведомления</h3>
-                    <button class="mark-all-read" id="mark-all-read">Прочитать все</button>
+                <div class="notifications-header" style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                    <h3 style="margin:0;font-size:16px;">Уведомления</h3>
                 </div>
                 <div class="notifications-list" id="notifications-list">
                     <!-- Notifications will be rendered here -->
@@ -88,10 +87,6 @@ class NotificationsComponent {
                 <div class="notification-title">${n.title}</div>
                 <div class="notification-message">${n.message}</div>
                 <div class="notification-time">${this.formatTime(n.createdAt)}</div>
-                <div class="notification-actions">
-                    ${!n.read ? `<button class="notification-mark-read" data-id="${n.id}">✓ Прочитано</button>` : ''}
-                    <button class="notification-delete" data-id="${n.id}">🗑 Удалить</button>
-                </div>
             </div>
         `).join('')
     }
@@ -129,21 +124,11 @@ class NotificationsComponent {
             }
         })
 
-        // Mark all as read
-        document.addEventListener('click', async (e) => {
-            if (e.target.id === 'mark-all-read') {
-                await this.markAllAsRead()
-            }
-        })
-
         // Mark single as read or delete
         document.addEventListener('click', async (e) => {
             if (e.target.classList.contains('notification-mark-read')) {
                 const id = e.target.dataset.id
                 await this.markAsRead(id)
-            } else if (e.target.classList.contains('notification-delete')) {
-                const id = e.target.dataset.id
-                await this.deleteNotification(id)
             }
         })
     }
@@ -159,20 +144,6 @@ class NotificationsComponent {
             }
         } catch (err) {
             console.error('Failed to mark notification as read:', err)
-        }
-    }
-
-    async deleteNotification(id) {
-        try {
-            const res = await fetch(`/api/notifications/${id}`, {
-                method: 'DELETE'
-            })
-            if (res.ok) {
-                await this.loadNotifications()
-                this.renderList()
-            }
-        } catch (err) {
-            console.error('Failed to delete notification:', err)
         }
     }
 

@@ -7,10 +7,14 @@
       "password": "$2b$10$Dr7mlfGutJTWnjxzetew4uLE3OBFcHFlZuB0swLzIZOTQv15Z2tXm",
       "role": "user",
       "city": "Фергана",
-      "points": 58025,
+      "points": 49025,
       "trustRating": 5,
       "declinedCount": 0,
-      "lastTrustRecovery": "2025-11-29T16:14:56.169Z"
+      "lastTrustRecovery": "2025-11-29T16:14:56.169Z",
+      "experience": 50,
+      "currentStreak": 1,
+      "longestStreak": 1,
+      "lastActivityDate": "2025-11-30T07:46:38.584Z"
     },
     {
       "id": "edd73f3a-e418-4fcc-8655-3912af148fb5",
@@ -22,7 +26,11 @@
       "points": 1000,
       "trustRating": 5,
       "declinedCount": 0,
-      "lastTrustRecovery": "2025-11-29T16:14:56.169Z"
+      "lastTrustRecovery": "2025-11-29T16:14:56.169Z",
+      "level": 1,
+      "experience": 0,
+      "currentStreak": 0,
+      "longestStreak": 0
     },
     {
       "id": "447f18c8-813a-4803-b923-a652b5357cc7",
@@ -34,7 +42,11 @@
       "city": "Ташкент",
       "trustRating": 10,
       "declinedCount": 0,
-      "lastTrustRecovery": "2025-11-28T18:27:02.739Z"
+      "lastTrustRecovery": "2025-11-28T18:27:02.739Z",
+      "level": 1,
+      "experience": 0,
+      "currentStreak": 0,
+      "longestStreak": 0
     },
     {
       "id": "cede0717-8b59-49f7-b672-0b1b863ad233",
@@ -46,7 +58,11 @@
       "city": "Ташкент",
       "trustRating": 5,
       "declinedCount": 0,
-      "lastTrustRecovery": "2025-11-28T20:30:15.592Z"
+      "lastTrustRecovery": "2025-11-28T20:30:15.592Z",
+      "level": 1,
+      "experience": 0,
+      "currentStreak": 0,
+      "longestStreak": 0
     },
     {
       "id": "64cb1722-b263-484d-a441-1b2209237ec0",
@@ -58,7 +74,11 @@
       "city": "Ташкент",
       "trustRating": 5,
       "declinedCount": 0,
-      "lastTrustRecovery": "2025-11-28T20:31:02.109Z"
+      "lastTrustRecovery": "2025-11-28T20:31:02.109Z",
+      "level": 1,
+      "experience": 0,
+      "currentStreak": 0,
+      "longestStreak": 0
     },
     {
       "id": "a354f03f-1942-4a15-a2db-35b76ccc54d4",
@@ -70,7 +90,11 @@
       "city": "Ташкент",
       "trustRating": 5,
       "declinedCount": 0,
-      "lastTrustRecovery": "2025-11-28T20:31:22.144Z"
+      "lastTrustRecovery": "2025-11-28T20:31:22.144Z",
+      "level": 1,
+      "experience": 0,
+      "currentStreak": 0,
+      "longestStreak": 0
     },
     {
       "id": "f79dd1f0-41dd-4999-ae7d-8c09f2f9c067",
@@ -82,7 +106,11 @@
       "city": "Фергана",
       "trustRating": 5,
       "declinedCount": 0,
-      "lastTrustRecovery": "2025-11-28T20:35:54.147Z"
+      "lastTrustRecovery": "2025-11-28T20:35:54.147Z",
+      "level": 1,
+      "experience": 0,
+      "currentStreak": 0,
+      "longestStreak": 0
     },
     {
       "id": "d336caf0-6193-4b2a-befb-01a776b7c589",
@@ -94,7 +122,11 @@
       "city": "Фергана",
       "trustRating": 5,
       "declinedCount": 0,
-      "lastTrustRecovery": "2025-11-28T20:36:17.134Z"
+      "lastTrustRecovery": "2025-11-28T20:36:17.134Z",
+      "level": 1,
+      "experience": 0,
+      "currentStreak": 0,
+      "longestStreak": 0
     },
     {
       "id": "d0a5ca7c-eabe-460a-80a0-07b63d30ca97",
@@ -106,7 +138,11 @@
       "city": "Фергана",
       "trustRating": 5,
       "declinedCount": 0,
-      "lastTrustRecovery": "2025-11-28T20:36:35.295Z"
+      "lastTrustRecovery": "2025-11-28T20:36:35.295Z",
+      "level": 1,
+      "experience": 0,
+      "currentStreak": 0,
+      "longestStreak": 0
     },
     {
       "id": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
@@ -215,6 +251,25 @@
       "status": "approved",
       "createdAt": "2025-11-29T17:29:00.180Z",
       "adminComment": null
+    },
+    {
+      "id": "b315efd2-e5fd-450e-8b4f-6a387832dca9",
+      "userId": "miincwe8qxsdas",
+      "title": "My 2 tree ",
+      "plantType": "Tree",
+      "location": {
+        "lat": 40.780796,
+        "lng": 72.360764
+      },
+      "description": "Aaaaaaa",
+      "beforeVideo": "/uploads/1764488571127-ihsb7h.mp4",
+      "afterVideo": "/uploads/1764488572437-kirnsy.mp4",
+      "status": "approved",
+      "createdAt": "2025-11-30T07:42:53.481Z",
+      "adminComment": null,
+      "adminId": "edd73f3a-e418-4fcc-8655-3912af148fb5",
+      "updatedAt": "2025-11-30T07:46:38.577Z",
+      "pointsAwarded": 1000
     }
   ],
   "Products": [
@@ -266,7 +321,7 @@
       "price": 10000,
       "organization": "Korzinka",
       "validDays": 30,
-      "quantity": 1,
+      "quantity": 0,
       "icon": "/uploads/1764365603713-igsnca.webp",
       "createdAt": "2025-11-28T21:33:23.719Z"
     }
@@ -371,6 +426,17 @@
       "organization": "Sofia",
       "createdAt": "2025-11-29T16:49:09.610Z",
       "expiresAt": "2025-12-29T16:49:09.610Z"
+    },
+    {
+      "id": "358b5199-7e15-4045-a584-dd470de64b18",
+      "code": "CNFSdvSUxKv5",
+      "userId": "miincwe8qxsdas",
+      "productId": "cfe137f5-b432-412a-b6d2-ae231f8e9368",
+      "productTitle": "Korzinka Point x2",
+      "organization": "Korzinka",
+      "createdAt": "2025-11-30T07:09:41.034Z",
+      "expiresAt": "2025-12-30T07:09:41.034Z",
+      "canReview": true
     }
   ],
   "Achievements": [
@@ -508,78 +574,40 @@
   ],
   "Favorites": [
     {
-      "id": "4a03a5a0-f9af-47cb-954f-cb95e1806631",
+      "id": "9759eb68-042f-4e9e-b6db-23624256539e",
       "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
-      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
-      "createdAt": "2025-11-29T16:52:16.872Z"
-    }
-  ],
-  "ProductReviews": [
-    {
-      "id": "c5227e43-d254-418b-8391-cf95b6ef9790",
-      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
-      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
-      "rating": 5,
-      "comment": "йыйувй",
-      "createdAt": "2025-11-29T16:58:06.254Z"
+      "productId": "aebde791-aff3-4789-accc-a0d57b2a22b8",
+      "createdAt": "2025-11-30T04:01:52.195Z"
     },
     {
-      "id": "716218c6-5413-44f6-a759-10fc0297e5eb",
-      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
-      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
-      "rating": 5,
-      "comment": "ывффв",
-      "createdAt": "2025-11-29T17:07:34.982Z"
+      "id": "7f02d0fb-9dea-4f2a-bb2a-306b4cc0d80c",
+      "userId": "miincwe8qxsdas",
+      "productId": "aebde791-aff3-4789-accc-a0d57b2a22b8",
+      "createdAt": "2025-11-30T07:22:47.958Z"
     },
     {
-      "id": "94ae7a04-7a2b-435a-9870-5e3b956943c9",
-      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
-      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
-      "rating": 4,
-      "comment": "цйуйвыфв",
-      "createdAt": "2025-11-29T17:07:45.621Z"
+      "id": "524f4c23-2a7f-4e69-adfd-6f3e668e0c03",
+      "userId": "miincwe8qxsdas",
+      "productId": "6f4c089d-82ec-4cf2-a7dc-4d6d8bfdc60a",
+      "createdAt": "2025-11-30T07:22:49.334Z"
     },
     {
-      "id": "4f11b70d-a6ab-438b-8560-54c652659abc",
+      "id": "2b8e0eb2-0b91-472b-af04-c775cbe42f7e",
       "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
       "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
-      "rating": 5,
-      "comment": "фвфы",
-      "createdAt": "2025-11-29T17:07:48.340Z"
+      "createdAt": "2025-11-30T07:24:49.613Z"
     },
     {
-      "id": "9d738f5e-9b4b-4449-99ad-101635486f22",
+      "id": "5f1bda46-95bb-423a-b419-7430af18b68e",
       "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
-      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
-      "rating": 5,
-      "comment": "1",
-      "createdAt": "2025-11-29T17:08:50.487Z"
+      "productId": "6f4c089d-82ec-4cf2-a7dc-4d6d8bfdc60a",
+      "createdAt": "2025-11-30T07:24:50.859Z"
     },
     {
-      "id": "93091ad5-2574-4d4f-9852-51d81eaaddf8",
-      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
+      "id": "43412d52-cd53-449e-9a3b-7f39b432223f",
+      "userId": "miincwe8qxsdas",
       "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
-      "rating": 1,
-      "comment": "фвфв",
-      "createdAt": "2025-11-29T17:08:56.087Z"
-    },
-    {
-      "id": "86483149-e71b-4b79-a3c7-c924d660cfd2",
-      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
-      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
-      "promoCodeId": "24d1de31-4130-4d41-8d26-e39897bcfa23",
-      "rating": 5,
-      "comment": "ыфвф",
-      "createdAt": "2025-11-29T17:09:28.031Z"
-    },
-    {
-      "id": "c68435b1-6696-47d6-93ab-38133dab9e7d",
-      "userId": "7b9b9ca3-0e7e-413e-97c4-e14af8ccaede",
-      "productId": "e1b03937-6daf-4fdd-96ec-f3876e9f2e43",
-      "promoCodeId": "74176c9c-f36b-4df4-8910-94ed27345fa2",
-      "rating": 5,
-      "comment": "ыфвфыв",
-      "createdAt": "2025-11-29T17:09:48.453Z"
+      "createdAt": "2025-11-30T07:24:56.686Z"
     }
   ],
   "Notifications": []

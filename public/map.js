@@ -1,21 +1,36 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const loadingOverlay = document.getElementById('loadingOverlay')
-    const totalPlantingsEl = document.getElementById('totalPlantings')
-    const totalCitiesEl = document.getElementById('totalCities')
-    const totalUsersEl = document.getElementById('totalUsers')
 
     const plantTypeFilter = document.getElementById('plantTypeFilter')
-    const dateFilter = document.getElementById('dateFilter')
-    const cityFilter = document.getElementById('cityFilter')
+    const mapEl = document.getElementById('map')
 
     let map
     let markerClusterGroup
     let allPlantings = []
     let filteredPlantings = []
 
+    // Resize map to fill space between top and bottom navbars
+    function resizeMapCanvas() {
+        if (document.body.classList.contains('map-fullscreen')) {
+            // In fullscreen, CSS controls size
+            mapEl.style.height = ''
+            try { map && map.invalidateSize() } catch (_) { }
+            return
+        }
+        const header = document.querySelector('.site-header')
+        const bottom = document.querySelector('.bottom-nav')
+        const topH = header ? header.getBoundingClientRect().height : 0
+        const bottomH = bottom ? bottom.getBoundingClientRect().height : 0
+        const vh = window.innerHeight
+        const target = Math.max(200, vh - topH - bottomH)
+        mapEl.style.height = target + 'px'
+        try { map && map.invalidateSize() } catch (_) { }
+    }
+
     // Initialize map centered on Uzbekistan
     function initMap() {
-        map = L.map('map').setView([41.2995, 69.2401], 6) // Tashkent coordinates
+        resizeMapCanvas()
+        map = L.map('map', { zoomControl: false }).setView([41.2995, 69.2401], 6) // Tashkent coordinates
 
         // Add OpenStreetMap tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -54,6 +69,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         })
 
         map.addLayer(markerClusterGroup)
+
+        // Layer for user location, added after clusters to render on top
+        userLayer = L.layerGroup().addTo(map)
     }
 
     // Create custom marker icon based on plant type
@@ -85,12 +103,40 @@ document.addEventListener('DOMContentLoaded', async () => {
         })
     }
 
+    // Show user location if permitted
+    let userLayer
+    function enableUserLocation() {
+        if (!navigator.geolocation) return
+        map.on('locationfound', (e) => {
+            try { userLayer && userLayer.clearLayers() } catch (_) { }
+            const { latlng, accuracy } = e
+            const marker = L.circleMarker(latlng, {
+                radius: 6,
+                color: '#1d4ed8',
+                fillColor: '#3b82f6',
+                fillOpacity: 0.9,
+                weight: 2
+            })
+            const accCircle = L.circle(latlng, {
+                radius: Math.min(accuracy || 50, 200),
+                color: '#3b82f6',
+                fillColor: '#3b82f6',
+                fillOpacity: 0.1,
+                weight: 1
+            })
+            userLayer.addLayer(accCircle)
+            userLayer.addLayer(marker)
+        })
+        map.on('locationerror', () => { /* silently ignore */ })
+        map.locate({ enableHighAccuracy: true, setView: false, watch: false, maximumAge: 60000 })
+    }
+
     // Create popup content
     function createPopupContent(planting) {
         const plantTypeNames = {
-            tree: 'Дерево',
-            flower: 'Цветы',
-            shrub: 'Кустарник'
+            tree: t ? t('map.tree') : 'Дерево',
+            flower: t ? t('map.flower') : 'Цветы',
+            shrub: t ? t('map.shrub') : 'Кустарник'
         }
 
         const mediaHtml = planting.mediaType === 'video'
@@ -174,9 +220,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             allPlantings = await res.json()
             console.log('Loaded plantings:', allPlantings.length, allPlantings)
             filteredPlantings = allPlantings
-
-            updateStats()
-            populateCityFilter()
             addMarkersToMap(filteredPlantings)
         } catch (err) {
             console.error('Error loading plantings:', err)
@@ -186,35 +229,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Update statistics
-    function updateStats() {
-        totalPlantingsEl.textContent = filteredPlantings.length
-
-        const cities = new Set(filteredPlantings.map(p => p.city))
-        totalCitiesEl.textContent = cities.size
-
-        const users = new Set(filteredPlantings.map(p => p.userId))
-        totalUsersEl.textContent = users.size
-    }
-
-    // Populate city filter dropdown
-    function populateCityFilter() {
-        const cities = [...new Set(allPlantings.map(p => p.city))].sort()
-
-        cityFilter.innerHTML = '<option value="all">Все города</option>'
-        cities.forEach(city => {
-            const option = document.createElement('option')
-            option.value = city
-            option.textContent = city
-            cityFilter.appendChild(option)
-        })
-    }
+    // No statistics or city filter in simplified layout
 
     // Apply filters
     function applyFilters() {
         const plantType = plantTypeFilter.value
-        const dateRange = dateFilter.value
-        const city = cityFilter.value
 
         filteredPlantings = allPlantings.filter(planting => {
             // Plant type filter
@@ -222,43 +241,49 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return false
             }
 
-            // Date filter
-            if (dateRange !== 'all') {
-                const plantingDate = new Date(planting.createdAt)
-                const now = new Date()
-                const daysDiff = Math.floor((now - plantingDate) / (1000 * 60 * 60 * 24))
-
-                if (dateRange === 'week' && daysDiff > 7) return false
-                if (dateRange === 'month' && daysDiff > 30) return false
-                if (dateRange === 'year' && daysDiff > 365) return false
-            }
-
-            // City filter
-            if (city !== 'all' && planting.city !== city) {
-                return false
-            }
+            // Only plant type filtering in simplified layout
 
             return true
         })
 
-        updateStats()
         addMarkersToMap(filteredPlantings)
-    }
-
-    // Reset filters
-    window.resetFilters = function () {
-        plantTypeFilter.value = 'all'
-        dateFilter.value = 'all'
-        cityFilter.value = 'all'
-        applyFilters()
     }
 
     // Event listeners
     plantTypeFilter.addEventListener('change', applyFilters)
-    dateFilter.addEventListener('change', applyFilters)
-    cityFilter.addEventListener('change', applyFilters)
 
     // Initialize
     initMap()
     await loadPlantings()
+    // Recompute height after data load (fonts/layout may settle)
+    setTimeout(resizeMapCanvas, 100)
+    window.addEventListener('resize', resizeMapCanvas)
+    enableUserLocation()
+
+    // Fullscreen toggle
+    const fsBtn = document.getElementById('toggleFullscreen')
+    function setFsIcon() {
+        if (!fsBtn) return
+        const isFs = document.body.classList.contains('map-fullscreen')
+        fsBtn.textContent = isFs ? '⤡' : '⤢'
+        fsBtn.title = isFs ? 'Выйти из полноэкранного режима' : 'На весь экран'
+    }
+    function toggleFullscreen() {
+        document.body.classList.toggle('map-fullscreen')
+        // Let layout settle, then fix Leaflet sizing
+        setTimeout(() => {
+            resizeMapCanvas()
+        }, 150)
+        setFsIcon()
+    }
+    if (fsBtn) {
+        fsBtn.addEventListener('click', toggleFullscreen)
+        setFsIcon()
+    }
+    // ESC to exit fullscreen
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.body.classList.contains('map-fullscreen')) {
+            toggleFullscreen()
+        }
+    })
 })

@@ -32,39 +32,40 @@
                 <div class="card" style="text-align:center">
                     <div style="font-size:32px;margin-bottom:8px">🌱</div>
                     <div style="font-size:24px;font-weight:700;color:var(--accent)" id="pointsCount">-</div>
-                    <div class="text-small muted">Баллов</div>
+                    <div class="text-small muted" data-i18n="home.points">Баллы</div>
                 </div>
                 <div class="card" style="text-align:center">
                     <div style="font-size:32px;margin-bottom:8px">🌳</div>
                     <div style="font-size:24px;font-weight:700;color:var(--accent)" id="treesCount">-</div>
-                    <div class="text-small muted">Посадок</div>
+                    <div class="text-small muted" data-i18n="home.totalPlantings">Посадок</div>
                 </div>
                 <div class="card" style="text-align:center">
                     <div style="font-size:32px;margin-bottom:8px">🏆</div>
                     <div style="font-size:24px;font-weight:700;color:var(--accent)" id="rankPosition">-</div>
-                    <div class="text-small muted">Место</div>
+                    <div class="text-small muted" data-i18n="ranking.rank">Место</div>
                 </div>
                 <div class="card" style="text-align:center">
                     <div style="font-size:32px;margin-bottom:8px">⭐</div>
                     <div style="font-size:24px;font-weight:700;color:var(--accent)" id="trustRating">-</div>
-                    <div class="text-small muted">Доверие</div>
+                    <div class="text-small muted" data-i18n="home.trustRating">Доверие</div>
                 </div>
             </div>
 
             <!-- Quick Actions -->
             <div class="card" style="margin-bottom:16px">
-                <a href="/register-tree" class="btn"
-                    style="text-decoration:none;text-align:center;display:block;font-size:18px;padding:16px;background:linear-gradient(135deg, var(--accent), var(--primary));border:none;box-shadow:0 4px 12px rgba(36,176,107,0.3)">
-                    🌳 Зарегистрировать посадку
+                <a href="/register-tree" class="action-btn-primary">
+                    <span class="action-btn-icon">🌳</span>
+                    <span data-i18n="home.addPlanting">Зарегистрировать посадку</span>
                 </a>
             </div>
 
             <!-- Recent Trees -->
             <div class="card" style="margin-bottom:16px">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-                    <h3>🌳 Мои посадки</h3>
+                    <h3 data-i18n="profile.plantings">🌳 Мои посадки</h3>
                     <a href="/register-tree"
-                        style="color:var(--accent);text-decoration:none;font-size:14px;font-weight:600">+ Добавить</a>
+                        style="color:var(--accent);text-decoration:none;font-size:14px;font-weight:600"
+                        data-i18n="home.addPlanting">+ Добавить</a>
                 </div>
                 <div id="recentTrees">
                     <div class="skeleton" style="height:80px;margin-bottom:12px"></div>
@@ -98,27 +99,28 @@
     <nav class="bottom-nav">
         <a href="/" class="nav-item active">
             <span class="icon">🏠</span>
-            <span>Главная</span>
+            <span data-i18n="nav.home">Главная</span>
         </a>
         <a href="/map" class="nav-item">
             <span class="icon">🗺️</span>
-            <span>Карта</span>
+            <span data-i18n="nav.map">Карта</span>
         </a>
         <a href="/exchange" class="nav-item">
             <span class="icon">💝</span>
-            <span>Магазин</span>
+            <span data-i18n="nav.shop">Магазин</span>
         </a>
         <a href="/ranking" class="nav-item">
             <span class="icon">🏆</span>
-            <span>Рейтинг</span>
+            <span data-i18n="nav.ranking">Рейтинг</span>
         </a>
         <a href="#" class="nav-item" id="profileNavLink">
             <span class="icon">👤</span>
-            <span>Профиль</span>
+            <span data-i18n="nav.profile">Профиль</span>
         </a>
     </nav>
 
 </body>
+<script src="/i18n.js"></script>
 <script src="/notifications.js"></script>
 <script src="/main.js"></script>
 

@@ -52,10 +52,7 @@ function renderNotifications() {
                     <div style="flex: 1;">
                         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 4px;">
                             <h3 style="margin: 0; font-size: 16px; font-weight: 600;">${notification.title}</h3>
-                            <div style="display: flex; gap: 8px;">
-                                ${!notification.read ? `<button class="icon-btn" onclick="markAsRead('${notification.id}')" title="Отметить прочитанным">✓</button>` : ''}
-                                <button class="icon-btn" onclick="deleteNotification('${notification.id}')" title="Удалить">🗑️</button>
-                            </div>
+                            ${!notification.read ? `<button onclick="markAsRead('${notification.id}')" title="Отметить прочитанным" style="background:none;border:none;padding:4px 8px;color:#666;cursor:pointer;font-size:16px;">✓</button>` : ''}
                         </div>
                         <p style="margin: 0 0 8px 0; color: #666; font-size: 14px;">${notification.message}</p>
                         <div style="font-size: 12px; color: #999;">${time}</div>
@@ -112,24 +109,6 @@ async function markAsRead(id) {
     }
 }
 
-async function deleteNotification(id) {
-    if (!confirm('Удалить уведомление?')) return;
-
-    try {
-        const response = await fetch(`/api/notifications/${id}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        });
-
-        if (response.ok) {
-            allNotifications = allNotifications.filter(n => n.id !== id);
-            renderNotifications();
-        }
-    } catch (error) {
-        console.error('Error deleting notification:', error);
-    }
-}
-
 async function markAllAsRead() {
     try {
         const response = await fetch('/api/notifications/mark-all-read', {
@@ -147,8 +126,6 @@ async function markAllAsRead() {
 }
 
 // Event Listeners
-document.getElementById('markAllReadBtn').addEventListener('click', markAllAsRead);
-
 document.querySelectorAll('.filter-tab').forEach(tab => {
     tab.addEventListener('click', () => {
         document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));

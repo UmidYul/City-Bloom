@@ -38,47 +38,13 @@
                 <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px"
                     id="categoryFilter">
                     <button type="button" class="filter-btn active" data-filter="all">Все</button>
-                    <button type="button" class="filter-btn" data-filter="favorites">❤️ Избранное</button>
                     <button type="button" class="filter-btn" data-filter="food">🍔 Еда</button>
                     <button type="button" class="filter-btn" data-filter="entertainment">🎬 Развлечения</button>
                     <button type="button" class="filter-btn" data-filter="shopping">🛍️ Покупки</button>
                     <button type="button" class="filter-btn" data-filter="services">💼 Услуги</button>
                     <button type="button" class="filter-btn" data-filter="other">📦 Другое</button>
                 </div>
-
-                <div id="products" style="display:grid;gap:12px">
-                    <!-- Skeleton loaders -->
-                    <div class="card">
-                        <div style="display:flex;gap:12px">
-                            <div class="skeleton" style="width:80px;height:80px;border-radius:8px;flex-shrink:0"></div>
-                            <div style="flex:1">
-                                <div class="skeleton" style="height:20px;width:70%;margin-bottom:8px"></div>
-                                <div class="skeleton" style="height:16px;width:50%;margin-bottom:8px"></div>
-                                <div class="skeleton" style="height:24px;width:40%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div style="display:flex;gap:12px">
-                            <div class="skeleton" style="width:80px;height:80px;border-radius:8px;flex-shrink:0"></div>
-                            <div style="flex:1">
-                                <div class="skeleton" style="height:20px;width:70%;margin-bottom:8px"></div>
-                                <div class="skeleton" style="height:16px;width:50%;margin-bottom:8px"></div>
-                                <div class="skeleton" style="height:24px;width:40%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div style="display:flex;gap:12px">
-                            <div class="skeleton" style="width:80px;height:80px;border-radius:8px;flex-shrink:0"></div>
-                            <div style="flex:1">
-                                <div class="skeleton" style="height:20px;width:70%;margin-bottom:8px"></div>
-                                <div class="skeleton" style="height:16px;width:50%;margin-bottom:8px"></div>
-                                <div class="skeleton" style="height:24px;width:40%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div id="products" style="display:grid;gap:12px"></div>
             </div>
 
             <!-- Promos Tab -->
@@ -94,113 +60,76 @@
         <div class="card" style="max-width:360px;width:100%;padding:24px">
             <h3 id="promoTitle" style="margin-top:0;margin-bottom:8px">Your Promo Code</h3>
             <div id="promoOrg" class="muted text-medium" style="margin-bottom:16px"></div>
-
-            <!-- QR Code -->
             <div style="text-align:center;margin-bottom:20px">
                 <div id="qrcode" style="display:inline-block;padding:16px;background:white;border-radius:12px"></div>
             </div>
-
             <div style="margin-bottom:16px">
                 <label class="text-small muted">Code:</label>
-                <div style="margin-top:8px;padding:16px;background:var(--input-bg);border-radius:12px;font-weight:700;font-size:18px;font-family:monospace;text-align:center;cursor:pointer;user-select:all"
-                    id="promoCode" onclick="copyPromoCode()">LOADING...</div>
-                <div style="text-align:center;font-size:12px;color:var(--text-gray);margin-top:8px">
-                    Tap to copy
-                </div>
+                <div id="promoCode"
+                    style="margin-top:8px;padding:16px;background:var(--input-bg);border-radius:12px;font-weight:700;font-size:18px;font-family:monospace;text-align:center;cursor:pointer;user-select:all">
+                    LOADING...</div>
+                <div style="text-align:center;font-size:12px;color:var(--text-gray);margin-top:8px">Tap to copy</div>
             </div>
-
             <div class="muted text-small text-center" id="promoExpiry" style="margin-bottom:16px"></div>
-
             <button type="button" id="closePromo" style="width:100%">Close</button>
         </div>
-    </div>
 
-    <!-- Review Modal -->
-    <div id="reviewModal" class="modal-backdrop"
-        style="display:none;align-items:center;justify-content:center;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:2000;padding:20px">
-        <div class="card" style="max-width:400px;width:100%;padding:24px">
-            <h3 id="reviewProductTitle" style="margin-top:0;margin-bottom:16px">Оставить отзыв</h3>
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="/" class="nav-item">
+                <span class="icon">🏠</span>
+                <span>Главная</span>
+            </a>
+            <a href="/map" class="nav-item">
+                <span class="icon">🗺️</span>
+                <span>Карта</span>
+            </a>
+            <a href="/exchange" class="nav-item active">
+                <span class="icon">💝</span>
+                <span>Магазин</span>
+            </a>
+            <a href="/ranking" class="nav-item">
+                <span class="icon">🏆</span>
+                <span>Рейтинг</span>
+            </a>
+            <a href="#" class="nav-item" id="profileNavLink">
+                <span class="icon">👤</span>
+                <span>Профиль</span>
+            </a>
+        </nav>
 
-            <div style="margin-bottom:16px">
-                <label style="display:block;margin-bottom:8px;font-weight:500">Ваша оценка:</label>
-                <div id="starRating" style="display:flex;gap:8px;font-size:32px;cursor:pointer">
-                    <span data-rating="1">⭐</span>
-                    <span data-rating="2">⭐</span>
-                    <span data-rating="3">⭐</span>
-                    <span data-rating="4">⭐</span>
-                    <span data-rating="5">⭐</span>
-                </div>
-            </div>
-
-            <div style="margin-bottom:16px">
-                <label style="display:block;margin-bottom:8px;font-weight:500">Комментарий (необязательно):</label>
-                <textarea id="reviewComment" rows="4" placeholder="Поделитесь своим опытом..."
-                    style="width:100%;padding:12px;border-radius:var(--radius-input);border:1px solid var(--border-light);font-family:inherit;resize:vertical"></textarea>
-            </div>
-
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-                <button type="button" id="cancelReview" class="ghost">Отмена</button>
-                <button type="button" id="submitReview">Отправить</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <a href="/" class="nav-item">
-            <span class="icon">🏠</span>
-            <span>Главная</span>
-        </a>
-        <a href="/map" class="nav-item">
-            <span class="icon">🗺️</span>
-            <span>Карта</span>
-        </a>
-        <a href="/exchange" class="nav-item active">
-            <span class="icon">💝</span>
-            <span>Магазин</span>
-        </a>
-        <a href="/ranking" class="nav-item">
-            <span class="icon">🏆</span>
-            <span>Рейтинг</span>
-        </a>
-        <a href="#" class="nav-item" id="profileNavLink">
-            <span class="icon">👤</span>
-            <span>Профиль</span>
-        </a>
-    </nav>
-
-    <script>
-        function copyPromoCode() {
-            const code = document.getElementById('promoCode').textContent
-            navigator.clipboard.writeText(code).then(() => {
-                const btn = document.getElementById('promoCode')
-                const orig = btn.textContent
-                btn.textContent = '✓ Copied!'
-                setTimeout(() => btn.textContent = orig, 1500)
-            }).catch(err => {
-                console.error('Failed to copy:', err)
-                alert('Could not copy code')
-            })
-        }
-
-        // Load user profile link
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const meRes = await fetch('/api/me')
-                if (meRes.ok) {
-                    const me = await meRes.json()
-                    document.getElementById('profileNavLink').href = `/profile/${me.id}`
-                }
-            } catch (err) {
-                console.error('Failed to load user:', err)
+        <script>
+            function copyPromoCode() {
+                const code = document.getElementById('promoCode').textContent
+                navigator.clipboard.writeText(code).then(() => {
+                    const btn = document.getElementById('promoCode')
+                    const orig = btn.textContent
+                    btn.textContent = '✓ Copied!'
+                    setTimeout(() => btn.textContent = orig, 1500)
+                }).catch(err => {
+                    console.error('Failed to copy:', err)
+                    alert('Could not copy code')
+                })
             }
-        })
-    </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-    <script src="/nav.js"></script>
-    <script src="/notifications.js"></script>
-    <script src="/exchange.js"></script>
+            // Load user profile link
+            document.addEventListener('DOMContentLoaded', async () => {
+                try {
+                    const meRes = await fetch('/api/me')
+                    if (meRes.ok) {
+                        const me = await meRes.json()
+                        document.getElementById('profileNavLink').href = `/profile/${me.id}`
+                    }
+                } catch (err) {
+                    console.error('Failed to load user:', err)
+                }
+            })
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+        <script src="/nav.js"></script>
+        <script src="/notifications.js"></script>
+        <script src="/exchange.js"></script>
 </body>
 
 </html>

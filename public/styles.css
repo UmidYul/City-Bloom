@@ -666,6 +666,7 @@ video.fixed-video {
     align-items: center
 }
 
+
 .product-icon {
     width: 80px;
     height: 80px;
@@ -1125,4 +1126,60 @@ video.fixed-video {
     text-align: center;
     padding: 32px;
     color: #999;
+}
+
+/* Primary big action button (main page register planting) */
+.action-btn-primary {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    text-align: center;
+    padding: 20px 26px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 22px;
+    letter-spacing: 0.4px;
+    background: linear-gradient(135deg, var(--accent) 0%, #2ed384 55%, #1fa35f 100%);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 28px rgba(36, 176, 107, 0.35);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.action-btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px rgba(36, 176, 107, 0.45);
+}
+
+.action-btn-primary:active {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(36, 176, 107, 0.40);
+}
+
+.action-btn-primary::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: -40%;
+    width: 40%;
+    height: 140%;
+    background: rgba(255, 255, 255, 0.28);
+    filter: blur(2px);
+    transform: skewX(-25deg);
+    transition: left .9s ease;
+}
+
+.action-btn-primary:hover::before {
+    left: 110%;
+}
+
+.action-btn-icon {
+    font-size: 26px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.action-btn-primary span:last-child {
+    vertical-align: middle;
 }

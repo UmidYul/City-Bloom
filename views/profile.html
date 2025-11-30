@@ -143,8 +143,16 @@
             </div>
 
             <!-- Action Buttons -->
-            <div style="display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:20px" id="actionButtons">
-                <!-- Buttons will be dynamically added based on profile type -->
+            <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:80px" id="actionButtons">
+                <a href="/statistics" class="btn secondary" style="text-align:center;text-decoration:none">
+                    📊 Моя статистика
+                </a>
+                <a href="/settings" class="btn secondary" style="text-align:center;text-decoration:none">
+                    ⚙️ Настройки
+                </a>
+                <button class="btn secondary" onclick="logout()" style="text-align:center">
+                    🚪 Выйти
+                </button>
             </div>
         </main>
     </div>

@@ -18,10 +18,13 @@ const port = 3000
 const DB_FILE = join(__dirname, 'db.json')
 
 const adapter = new JSONFile(DB_FILE)
-const Defaultdata = { Users: [], Submissions: [], Products: [], PromoCodes: [], Notifications: [] }
+const Defaultdata = { Users: [], Submissions: [], Products: [], PromoCodes: [], Notifications: [], Achievements: [], UserAchievements: [] }
 const db = new Low(adapter, Defaultdata)
 
-const JWT_SECRET = 'UMIDSECRETKEY'
+const JWT_SECRET = process.env.JWT_SECRET || 'UMIDSECRETKEY'
+if (!process.env.JWT_SECRET) {
+    console.warn('⚠️  WARNING: Using default JWT_SECRET. Set JWT_SECRET environment variable in production!')
+}
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     next();
@@ -30,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(express.static(join(__dirname, 'public')))
+app.use('/locales', express.static(join(__dirname, 'locales')))
 
 // multer for file uploads
 const uploadDir = join(__dirname, 'public', 'uploads')
@@ -41,7 +45,7 @@ const storage = multer.diskStorage({
         cb(null, name + (ext ? ('.' + ext) : ''))
     }
 })
-const upload = multer({ storage, limits: { fileSize: 200 * 1024 * 1024 } }) // 200MB
+const upload = multer({ storage, limits: { fileSize: 50 * 1024 * 1024 } }) // 50MB
 
 // Check and award achievements for a user
 async function checkAchievements(userId) {
@@ -292,7 +296,7 @@ async function updateStreak(userId) {
 
 async function initDb() {
     await db.read()
-    db.data ||= { Users: [], Submissions: [], Products: [], PromoCodes: [], Achievements: [], UserAchievements: [], Favorites: [], ProductReviews: [], Notifications: [] }
+    db.data ||= { Users: [], Submissions: [], Products: [], PromoCodes: [], Achievements: [], UserAchievements: [], Notifications: [] }
 
     // ensure all users have required fields
     if (Array.isArray(db.data.Users)) {
@@ -315,8 +319,6 @@ async function initDb() {
     if (!Array.isArray(db.data.PromoCodes)) db.data.PromoCodes = []
     if (!Array.isArray(db.data.Achievements)) db.data.Achievements = []
     if (!Array.isArray(db.data.UserAchievements)) db.data.UserAchievements = []
-    if (!Array.isArray(db.data.Favorites)) db.data.Favorites = []
-    if (!Array.isArray(db.data.ProductReviews)) db.data.ProductReviews = []
     if (!Array.isArray(db.data.Notifications)) db.data.Notifications = []
 
     // Initialize achievements if empty
@@ -446,6 +448,7 @@ app.get('/register-tree', (req, res) => res.sendFile(join(__dirname, 'views', 'r
 app.get('/submission/:id', (req, res) => res.sendFile(join(__dirname, 'views', 'submission.html')))
 app.get('/exchange', (req, res) => res.sendFile(join(__dirname, 'views', 'exchange.html')))
 app.get('/map', (req, res) => res.sendFile(join(__dirname, 'views', 'map.html')))
+app.get('/settings', (req, res) => res.sendFile(join(__dirname, 'views', 'settings.html')))
 
 // auth helpers
 function signToken(payload) {
@@ -476,21 +479,9 @@ function requireAdmin(req, res, next) {
     next()
 }
 
-// Trust rating recovery function - recovers 1 point every 7 days
+// Trust rating recovery function - disabled
 function recoverTrustRating(user) {
-    if (!user) return
-    if ((user.trustRating || 10) >= 10) return // Max is 10
-
-    const lastRecovery = new Date(user.lastTrustRecovery || new Date())
-    const now = new Date()
-    const daysPassed = Math.floor((now - lastRecovery) / (1000 * 60 * 60 * 24))
-
-    if (daysPassed >= 7) {
-        const recoveredPoints = Math.floor(daysPassed / 7)
-        user.trustRating = Math.min(10, (user.trustRating || 0) + recoveredPoints)
-        user.lastTrustRecovery = new Date().toISOString()
-        return true
-    }
+    // Recovery disabled - trust rating no longer auto-recovers
     return false
 }
 
@@ -1279,67 +1270,6 @@ app.get('/api/map/plantings', async (req, res) => {
     })
 
     res.json(plantings)
-})// Favorites API
-// Get user's favorites
-app.get('/api/favorites', requireAuth, async (req, res) => {
-    await db.read()
-    const favorites = (db.data.Favorites || []).filter(f => f.userId === req.user.id)
-    res.json(favorites)
-})
-
-// Add to favorites
-app.post('/api/favorites/:productId', requireAuth, async (req, res) => {
-    await db.read()
-    const productId = req.params.productId
-    const userId = req.user.id
-
-    // Ensure Favorites array exists
-    if (!Array.isArray(db.data.Favorites)) {
-        db.data.Favorites = []
-    }
-
-    // Check if already in favorites
-    const exists = db.data.Favorites.find(f => f.userId === userId && f.productId === productId)
-    if (exists) {
-        return res.status(400).json({ error: 'Already in favorites' })
-    }
-
-    // Check if product exists
-    const product = db.data.Products.find(p => p.id === productId)
-    if (!product) {
-        return res.status(404).json({ error: 'Product not found' })
-    }
-
-    const favorite = {
-        id: uuidv4(),
-        userId,
-        productId,
-        createdAt: new Date().toISOString()
-    }
-    db.data.Favorites.push(favorite)
-    await db.write()
-    res.json({ ok: true, favorite })
-})
-
-// Remove from favorites
-app.delete('/api/favorites/:productId', requireAuth, async (req, res) => {
-    await db.read()
-    const productId = req.params.productId
-    const userId = req.user.id
-
-    // Ensure Favorites array exists
-    if (!Array.isArray(db.data.Favorites)) {
-        db.data.Favorites = []
-    }
-
-    const idx = db.data.Favorites.findIndex(f => f.userId === userId && f.productId === productId)
-    if (idx === -1) {
-        return res.status(404).json({ error: 'Not in favorites' })
-    }
-
-    db.data.Favorites.splice(idx, 1)
-    await db.write()
-    res.json({ ok: true })
 })
 
 // Notifications API
@@ -1425,11 +1355,8 @@ app.get('/api/submissions/:id', async (req, res) => {
         return res.json(sub)
     }
 
-    // For pending/declined, require auth
-    const token = req.cookies?.token
-    if (!token) return res.status(403).json({ error: 'Forbidden' })
-
-    const data = verifyToken(token)
+    // For pending/declined, require auth (reuse cookie-based verifier)
+    const data = verifyTokenFromReq(req)
     if (!data) return res.status(403).json({ error: 'Forbidden' })
 
     // Allow owner or admin
