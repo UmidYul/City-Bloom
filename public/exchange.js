@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentCategory = 'all'
     let allProducts = []
     let reviewedPromoIds = new Set()
+    // Pagination state for products
+    let page = 1
+    const pageSize = 8
 
     closePromo.onclick = () => { promoModal.style.display = 'none' }
 
@@ -64,6 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (currentCategory !== 'all') {
             filtered = allProducts.filter(p => (p.category || 'other') === currentCategory)
         }
+        page = 1
         renderProducts(filtered)
     }
 
@@ -88,7 +92,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const productsRes = await fetch('/api/products')
             if (!productsRes.ok) throw new Error('Failed to load products')
-            allProducts = await productsRes.json()
+            const data = await productsRes.json()
+            // Handle both old array format and new {products, total} format
+            allProducts = Array.isArray(data) ? data : (data.products || [])
             filterProducts()
         } catch (err) {
             productsEl.innerHTML = '<div class="card"><div style="color:#b00020;text-align:center;padding:20px">Ошибка загрузки товаров</div></div>'
@@ -117,7 +123,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             return
         }
 
-        for (const p of list) {
+        const start = (page - 1) * pageSize
+        const slice = list.slice(start, start + pageSize)
+
+        for (const p of slice) {
             const card = document.createElement('div')
             card.className = 'product-card'
 
@@ -173,6 +182,31 @@ document.addEventListener('DOMContentLoaded', async () => {
             card.appendChild(icon)
             card.appendChild(content)
             productsEl.appendChild(card)
+        }
+
+        // Pagination controls
+        const totalPages = Math.ceil(list.length / pageSize)
+        if (totalPages > 1) {
+            const pager = document.createElement('div')
+            pager.style.cssText = 'display:flex;gap:8px;justify-content:center;margin-top:12px'
+            const prev = document.createElement('button')
+            prev.className = 'secondary'
+            prev.textContent = '←'
+            prev.disabled = page <= 1
+            prev.onclick = () => { page = Math.max(1, page - 1); renderProducts(list) }
+            const info = document.createElement('div')
+            info.className = 'text-small muted'
+            info.style.cssText = 'display:flex;align-items:center;padding:0 8px'
+            info.textContent = `Стр. ${page} / ${totalPages}`
+            const next = document.createElement('button')
+            next.className = 'secondary'
+            next.textContent = '→'
+            next.disabled = page >= totalPages
+            next.onclick = () => { page = Math.min(totalPages, page + 1); renderProducts(list) }
+            pager.appendChild(prev)
+            pager.appendChild(info)
+            pager.appendChild(next)
+            productsEl.appendChild(pager)
         }
     }
 

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Оффлайн</title>
+    <link rel="stylesheet" href="/styles.css">
+    <meta name="theme-color" content="#24b06b">
+    <style>
+        .offline-container {
+            max-width: 520px;
+            margin: 60px auto;
+            padding: 24px;
+            text-align: center
+        }
+
+        .offline-icon {
+            font-size: 64px;
+            margin-bottom: 12px
+        }
+
+        .offline-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 16px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="offline-container card">
+        <div class="offline-icon">📵</div>
+        <h2>Нет сети</h2>
+        <p class="muted">Вы оффлайн. Проверьте подключение и попробуйте снова.</p>
+        <div class="offline-actions">
+            <button onclick="location.reload()">Обновить</button>
+            <a class="secondary" href="/">На главную</a>
+        </div>
+    </div>
+</body>
+
+</html>

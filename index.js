@@ -32,6 +32,17 @@ app.use((req, res, next) => {
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cookieParser())
+
+// Minimal request logger for observability
+app.use((req, res, next) => {
+    const start = Date.now()
+    res.on('finish', () => {
+        const ms = Date.now() - start
+        console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} ${res.statusCode} - ${ms}ms`)
+    })
+    next()
+})
+
 app.use(express.static(join(__dirname, 'public')))
 app.use('/locales', express.static(join(__dirname, 'locales')))
 
@@ -46,6 +57,30 @@ const storage = multer.diskStorage({
     }
 })
 const upload = multer({ storage, limits: { fileSize: 50 * 1024 * 1024 } }) // 50MB
+
+// Simple input sanitizer to reduce XSS risk
+function sanitize(str) {
+    if (typeof str !== 'string') return str
+    return str.replace(/[<>]/g, '') // remove angle brackets
+}
+
+// Basic in-memory rate limiter (per IP: max 120 requests / 10 min)
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
+const RATE_LIMIT_MAX = 120
+const rateBuckets = new Map()
+setInterval(() => rateBuckets.clear(), RATE_LIMIT_WINDOW_MS)
+function rateLimit(req, res, next) {
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown'
+    const bucket = rateBuckets.get(ip) || { count: 0 }
+    bucket.count++
+    rateBuckets.set(ip, bucket)
+    if (bucket.count > RATE_LIMIT_MAX) {
+        return res.status(429).json({ error: 'Too many requests' })
+    }
+    next()
+}
+
+app.use(rateLimit)
 
 // Check and award achievements for a user
 async function checkAchievements(userId) {
@@ -503,12 +538,12 @@ app.post('/registration', async (req, res) => {
     const hash = await bcrypt.hash(password, 10)
     const user = {
         id: uuidv4(),
-        name: name || '',
+        name: sanitize(name || ''),
         phone,
         password: hash,
         role: 'user',
         points: 0,
-        city: city || 'Unknown',
+        city: sanitize(city || 'Unknown'),
         trustRating: 5,
         declinedCount: 0,
         lastTrustRecovery: new Date().toISOString(),
@@ -880,10 +915,10 @@ app.post('/api/submitPlant', requireAuth, upload.fields([{ name: 'beforeVideo', 
         const submission = {
             id: uuidv4(),
             userId: req.user.id,
-            title: title || '',
-            plantType: plantType || 'Tree',
+            title: sanitize(title || ''),
+            plantType: sanitize(plantType || 'Tree'),
             location: loc,
-            description: description || '',
+            description: sanitize(description || ''),
             beforeVideo: beforeFile,
             afterVideo: afterFile,
             status: 'pending',
@@ -912,8 +947,18 @@ app.get('/api/submissions', requireAdmin, async (req, res) => {
 // products - public listing (only with quantity > 0)
 app.get('/api/products', async (req, res) => {
     await db.read()
-    const products = (db.data.Products || []).filter(p => (p.quantity || 0) > 0)
-    res.json(products)
+    let products = (db.data.Products || []).filter(p => (p.quantity || 0) > 0)
+
+    // Optional pagination via query params
+    const limit = parseInt(req.query.limit, 10)
+    const offset = parseInt(req.query.offset, 10) || 0
+
+    const total = products.length
+    if (limit && limit > 0) {
+        products = products.slice(offset, offset + limit)
+    }
+
+    res.json({ products, total, limit: limit || null, offset })
 })
 
 // products - admin listing (with all products including 0 quantity)
@@ -943,12 +988,12 @@ app.post('/api/products', requireAdmin, upload.single('icon'), async (req, res) 
         const icon = req.file ? '/uploads/' + req.file.filename : null
         const p = {
             id: uuidv4(),
-            title,
+            title: sanitize(title),
             price: parseInt(price, 10) || 0,
-            organization: organization || '',
+            organization: sanitize(organization || ''),
             validDays: parseInt(validDays, 10) || 30,
             quantity: parseInt(quantity, 10) || 0,
-            category: category || 'other',
+            category: sanitize(category || 'other'),
             icon,
             createdAt: new Date().toISOString()
         }
@@ -981,9 +1026,9 @@ app.put('/api/products/:id', requireAdmin, upload.single('icon'), async (req, re
         const p = db.data.Products.find(x => x.id === req.params.id)
         if (!p) return res.status(404).json({ error: 'Not found' })
         const { title, price, organization, validDays, quantity } = req.body
-        if (title) p.title = title
+        if (title) p.title = sanitize(title)
         if (typeof price !== 'undefined') p.price = parseInt(price, 10) || 0
-        if (organization) p.organization = organization
+        if (organization) p.organization = sanitize(organization)
         if (typeof validDays !== 'undefined') p.validDays = parseInt(validDays, 10) || p.validDays
         if (typeof quantity !== 'undefined') p.quantity = parseInt(quantity, 10) || 0
         if (req.file) p.icon = '/uploads/' + req.file.filename

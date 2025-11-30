@@ -19,6 +19,13 @@ function setActiveNav() {
 document.addEventListener('DOMContentLoaded', () => {
     setActiveNav()
 
+    // Register service worker for PWA/offline support
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js').catch(err => {
+            console.warn('SW registration failed', err)
+        })
+    }
+
     // Handle profile navigation
     const profileNavLink = document.getElementById('profileNavLink')
     if (profileNavLink) {

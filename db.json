@@ -7,7 +7,7 @@
       "password": "$2b$10$Dr7mlfGutJTWnjxzetew4uLE3OBFcHFlZuB0swLzIZOTQv15Z2tXm",
       "role": "user",
       "city": "Фергана",
-      "points": 48525,
+      "points": 47525,
       "trustRating": 5,
       "declinedCount": 0,
       "lastTrustRecovery": "2025-11-29T16:14:56.169Z",
@@ -290,7 +290,7 @@
       "price": 1000,
       "organization": "Yapona Mama",
       "validDays": 30,
-      "quantity": 9,
+      "quantity": 8,
       "icon": "/uploads/1764359963332-6zz709.jpg",
       "createdAt": "2025-11-28T18:18:20.218Z",
       "updatedAt": "2025-11-28T19:59:23.335Z"
@@ -458,6 +458,17 @@
       "organization": "Sofia",
       "createdAt": "2025-11-30T13:22:44.866Z",
       "expiresAt": "2025-12-30T13:22:44.866Z",
+      "canReview": true
+    },
+    {
+      "id": "e4441e2a-2926-4daf-b1a5-4884d6572d8f",
+      "code": "KLxmKxIKRfA0",
+      "userId": "miincwe8qxsdas",
+      "productId": "aebde791-aff3-4789-accc-a0d57b2a22b8",
+      "productTitle": "Sushi",
+      "organization": "Yapona Mama",
+      "createdAt": "2025-11-30T14:51:07.719Z",
+      "expiresAt": "2025-12-30T14:51:07.719Z",
       "canReview": true
     }
   ],
