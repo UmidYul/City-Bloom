@@ -137,9 +137,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const img = document.createElement('img')
                 img.src = p.icon
                 img.alt = p.title || 'Товар'
-                img.onerror = () => {
-                    icon.innerHTML = ''
-                    icon.textContent = getCategoryIcon(p.category)
+                img.style.width = '100%'
+                img.style.height = '100%'
+                img.style.objectFit = 'cover'
+                img.onerror = (e) => {
+                    console.error('Failed to load product icon:', p.icon, e)
+                    // Show placeholder instead of category emoji
+                    icon.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:var(--input-bg);color:var(--text-gray)">📷</div>'
+                }
+                img.onload = () => {
+                    console.log('Product icon loaded:', p.icon)
                 }
                 icon.appendChild(img)
             } else {
